@@ -1,16 +1,29 @@
 module Rsteamshot
+  # Public: Represents a Steam app, like a video game. Used to fetch the screenshots
+  # that were taken in that app that Steam users have uploaded.
   class App
     class BadAppsFile < StandardError; end
     APPS_LIST_URL = 'http://api.steampowered.com/ISteamApps/GetAppList/v2'
 
     attr_reader :id, :name
 
+    # Public: Writes a JSON file at the given location with the latest list of apps on Steam.
+    #
+    # path - a String file path
+    #
+    # Returns nothing.
     def self.download_apps_list(path)
       File.open(path, 'w') do |file|
         IO.copy_stream(open(APPS_LIST_URL), file)
       end
     end
 
+    # Public: Find Steam apps by name.
+    #
+    # raw_query - a String search query for an app or game on Steam
+    # apps_list_path - a String file path to the JSON file produced by #download_apps_list
+    #
+    # Returns an Array of Rsteamshot::Apps.
     def self.search(raw_query, apps_list_path)
       return [] unless raw_query
 
@@ -51,10 +64,18 @@ module Rsteamshot
       results
     end
 
+    # Public: Initialize a Steam app with the given attributes.
+    #
+    # attrs - the Hash of attributes for this app
+    #         :id - the String or Integer app ID
+    #         :name - the String name of the app
     def initialize(attrs = {})
       attrs.each { |key, value| instance_variable_set("@#{key}", value) }
     end
 
+    # Public: Returns a list of the newest uploaded screenshots for this app on Steam.
+    #
+    # Returns an Array of Rsteamshot::Screenshots.
     def screenshots
       result = []
       return result unless id

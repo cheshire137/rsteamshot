@@ -54,7 +54,18 @@
   
 
   <div id="class-metadata">
+    <div id="sections-section" class="nav-section">
+  <h3>Sections</h3>
+
+  <ul class="link-list" role="directory">
     
+      <li><a href="#5Buntitled-5D"></a></li>
+    
+      <li><a href="#Public">Public</a></li>
+    
+  </ul>
+</div>
+
     <div id="parent-class-section" class="nav-section">
   <h3>Parent</h3>
 
@@ -88,6 +99,9 @@
 
   <section class="description">
     
+<p>Represents a Steam user. Used to fetch the user&#39;s screenshots they have
+uploaded to Steam.</p>
+
   </section>
 
   
@@ -124,7 +138,30 @@
     
 
     
-     <section id="public-class-5Buntitled-5D-method-details" class="method-section">
+  </section>
+
+  
+  
+  <section id="Public" class="documentation-section">
+    
+    <header class="documentation-section-title">
+      <h2>
+        Public
+      </h2>
+      <span class="section-click-top">
+        <a href="#top">&uarr; top</a>
+      </span>
+    </header>
+    
+
+    
+
+    
+
+    
+
+    
+     <section id="public-class-Public-method-details" class="method-section">
        <header>
          <h3>Public Class Methods</h3>
        </header>
@@ -143,13 +180,17 @@
 
         <div class="method-description">
           
-          
+          <p>Initialize a Steam user with the given user name.</p>
+<dl class="rdoc-list note-list"><dt><a href="User.html#attribute-i-user_name">#user_name</a>
+<dd>
+<p>a String</p>
+</dd></dl>
           
           
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/rsteamshot/user.rb, line 5</span>
+            <pre><span class="ruby-comment"># File lib/rsteamshot/user.rb, line 10</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">user_name</span>)
   <span class="ruby-ivar">@user_name</span> = <span class="ruby-identifier">user_name</span>
 <span class="ruby-keyword">end</span></pre>
@@ -165,7 +206,7 @@
     
     </section>
   
-     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
+     <section id="public-instance-Public-method-details" class="method-section">
        <header>
          <h3>Public Instance Methods</h3>
        </header>
@@ -184,13 +225,17 @@
 
         <div class="method-description">
           
-          
+          <h3 id="method-i-screenshots-label-Returns">Returns<span><a href="#method-i-screenshots-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>Returns a list of the user&#39;s newest uploaded screenshots.</p>
+
+<p>Returns an Array of Rsteamshot::Screenshots.</p>
           
           
 
           
           <div class="method-source-code" id="screenshots-source">
-            <pre><span class="ruby-comment"># File lib/rsteamshot/user.rb, line 9</span>
+            <pre><span class="ruby-comment"># File lib/rsteamshot/user.rb, line 17</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">screenshots</span>
   <span class="ruby-identifier">result</span> = []
   <span class="ruby-constant">Mechanize</span>.<span class="ruby-identifier">new</span>.<span class="ruby-identifier">get</span>(<span class="ruby-identifier">steam_url</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">page</span><span class="ruby-operator">|</span>

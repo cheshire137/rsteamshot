@@ -1,11 +1,19 @@
 module Rsteamshot
+  # Public: Represents a Steam user. Used to fetch the user's screenshots they have
+  # uploaded to Steam.
   class User
     attr_reader :user_name
 
+    # Public: Initialize a Steam user with the given user name.
+    #
+    # user_name - a String
     def initialize(user_name)
       @user_name = user_name
     end
 
+    # Public: Returns a list of the user's newest uploaded screenshots.
+    #
+    # Returns an Array of Rsteamshot::Screenshots.
     def screenshots
       result = []
       Mechanize.new.get(steam_url) do |page|

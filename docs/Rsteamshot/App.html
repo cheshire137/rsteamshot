@@ -54,7 +54,18 @@
   
 
   <div id="class-metadata">
+    <div id="sections-section" class="nav-section">
+  <h3>Sections</h3>
+
+  <ul class="link-list" role="directory">
     
+      <li><a href="#5Buntitled-5D"></a></li>
+    
+      <li><a href="#Public">Public</a></li>
+    
+  </ul>
+</div>
+
     <div id="parent-class-section" class="nav-section">
   <h3>Parent</h3>
 
@@ -92,6 +103,9 @@
 
   <section class="description">
     
+<p>Represents a Steam app, like a video game. Used to fetch the screenshots
+that were taken in that app that Steam users have uploaded.</p>
+
   </section>
 
   
@@ -155,7 +169,30 @@
     
 
     
-     <section id="public-class-5Buntitled-5D-method-details" class="method-section">
+  </section>
+
+  
+  
+  <section id="Public" class="documentation-section">
+    
+    <header class="documentation-section-title">
+      <h2>
+        Public
+      </h2>
+      <span class="section-click-top">
+        <a href="#top">&uarr; top</a>
+      </span>
+    </header>
+    
+
+    
+
+    
+
+    
+
+    
+     <section id="public-class-Public-method-details" class="method-section">
        <header>
          <h3>Public Class Methods</h3>
        </header>
@@ -174,13 +211,22 @@
 
         <div class="method-description">
           
-          
+          <p>Writes a JSON file at the given location with the latest list of apps on
+Steam.</p>
+<dl class="rdoc-list note-list"><dt>path
+<dd>
+<p>a String file path</p>
+</dd></dl>
+
+<h3 id="method-c-download_apps_list-label-Returns">Returns<span><a href="#method-c-download_apps_list-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>Returns nothing.</p>
           
           
 
           
           <div class="method-source-code" id="download_apps_list-source">
-            <pre><span class="ruby-comment"># File lib/rsteamshot/app.rb, line 8</span>
+            <pre><span class="ruby-comment"># File lib/rsteamshot/app.rb, line 15</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">download_apps_list</span>(<span class="ruby-identifier">path</span>)
   <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">path</span>, <span class="ruby-string">&#39;w&#39;</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>
     <span class="ruby-constant">IO</span>.<span class="ruby-identifier">copy_stream</span>(<span class="ruby-identifier">open</span>(<span class="ruby-constant">APPS_LIST_URL</span>), <span class="ruby-identifier">file</span>)
@@ -209,13 +255,24 @@
 
         <div class="method-description">
           
-          
+          <p>Initialize a Steam app with the given attributes.</p>
+<dl class="rdoc-list note-list"><dt>attrs
+<dd>
+<p>the Hash of attributes for this app</p>
+<dl class="rdoc-list note-list"><dt>:id
+<dd>
+<p>the String or Integer app ID</p>
+</dd><dt>:name
+<dd>
+<p>the String name of the app</p>
+</dd></dl>
+</dd></dl>
           
           
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/rsteamshot/app.rb, line 54</span>
+            <pre><span class="ruby-comment"># File lib/rsteamshot/app.rb, line 72</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">attrs</span> = {})
   <span class="ruby-identifier">attrs</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span> <span class="ruby-identifier">instance_variable_set</span>(<span class="ruby-node">&quot;@#{key}&quot;</span>, <span class="ruby-identifier">value</span>) }
 <span class="ruby-keyword">end</span></pre>
@@ -242,13 +299,24 @@
 
         <div class="method-description">
           
-          
+          <p>Find Steam apps by name.</p>
+<dl class="rdoc-list note-list"><dt>raw_query
+<dd>
+<p>a String search query for an app or game on Steam</p>
+</dd><dt>apps_list_path
+<dd>
+<p>a String file path to the JSON file produced by download_apps_list</p>
+</dd></dl>
+
+<h3 id="method-c-search-label-Returns">Returns<span><a href="#method-c-search-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>Returns an Array of Rsteamshot::Apps.</p>
           
           
 
           
           <div class="method-source-code" id="search-source">
-            <pre><span class="ruby-comment"># File lib/rsteamshot/app.rb, line 14</span>
+            <pre><span class="ruby-comment"># File lib/rsteamshot/app.rb, line 27</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">search</span>(<span class="ruby-identifier">raw_query</span>, <span class="ruby-identifier">apps_list_path</span>)
   <span class="ruby-keyword">return</span> [] <span class="ruby-keyword">unless</span> <span class="ruby-identifier">raw_query</span>
 
@@ -300,7 +368,7 @@
     
     </section>
   
-     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
+     <section id="public-instance-Public-method-details" class="method-section">
        <header>
          <h3>Public Instance Methods</h3>
        </header>
@@ -319,13 +387,17 @@
 
         <div class="method-description">
           
-          
+          <h3 id="method-i-screenshots-label-Returns">Returns<span><a href="#method-i-screenshots-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>Returns a list of the newest uploaded screenshots for this app on Steam.</p>
+
+<p>Returns an Array of Rsteamshot::Screenshots.</p>
           
           
 
           
           <div class="method-source-code" id="screenshots-source">
-            <pre><span class="ruby-comment"># File lib/rsteamshot/app.rb, line 58</span>
+            <pre><span class="ruby-comment"># File lib/rsteamshot/app.rb, line 79</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">screenshots</span>
   <span class="ruby-identifier">result</span> = []
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">result</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">id</span>

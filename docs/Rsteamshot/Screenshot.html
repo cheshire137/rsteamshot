@@ -54,7 +54,18 @@
   
 
   <div id="class-metadata">
+    <div id="sections-section" class="nav-section">
+  <h3>Sections</h3>
+
+  <ul class="link-list" role="directory">
     
+      <li><a href="#5Buntitled-5D"></a></li>
+    
+      <li><a href="#Public">Public</a></li>
+    
+  </ul>
+</div>
+
     <div id="parent-class-section" class="nav-section">
   <h3>Parent</h3>
 
@@ -92,6 +103,9 @@
 
   <section class="description">
     
+<p>Represents an image that has been uploaded to Steam of a screenshot taken
+in a Steam app.</p>
+
   </section>
 
   
@@ -245,7 +259,30 @@
     
 
     
-     <section id="public-class-5Buntitled-5D-method-details" class="method-section">
+  </section>
+
+  
+  
+  <section id="Public" class="documentation-section">
+    
+    <header class="documentation-section-title">
+      <h2>
+        Public
+      </h2>
+      <span class="section-click-top">
+        <a href="#top">&uarr; top</a>
+      </span>
+    </header>
+    
+
+    
+
+    
+
+    
+
+    
+     <section id="public-class-Public-method-details" class="method-section">
        <header>
          <h3>Public Class Methods</h3>
        </header>
@@ -264,13 +301,48 @@
 
         <div class="method-description">
           
-          
+          <p>Initialize a screenshot with the given attributes.</p>
+<dl class="rdoc-list note-list"><dt>attrs
+<dd>
+<p>the Hash of attributes for this screenshot</p>
+<dl class="rdoc-list note-list"><dt>:title
+<dd>
+<p>how the user described this screenshot; String or nil</p>
+</dd><dt>:details_url
+<dd>
+<p>String URL to the Steam page that shows details about this screenshot</p>
+</dd><dt>:full_size_url
+<dd>
+<p>String URL to the full-size image</p>
+</dd><dt>:medium_url
+<dd>
+<p>String URL to a medium-size version of the image</p>
+</dd><dt>:user_name
+<dd>
+<p>String name of the Steam user who uploaded the screenshot</p>
+</dd><dt>:user_url
+<dd>
+<p>String URL to the profile of the Steam user who uploaded the screenshot</p>
+</dd><dt>:date
+<dd>
+<p>the DateTime when this screenshot was uploaded</p>
+</dd><dt>:file_size
+<dd>
+<p>a String describing how large the screenshot is, e.g., 0.547 MB</p>
+</dd><dt>:width
+<dd>
+<p>Integer pixel width of the screenshot</p>
+</dd><dt>:height
+<dd>
+<p>Integer pixel height of the screenshot</p>
+</dd></dl>
+</dd></dl>
           
           
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/rsteamshot/screenshot.rb, line 6</span>
+            <pre><span class="ruby-comment"># File lib/rsteamshot/screenshot.rb, line 21</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">attrs</span> = {})
   <span class="ruby-identifier">attrs</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span> <span class="ruby-identifier">instance_variable_set</span>(<span class="ruby-node">&quot;@#{key}&quot;</span>, <span class="ruby-identifier">value</span>) }
 <span class="ruby-keyword">end</span></pre>
@@ -286,7 +358,7 @@
     
     </section>
   
-     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
+     <section id="public-instance-Public-method-details" class="method-section">
        <header>
          <h3>Public Instance Methods</h3>
        </header>
@@ -305,13 +377,17 @@
 
         <div class="method-description">
           
-          
+          <p>Fetches additional details about the screenshot.</p>
+
+<h3 id="method-i-get_details-label-Returns">Returns<span><a href="#method-i-get_details-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>Returns nothing.</p>
           
           
 
           
           <div class="method-source-code" id="get_details-source">
-            <pre><span class="ruby-comment"># File lib/rsteamshot/screenshot.rb, line 10</span>
+            <pre><span class="ruby-comment"># File lib/rsteamshot/screenshot.rb, line 28</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_details</span>
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">details_url</span>
 
@@ -369,13 +445,17 @@
 
         <div class="method-description">
           
-          
+          <p>Get a hash representation of this screenshot.</p>
+
+<h3 id="method-i-to_h-label-Returns">Returns<span><a href="#method-i-to_h-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>Returns a Hash.</p>
           
           
 
           
           <div class="method-source-code" id="to_h-source">
-            <pre><span class="ruby-comment"># File lib/rsteamshot/screenshot.rb, line 45</span>
+            <pre><span class="ruby-comment"># File lib/rsteamshot/screenshot.rb, line 66</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">to_h</span>
   <span class="ruby-identifier">result</span> = { <span class="ruby-identifier">title</span><span class="ruby-operator">:</span> <span class="ruby-identifier">title</span>, <span class="ruby-identifier">details_url</span><span class="ruby-operator">:</span> <span class="ruby-identifier">details_url</span> }
   <span class="ruby-identifier">result</span>[<span class="ruby-value">:full_size_url</span>] = <span class="ruby-identifier">full_size_url</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">full_size_url</span>
@@ -411,13 +491,17 @@
 
         <div class="method-description">
           
-          
+          <p>Get a JSON representation of this screenshot.</p>
+
+<h3 id="method-i-to_json-label-Returns">Returns<span><a href="#method-i-to_json-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>Returns a String.</p>
           
           
 
           
           <div class="method-source-code" id="to_json-source">
-            <pre><span class="ruby-comment"># File lib/rsteamshot/screenshot.rb, line 58</span>
+            <pre><span class="ruby-comment"># File lib/rsteamshot/screenshot.rb, line 82</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">to_json</span>
   <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">pretty_generate</span>(<span class="ruby-identifier">to_h</span>)
 <span class="ruby-keyword">end</span></pre>
