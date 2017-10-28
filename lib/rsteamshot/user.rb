@@ -1,5 +1,7 @@
 module Rsteamshot
   class User
+    attr_reader :user_name
+
     def initialize(user_name)
       @user_name = user_name
     end
@@ -16,7 +18,7 @@ module Rsteamshot
     private
 
     def screenshot_from(link)
-      details_url = link.attributes['href']
+      details_url = link['href']
       description = link.at('.imgWallHoverDescription')
       title = description ? description.text.strip : nil
       Screenshot.new(title, details_url)
