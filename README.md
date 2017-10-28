@@ -1,8 +1,6 @@
 # Rsteamshot
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/rsteamshot`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Rsteamshot is a Ruby gem for getting the latest screenshots a user has uploaded to their Steam profile, as well as the latest screenshots uploaded for a particular game.
 
 ## Installation
 
@@ -22,7 +20,26 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+steam_user_name = 'cheshire137'
+user = Rsteamshot::User.new(steam_user_name)
+screenshots = user.screenshots
+
+# Basic information is fetched for each screenshot initially:
+screenshots.each do |screenshot|
+  puts screenshot.title
+  puts screenshot.details_url
+end
+
+newest_screenshot = screenshots.first
+newest_screenshot.get_details # Fetch additional details
+
+puts newest_screenshot.full_size_url
+puts newest_screenshot.medium_url
+puts newest_screenshot.user_name
+puts newest_screenshot.user_url
+puts newest_screenshot.date
+```
 
 ## Development
 
@@ -32,12 +49,8 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/cheshire137/rsteamshot. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+[Bug reports](https://github.com/cheshire137/rsteamshot/issues) and pull requests are welcome. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-
-## Code of Conduct
-
-Everyone interacting in the Rsteamshot project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/cheshire137/rsteamshot/blob/master/CODE_OF_CONDUCT.md).
