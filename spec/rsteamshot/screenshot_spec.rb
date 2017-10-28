@@ -5,6 +5,14 @@ RSpec.describe Rsteamshot::Screenshot do
   let(:details_url) { 'http://steamcommunity.com/sharedfiles/filedetails/?id=789436652' }
   subject(:screenshot) { described_class.new(title, details_url) }
 
+  it 'uses given title' do
+    expect(screenshot.title).to eq(title)
+  end
+
+  it 'uses given details URL' do
+    expect(screenshot.details_url).to eq(details_url)
+  end
+
   context '#get_details' do
     it 'populates other fields' do
       VCR.use_cassette('screenshot_get_details') do
