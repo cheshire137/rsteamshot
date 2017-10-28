@@ -41,6 +41,23 @@ module Rsteamshot
       end
     end
 
+    def to_h
+      result = { title: title, details_url: details_url }
+      result[:full_size_url] = full_size_url if full_size_url
+      result[:medium_url] = medium_url if medium_url
+      result[:user_name] = user_name if user_name
+      result[:user_url] = user_url if user_url
+      result[:date] = date if date
+      result[:file_size] = file_size if file_size
+      result[:width] = width if width
+      result[:height] = height if height
+      result
+    end
+
+    def to_json
+      JSON.pretty_generate(to_h)
+    end
+
     private
 
     def details_block_from(page)

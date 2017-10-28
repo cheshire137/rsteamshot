@@ -1,3 +1,4 @@
+require 'json'
 require 'mechanize'
 require 'rsteamshot/screenshot'
 require 'rsteamshot/user'

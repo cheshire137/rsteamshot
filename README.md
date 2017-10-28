@@ -29,6 +29,10 @@ screenshots = user.screenshots
 screenshots.each do |screenshot|
   puts screenshot.title
   puts screenshot.details_url
+
+  # Utility methods:
+  puts screenshot.to_h
+  puts screenshot.to_json
 end
 
 newest_screenshot = screenshots.first
