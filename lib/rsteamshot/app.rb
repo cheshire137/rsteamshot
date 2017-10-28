@@ -1,13 +1,64 @@
 module Rsteamshot
   class App
-    attr_reader :id
+    class BadAppsFile < StandardError; end
+    APPS_LIST_URL = 'http://api.steampowered.com/ISteamApps/GetAppList/v2'
 
-    def initialize(id)
-      @id = id
+    attr_reader :id, :name
+
+    def self.download_apps_list(path)
+      File.open(path, 'w') do |file|
+        IO.copy_stream(open(APPS_LIST_URL), file)
+      end
+    end
+
+    def self.search(raw_query, apps_list_path)
+      return [] unless raw_query
+
+      unless apps_list_path
+        raise BadAppsFile, 'no path given to JSON apps list from Steam'
+      end
+
+      unless File.file?(apps_list_path)
+        raise BadAppsFile, "#{apps_list_path} is not a file"
+      end
+
+      json = begin
+        JSON.parse(File.read(apps_list_path))
+      rescue JSON::ParserError
+        raise BadAppsFile, "#{apps_list_path} is not a valid JSON file"
+      end
+
+      applist = json['applist']
+      unless applist
+        raise BadAppsFile, "#{apps_list_path} does not have expected JSON format"
+      end
+
+      apps = applist['apps']
+      unless applist
+        raise BadAppsFile, "#{apps_list_path} does not have expected JSON format"
+      end
+
+      query = raw_query.downcase
+      results = []
+      apps.each do |data|
+        next unless data['name']
+
+        if data['name'].downcase.include?(query)
+          results << new(id: data['appid'], name: data['name'])
+        end
+      end
+
+      results
+    end
+
+    def initialize(attrs = {})
+      attrs.each { |key, value| instance_variable_set("@#{key}", value) }
     end
 
     def screenshots
       result = []
+      return result unless id
+
       Mechanize.new.get(steam_url) do |page|
         cards = page.search('.apphub_Card')
         result = cards.map { |card| screenshot_from(card) }
@@ -63,7 +114,7 @@ module Rsteamshot
     end
 
     def steam_url
-      "http://steamcommunity.com/app/#@id/screenshots/?p=1&browsefilter=mostrecent"
+      "http://steamcommunity.com/app/#{id}/screenshots/?p=1&browsefilter=mostrecent"
     end
   end
 end

@@ -1,6 +1,8 @@
 require 'json'
 require 'mechanize'
+require 'open-uri'
 require 'rsteamshot/app'
 require 'rsteamshot/screenshot'
 require 'rsteamshot/user'
 require 'rsteamshot/version'
+require 'uri'
