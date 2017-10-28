@@ -23,6 +23,9 @@ RSpec.describe Rsteamshot::Screenshot do
         expect(screenshot.user_name).to eq('cheshire137')
         expect(screenshot.user_url).to eq('http://steamcommunity.com/id/cheshire137')
         expect(screenshot.date).to eq(DateTime.parse('2016-10-29 9:45'))
+        expect(screenshot.file_size).to eq('0.547 MB')
+        expect(screenshot.width).to eq(3840)
+        expect(screenshot.height).to eq(2160)
       end
     end
   end

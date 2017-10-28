@@ -39,6 +39,9 @@ puts newest_screenshot.medium_url
 puts newest_screenshot.user_name
 puts newest_screenshot.user_url
 puts newest_screenshot.date
+puts newest_screenshot.file_size
+puts newest_screenshot.width
+puts newest_screenshot.height
 ```
 
 ## Development
