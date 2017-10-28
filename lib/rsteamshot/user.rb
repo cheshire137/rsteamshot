@@ -5,10 +5,12 @@ module Rsteamshot
     end
 
     def screenshots
+      result = []
       Mechanize.new.get(steam_url) do |page|
         links = page.search('#image_wall .imageWallRow .profile_media_item')
-        links.map { |link| screenshot_from(link) }
+        result = links.map { |link| screenshot_from(link) }
       end
+      result
     end
 
     private
