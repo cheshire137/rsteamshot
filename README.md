@@ -36,9 +36,17 @@ screenshots.each do |screenshot|
   puts screenshot.to_json
 end
 
-# Get screenshots uploaded for a Steam game:
+# Find a Steam app by name:
+apps_path = 'apps-list.json'
+Rsteamshot::App.download_apps_list(apps_path)
+apps = Rsteamshot::App.search('witcher 3', apps_path)
+app = apps.first
+
+# Initialize an app directly if you know its ID:
 app_id = '377160'
 app = Rsteamshot::App.new(app_id)
+
+# Get screenshots uploaded for a Steam game:
 screenshots = app.screenshots
 
 # Extra information for screenshots:
