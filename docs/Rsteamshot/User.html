@@ -115,27 +115,6 @@ uploaded to Steam.</p>
     
 
     
-    <section class="attribute-method-details" class="method-section">
-      <header>
-        <h3>Attributes</h3>
-      </header>
-
-      
-      <div id="attribute-i-user_name" class="method-detail">
-        <div class="method-heading attribute-method-heading">
-          <span class="method-name">user_name</span><span
-            class="attribute-access-type">[R]</span>
-        </div>
-
-        <div class="method-description">
-        
-        
-        
-        </div>
-      </div>
-      
-    </section>
-    
 
     
   </section>
@@ -158,6 +137,29 @@ uploaded to Steam.</p>
 
     
 
+    
+    <section class="attribute-method-details" class="method-section">
+      <header>
+        <h3>Attributes</h3>
+      </header>
+
+      
+      <div id="attribute-i-user_name" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">user_name</span><span
+            class="attribute-access-type">[R]</span>
+        </div>
+
+        <div class="method-description">
+        
+        <h3 id="attribute-i-user_name-label-Returns">Returns<span><a href="#attribute-i-user_name-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>Returns a String user name from a Steam user&#39;s public profile.</p>
+        
+        </div>
+      </div>
+      
+    </section>
     
 
     
@@ -190,7 +192,7 @@ uploaded to Steam.</p>
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/rsteamshot/user.rb, line 10</span>
+            <pre><span class="ruby-comment"># File lib/rsteamshot/user.rb, line 11</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">user_name</span>)
   <span class="ruby-ivar">@user_name</span> = <span class="ruby-identifier">user_name</span>
 <span class="ruby-keyword">end</span></pre>
@@ -235,7 +237,7 @@ uploaded to Steam.</p>
 
           
           <div class="method-source-code" id="screenshots-source">
-            <pre><span class="ruby-comment"># File lib/rsteamshot/user.rb, line 17</span>
+            <pre><span class="ruby-comment"># File lib/rsteamshot/user.rb, line 18</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">screenshots</span>
   <span class="ruby-identifier">result</span> = []
   <span class="ruby-constant">Mechanize</span>.<span class="ruby-identifier">new</span>.<span class="ruby-identifier">get</span>(<span class="ruby-identifier">steam_url</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">page</span><span class="ruby-operator">|</span>

@@ -6,3 +6,8 @@ require 'rsteamshot/screenshot'
 require 'rsteamshot/user'
 require 'rsteamshot/version'
 require 'uri'
+
+# Public: Contains classes for finding screenshots uploaded by users to Steam. Screenshots
+# are from Steam games (apps).
+module Rsteamshot
+end

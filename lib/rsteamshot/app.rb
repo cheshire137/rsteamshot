@@ -9,7 +9,11 @@ module Rsteamshot
     # Public: The API URL to get a list of apps on Steam.
     APPS_LIST_URL = 'http://api.steampowered.com/ISteamApps/GetAppList/v2'
 
-    attr_reader :id, :name
+    # Public: Returns the ID of the Steam app as an Integer or String.
+    attr_reader :id
+
+    # Public: Returns the String name of the Steam app, or nil.
+    attr_reader :name
 
     # Public: Writes a JSON file at the given location with the latest list of apps on Steam.
     #

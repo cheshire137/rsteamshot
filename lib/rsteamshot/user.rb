@@ -2,6 +2,7 @@ module Rsteamshot
   # Public: Represents a Steam user. Used to fetch the user's screenshots they have
   # uploaded to Steam.
   class User
+    # Public: Returns a String user name from a Steam user's public profile.
     attr_reader :user_name
 
     # Public: Initialize a Steam user with the given user name.
