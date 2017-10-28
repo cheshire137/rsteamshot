@@ -136,6 +136,20 @@ uploaded to Steam.</p>
     
 
     
+    <section class="constants-list">
+      <header>
+        <h3>Constants</h3>
+      </header>
+      <dl>
+      
+        <dt id="VALID_ORDERS">VALID_ORDERS
+        
+        <dd><p>How to sort screenshots when they are being retrieved.</p>
+        
+      
+      </dl>
+    </section>
+    
 
     
     <section class="attribute-method-details" class="method-section">
@@ -192,7 +206,7 @@ uploaded to Steam.</p>
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/rsteamshot/user.rb, line 11</span>
+            <pre><span class="ruby-comment"># File lib/rsteamshot/user.rb, line 14</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">user_name</span>)
   <span class="ruby-ivar">@user_name</span> = <span class="ruby-identifier">user_name</span>
 <span class="ruby-keyword">end</span></pre>
@@ -218,7 +232,7 @@ uploaded to Steam.</p>
         
         <div class="method-heading">
           <span class="method-name">screenshots</span><span
-            class="method-args">()</span>
+            class="method-args">(order: nil)</span>
           
           <span class="method-click-advice">click to toggle source</span>
           
@@ -228,6 +242,11 @@ uploaded to Steam.</p>
         <div class="method-description">
           
           <p>Fetch a list of the user&#39;s newest uploaded screenshots.</p>
+<dl class="rdoc-list note-list"><dt>order
+<dd>
+<p>String specifying which screenshots should be retrieved; choose from
+newestfirst, score, and oldestfirst; defaults to newestfirst</p>
+</dd></dl>
 
 <h3 id="method-i-screenshots-label-Returns">Returns<span><a href="#method-i-screenshots-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h3>
 
@@ -237,10 +256,10 @@ uploaded to Steam.</p>
 
           
           <div class="method-source-code" id="screenshots-source">
-            <pre><span class="ruby-comment"># File lib/rsteamshot/user.rb, line 18</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">screenshots</span>
+            <pre><span class="ruby-comment"># File lib/rsteamshot/user.rb, line 24</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">screenshots</span>(<span class="ruby-identifier">order</span><span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>)
   <span class="ruby-identifier">result</span> = []
-  <span class="ruby-constant">Mechanize</span>.<span class="ruby-identifier">new</span>.<span class="ruby-identifier">get</span>(<span class="ruby-identifier">steam_url</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">page</span><span class="ruby-operator">|</span>
+  <span class="ruby-constant">Mechanize</span>.<span class="ruby-identifier">new</span>.<span class="ruby-identifier">get</span>(<span class="ruby-identifier">steam_url</span>(<span class="ruby-identifier">order</span>)) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">page</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">links</span> = <span class="ruby-identifier">page</span>.<span class="ruby-identifier">search</span>(<span class="ruby-string">&#39;#image_wall .imageWallRow .profile_media_item&#39;</span>)
     <span class="ruby-identifier">result</span> = <span class="ruby-identifier">links</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">link</span><span class="ruby-operator">|</span> <span class="ruby-identifier">screenshot_from</span>(<span class="ruby-identifier">link</span>) }
   <span class="ruby-keyword">end</span>

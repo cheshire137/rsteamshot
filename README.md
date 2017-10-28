@@ -28,7 +28,8 @@ Or install it yourself as:
 # Get screenshots uploaded by a Steam user:
 steam_user_name = 'cheshire137'
 user = Rsteamshot::User.new(steam_user_name)
-screenshots = user.screenshots
+order = 'newestfirst' # also: score, oldestfirst
+screenshots = user.screenshots(order: order)
 
 # Find a Steam app by name:
 apps_path = 'apps-list.json'
