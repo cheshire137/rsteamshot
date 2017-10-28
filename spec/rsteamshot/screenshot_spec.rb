@@ -11,7 +11,11 @@ RSpec.describe Rsteamshot::Screenshot do
   let(:file_size) { '0.547 MB' }
   let(:width) { 3840 }
   let(:height) { 2160 }
-  subject(:screenshot) { described_class.new(title: title, details_url: details_url) }
+  subject(:screenshot) {
+    VCR.use_cassette('screenshot_get_details') do
+      described_class.new(title: title, details_url: details_url)
+    end
+  }
 
   it 'uses given title' do
     expect(screenshot.title).to eq(title)
@@ -21,30 +25,19 @@ RSpec.describe Rsteamshot::Screenshot do
     expect(screenshot.details_url).to eq(details_url)
   end
 
-  context '#get_details' do
-    it 'populates other fields' do
-      VCR.use_cassette('screenshot_get_details') do
-        screenshot.get_details
-      end
-
-      expect(screenshot.full_size_url).to eq(full_size_url)
-      expect(screenshot.medium_url).to eq(medium_url)
-      expect(screenshot.user_name).to eq(user_name)
-      expect(screenshot.user_url).to eq(user_url)
-      expect(screenshot.date).to eq(date)
-      expect(screenshot.file_size).to eq(file_size)
-      expect(screenshot.width).to eq(width)
-      expect(screenshot.height).to eq(height)
-    end
+  it 'populates additional details on initialization' do
+    expect(screenshot.full_size_url).to eq(full_size_url)
+    expect(screenshot.medium_url).to eq(medium_url)
+    expect(screenshot.user_name).to eq(user_name)
+    expect(screenshot.user_url).to eq(user_url)
+    expect(screenshot.date).to eq(date)
+    expect(screenshot.file_size).to eq(file_size)
+    expect(screenshot.width).to eq(width)
+    expect(screenshot.height).to eq(height)
   end
 
   context "#to_h" do
-    it 'returns a hash of basic screenshot data' do
-      expected = { title: title, details_url: details_url }
-      expect(screenshot.to_h).to eq(expected)
-    end
-
-    it 'returns a hash with more data after details have been fetched' do
+    it 'returns a hash of screenshot data' do
       expected = {
         title: title,
         details_url: details_url,
@@ -57,9 +50,6 @@ RSpec.describe Rsteamshot::Screenshot do
         user_url: user_url,
         date: date
       }
-      VCR.use_cassette('screenshot_get_details') do
-        screenshot.get_details
-      end
 
       expect(screenshot.to_h).to eq(expected)
     end
@@ -74,6 +64,14 @@ RSpec.describe Rsteamshot::Screenshot do
       json = JSON.parse(result)
       expect(json['details_url']).to eq(details_url)
       expect(json['title']).to eq(title)
+      expect(json['full_size_url']).to eq(full_size_url)
+      expect(json['medium_url']).to eq(medium_url)
+      expect(json['user_name']).to eq(user_name)
+      expect(json['user_url']).to eq(user_url)
+      expect(json['date']).to eq(date.iso8601)
+      expect(json['file_size']).to eq(file_size)
+      expect(json['width']).to eq(width)
+      expect(json['height']).to eq(height)
     end
   end
 end

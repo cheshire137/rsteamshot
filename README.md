@@ -30,16 +30,6 @@ steam_user_name = 'cheshire137'
 user = Rsteamshot::User.new(steam_user_name)
 screenshots = user.screenshots
 
-# Basic information is fetched for each screenshot initially:
-screenshots.each do |screenshot|
-  puts screenshot.title
-  puts screenshot.details_url
-
-  # Utility methods:
-  puts screenshot.to_h
-  puts screenshot.to_json
-end
-
 # Find a Steam app by name:
 apps_path = 'apps-list.json'
 Rsteamshot::App.download_apps_list(apps_path)
@@ -53,18 +43,23 @@ app = Rsteamshot::App.new(app_id)
 # Get screenshots uploaded for a Steam game:
 screenshots = app.screenshots
 
-# Extra information for screenshots:
-newest_screenshot = screenshots.first
-newest_screenshot.get_details # Fetch additional details
+# Data available for each screenshot:
+screenshots.each do |screenshot|
+  puts screenshot.title
+  puts screenshot.details_url
+  puts screenshot.full_size_url
+  puts screenshot.medium_url
+  puts screenshot.user_name
+  puts screenshot.user_url
+  puts screenshot.date
+  puts screenshot.file_size
+  puts screenshot.width
+  puts screenshot.height
 
-puts newest_screenshot.full_size_url
-puts newest_screenshot.medium_url
-puts newest_screenshot.user_name
-puts newest_screenshot.user_url
-puts newest_screenshot.date
-puts newest_screenshot.file_size
-puts newest_screenshot.width
-puts newest_screenshot.height
+  # Utility methods:
+  puts screenshot.to_h
+  puts screenshot.to_json
+end
 ```
 
 ## Development

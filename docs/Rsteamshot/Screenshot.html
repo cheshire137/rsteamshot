@@ -84,8 +84,6 @@
     
     <li ><a href="#method-c-new">::new</a>
     
-    <li ><a href="#method-i-get_details">#get_details</a>
-    
     <li ><a href="#method-i-to_h">#to_h</a>
     
     <li ><a href="#method-i-to_json">#to_json</a>
@@ -367,6 +365,8 @@ screenshot.</p>
             <pre><span class="ruby-comment"># File lib/rsteamshot/screenshot.rb, line 48</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">attrs</span> = {})
   <span class="ruby-identifier">attrs</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span> <span class="ruby-identifier">instance_variable_set</span>(<span class="ruby-node">&quot;@#{key}&quot;</span>, <span class="ruby-identifier">value</span>) }
+
+  <span class="ruby-identifier">fetch_details</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">has_details?</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -384,74 +384,6 @@ screenshot.</p>
        <header>
          <h3>Public Instance Methods</h3>
        </header>
-
-    
-      <div id="method-i-get_details" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">get_details</span><span
-            class="method-args">()</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          <p>Fetches additional details about the screenshot.</p>
-
-<h3 id="method-i-get_details-label-Returns">Returns<span><a href="#method-i-get_details-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h3>
-
-<p>Returns nothing.</p>
-          
-          
-
-          
-          <div class="method-source-code" id="get_details-source">
-            <pre><span class="ruby-comment"># File lib/rsteamshot/screenshot.rb, line 55</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_details</span>
-  <span class="ruby-keyword">return</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">details_url</span>
-
-  <span class="ruby-constant">Mechanize</span>.<span class="ruby-identifier">new</span>.<span class="ruby-identifier">get</span>(<span class="ruby-identifier">details_url</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">page</span><span class="ruby-operator">|</span>
-    <span class="ruby-identifier">link</span> = <span class="ruby-identifier">page</span>.<span class="ruby-identifier">at</span>(<span class="ruby-string">&#39;.actualmediactn a&#39;</span>)
-    <span class="ruby-ivar">@full_size_url</span> = <span class="ruby-identifier">link</span>[<span class="ruby-string">&#39;href&#39;</span>] <span class="ruby-keyword">if</span> <span class="ruby-identifier">link</span>
-
-    <span class="ruby-ivar">@medium_url</span> = <span class="ruby-identifier">medium_url_from</span>(<span class="ruby-identifier">page</span>)
-
-    <span class="ruby-identifier">author</span> = <span class="ruby-identifier">page</span>.<span class="ruby-identifier">at</span>(<span class="ruby-string">&#39;.creatorsBlock&#39;</span>)
-    <span class="ruby-ivar">@user_name</span> = <span class="ruby-identifier">user_name_from</span>(<span class="ruby-identifier">author</span>)
-    <span class="ruby-ivar">@user_url</span> = <span class="ruby-identifier">user_url_from</span>(<span class="ruby-identifier">author</span>)
-
-    <span class="ruby-identifier">details_block</span> = <span class="ruby-identifier">details_block_from</span>(<span class="ruby-identifier">page</span>)
-    <span class="ruby-keyword">if</span> <span class="ruby-identifier">details_block</span>
-      <span class="ruby-identifier">labels_container</span> = <span class="ruby-identifier">details_block</span>.<span class="ruby-identifier">at</span>(<span class="ruby-string">&#39;.detailsStatsContainerLeft&#39;</span>)
-      <span class="ruby-keyword">if</span> <span class="ruby-identifier">labels_container</span>
-        <span class="ruby-identifier">label_els</span> = <span class="ruby-identifier">labels_container</span>.<span class="ruby-identifier">search</span>(<span class="ruby-string">&#39;.detailsStatLeft&#39;</span>)
-        <span class="ruby-identifier">labels</span> = <span class="ruby-identifier">label_els</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">el</span><span class="ruby-operator">|</span> <span class="ruby-identifier">el</span>.<span class="ruby-identifier">text</span>.<span class="ruby-identifier">strip</span> }
-      <span class="ruby-keyword">end</span>
-
-      <span class="ruby-identifier">values_container</span> = <span class="ruby-identifier">details_block</span>.<span class="ruby-identifier">at</span>(<span class="ruby-string">&#39;.detailsStatsContainerRight&#39;</span>)
-      <span class="ruby-keyword">if</span> <span class="ruby-identifier">values_container</span>
-        <span class="ruby-identifier">value_els</span> = <span class="ruby-identifier">values_container</span>.<span class="ruby-identifier">search</span>(<span class="ruby-string">&#39;.detailsStatRight&#39;</span>)
-        <span class="ruby-identifier">values</span> = <span class="ruby-identifier">value_els</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">el</span><span class="ruby-operator">|</span> <span class="ruby-identifier">el</span>.<span class="ruby-identifier">text</span>.<span class="ruby-identifier">strip</span> }
-      <span class="ruby-keyword">end</span>
-
-      <span class="ruby-identifier">labelled_values</span> = <span class="ruby-identifier">labels</span>.<span class="ruby-identifier">zip</span>(<span class="ruby-identifier">values</span>).<span class="ruby-identifier">to_h</span>
-      <span class="ruby-ivar">@file_size</span> = <span class="ruby-identifier">labelled_values</span>[<span class="ruby-string">&#39;File Size&#39;</span>]
-      <span class="ruby-ivar">@date</span> = <span class="ruby-identifier">date_from</span>(<span class="ruby-identifier">labelled_values</span>[<span class="ruby-string">&#39;Posted&#39;</span>])
-      <span class="ruby-ivar">@width</span>, <span class="ruby-ivar">@height</span> = <span class="ruby-identifier">dimensions_from</span>(<span class="ruby-identifier">labelled_values</span>[<span class="ruby-string">&#39;Size&#39;</span>])
-    <span class="ruby-keyword">end</span>
-  <span class="ruby-keyword">end</span>
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
-
-        
-
-        
-      </div>
 
     
       <div id="method-i-to_h" class="method-detail ">
@@ -477,7 +409,7 @@ screenshot.</p>
 
           
           <div class="method-source-code" id="to_h-source">
-            <pre><span class="ruby-comment"># File lib/rsteamshot/screenshot.rb, line 93</span>
+            <pre><span class="ruby-comment"># File lib/rsteamshot/screenshot.rb, line 57</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">to_h</span>
   <span class="ruby-identifier">result</span> = { <span class="ruby-identifier">title</span><span class="ruby-operator">:</span> <span class="ruby-identifier">title</span>, <span class="ruby-identifier">details_url</span><span class="ruby-operator">:</span> <span class="ruby-identifier">details_url</span> }
   <span class="ruby-identifier">result</span>[<span class="ruby-value">:full_size_url</span>] = <span class="ruby-identifier">full_size_url</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">full_size_url</span>
@@ -523,7 +455,7 @@ screenshot.</p>
 
           
           <div class="method-source-code" id="to_json-source">
-            <pre><span class="ruby-comment"># File lib/rsteamshot/screenshot.rb, line 109</span>
+            <pre><span class="ruby-comment"># File lib/rsteamshot/screenshot.rb, line 73</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">to_json</span>
   <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">pretty_generate</span>(<span class="ruby-identifier">to_h</span>)
 <span class="ruby-keyword">end</span></pre>

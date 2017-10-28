@@ -9,7 +9,7 @@ RSpec.describe Rsteamshot::User do
   end
 
   context '#screenshots' do
-    it 'returns screenshots with details URLs' do
+    it 'returns screenshots' do
       VCR.use_cassette('user_screenshots') do
         result = user.screenshots
 
@@ -17,6 +17,8 @@ RSpec.describe Rsteamshot::User do
         result.each do |screenshot|
           expect(screenshot).to be_an_instance_of(Rsteamshot::Screenshot)
           expect(screenshot.details_url).to_not be_nil
+          expect(screenshot.full_size_url).to_not be_nil
+          expect(screenshot.medium_url).to_not be_nil
         end
       end
     end

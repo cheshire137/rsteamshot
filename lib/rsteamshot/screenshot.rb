@@ -47,12 +47,40 @@ module Rsteamshot
     #         :height - pixel height of the screenshot
     def initialize(attrs = {})
       attrs.each { |key, value| instance_variable_set("@#{key}", value) }
+
+      fetch_details unless has_details?
     end
 
-    # Public: Fetches additional details about the screenshot.
+    # Public: Get a hash representation of this screenshot.
     #
-    # Returns nothing.
-    def get_details
+    # Returns a Hash.
+    def to_h
+      result = { title: title, details_url: details_url }
+      result[:full_size_url] = full_size_url if full_size_url
+      result[:medium_url] = medium_url if medium_url
+      result[:user_name] = user_name if user_name
+      result[:user_url] = user_url if user_url
+      result[:date] = date if date
+      result[:file_size] = file_size if file_size
+      result[:width] = width if width
+      result[:height] = height if height
+      result
+    end
+
+    # Public: Get a JSON representation of this screenshot.
+    #
+    # Returns a String.
+    def to_json
+      JSON.pretty_generate(to_h)
+    end
+
+    private
+
+    def has_details?
+      !full_size_url.nil? && !medium_url.nil?
+    end
+
+    def fetch_details
       return unless details_url
 
       Mechanize.new.get(details_url) do |page|
@@ -86,31 +114,6 @@ module Rsteamshot
         end
       end
     end
-
-    # Public: Get a hash representation of this screenshot.
-    #
-    # Returns a Hash.
-    def to_h
-      result = { title: title, details_url: details_url }
-      result[:full_size_url] = full_size_url if full_size_url
-      result[:medium_url] = medium_url if medium_url
-      result[:user_name] = user_name if user_name
-      result[:user_url] = user_url if user_url
-      result[:date] = date if date
-      result[:file_size] = file_size if file_size
-      result[:width] = width if width
-      result[:height] = height if height
-      result
-    end
-
-    # Public: Get a JSON representation of this screenshot.
-    #
-    # Returns a String.
-    def to_json
-      JSON.pretty_generate(to_h)
-    end
-
-    private
 
     def details_block_from(page)
       details_blocks = page.search('.rightDetailsBlock')
