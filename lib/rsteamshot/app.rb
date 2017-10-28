@@ -34,7 +34,7 @@ module Rsteamshot
       end
 
       apps = applist['apps']
-      unless applist
+      unless apps
         raise BadAppsFile, "#{apps_list_path} does not have expected JSON format"
       end
 
