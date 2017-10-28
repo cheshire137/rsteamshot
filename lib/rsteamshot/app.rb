@@ -2,7 +2,11 @@ module Rsteamshot
   # Public: Represents a Steam app, like a video game. Used to fetch the screenshots
   # that were taken in that app that Steam users have uploaded.
   class App
+    # Public: Exception thrown by Rsteamshot::App#search when the given file is not a valid file
+    # containing Steam apps.
     class BadAppsFile < StandardError; end
+
+    # Public: The API URL to get a list of apps on Steam.
     APPS_LIST_URL = 'http://api.steampowered.com/ISteamApps/GetAppList/v2'
 
     attr_reader :id, :name
@@ -73,7 +77,7 @@ module Rsteamshot
       attrs.each { |key, value| instance_variable_set("@#{key}", value) }
     end
 
-    # Public: Returns a list of the newest uploaded screenshots for this app on Steam.
+    # Public: Fetch a list of the newest uploaded screenshots for this app on Steam.
     #
     # Returns an Array of Rsteamshot::Screenshots.
     def screenshots

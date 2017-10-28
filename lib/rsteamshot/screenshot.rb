@@ -2,22 +2,49 @@ module Rsteamshot
   # Public: Represents an image that has been uploaded to Steam of a screenshot taken
   # in a Steam app.
   class Screenshot
-    attr_reader :title, :details_url, :full_size_url, :medium_url, :user_name,
-                :user_url, :date, :file_size, :width, :height
+    # Public: Returns a String of how the user described this screenshot, or nil.
+    attr_reader :title
+
+    # Public: Returns String URL to the Steam page that shows details about this screenshot.
+    attr_reader :details_url
+
+    # Public: Returns String URL to the full-size image.
+    attr_reader :full_size_url
+
+    # Public: Returns String URL to a medium-size version of the image.
+    attr_reader :medium_url
+
+    # Public: Returns String name of the Steam user who uploaded the screenshot.
+    attr_reader :user_name
+
+    # Public: Returns String URL to the profile of the Steam user who uploaded the screenshot.
+    attr_reader :user_url
+
+    # Public: Returns the DateTime when this screenshot was uploaded.
+    attr_reader :date
+
+    # Public: Returns a String describing how large the screenshot is, e.g., 0.547 MB.
+    attr_reader :file_size
+
+    # Public: Returns Integer pixel width of the screenshot.
+    attr_reader :width
+
+    # Public: Returns Integer pixel height of the screenshot.
+    attr_reader :height
 
     # Public: Initialize a screenshot with the given attributes.
     #
     # attrs - the Hash of attributes for this screenshot
-    #         :title - how the user described this screenshot; String or nil
-    #         :details_url - String URL to the Steam page that shows details about this screenshot
-    #         :full_size_url - String URL to the full-size image
-    #         :medium_url - String URL to a medium-size version of the image
-    #         :user_name - String name of the Steam user who uploaded the screenshot
-    #         :user_url - String URL to the profile of the Steam user who uploaded the screenshot
-    #         :date - the DateTime when this screenshot was uploaded
-    #         :file_size - a String describing how large the screenshot is, e.g., 0.547 MB
-    #         :width - Integer pixel width of the screenshot
-    #         :height - Integer pixel height of the screenshot
+    #         :title - how the user described this screenshot
+    #         :details_url - URL to the Steam page that shows details about this screenshot
+    #         :full_size_url - URL to the full-size image
+    #         :medium_url - URL to a medium-size version of the image
+    #         :user_name - name of the Steam user who uploaded the screenshot
+    #         :user_url - URL to the profile of the Steam user who uploaded the screenshot
+    #         :date - the date and time when this screenshot was uploaded
+    #         :file_size - describes how large the screenshot is, e.g., 0.547 MB
+    #         :width - pixel width of the screenshot
+    #         :height - pixel height of the screenshot
     def initialize(attrs = {})
       attrs.each { |key, value| instance_variable_set("@#{key}", value) }
     end

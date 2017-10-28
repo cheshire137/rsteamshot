@@ -11,7 +11,7 @@ module Rsteamshot
       @user_name = user_name
     end
 
-    # Public: Returns a list of the user's newest uploaded screenshots.
+    # Public: Fetch a list of the user's newest uploaded screenshots.
     #
     # Returns an Array of Rsteamshot::Screenshots.
     def screenshots

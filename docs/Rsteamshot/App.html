@@ -117,20 +117,6 @@ that were taken in that app that Steam users have uploaded.</p>
     
 
     
-    <section class="constants-list">
-      <header>
-        <h3>Constants</h3>
-      </header>
-      <dl>
-      
-        <dt id="APPS_LIST_URL">APPS_LIST_URL
-        
-        <dd>
-        
-      
-      </dl>
-    </section>
-    
 
     
     <section class="attribute-method-details" class="method-section">
@@ -188,6 +174,20 @@ that were taken in that app that Steam users have uploaded.</p>
     
 
     
+    <section class="constants-list">
+      <header>
+        <h3>Constants</h3>
+      </header>
+      <dl>
+      
+        <dt id="APPS_LIST_URL">APPS_LIST_URL
+        
+        <dd><p>The API URL to get a list of apps on Steam.</p>
+        
+      
+      </dl>
+    </section>
+    
 
     
 
@@ -226,7 +226,7 @@ Steam.</p>
 
           
           <div class="method-source-code" id="download_apps_list-source">
-            <pre><span class="ruby-comment"># File lib/rsteamshot/app.rb, line 15</span>
+            <pre><span class="ruby-comment"># File lib/rsteamshot/app.rb, line 19</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">download_apps_list</span>(<span class="ruby-identifier">path</span>)
   <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">path</span>, <span class="ruby-string">&#39;w&#39;</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>
     <span class="ruby-constant">IO</span>.<span class="ruby-identifier">copy_stream</span>(<span class="ruby-identifier">open</span>(<span class="ruby-constant">APPS_LIST_URL</span>), <span class="ruby-identifier">file</span>)
@@ -272,7 +272,7 @@ Steam.</p>
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/rsteamshot/app.rb, line 72</span>
+            <pre><span class="ruby-comment"># File lib/rsteamshot/app.rb, line 76</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">attrs</span> = {})
   <span class="ruby-identifier">attrs</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span> <span class="ruby-identifier">instance_variable_set</span>(<span class="ruby-node">&quot;@#{key}&quot;</span>, <span class="ruby-identifier">value</span>) }
 <span class="ruby-keyword">end</span></pre>
@@ -316,7 +316,7 @@ Steam.</p>
 
           
           <div class="method-source-code" id="search-source">
-            <pre><span class="ruby-comment"># File lib/rsteamshot/app.rb, line 27</span>
+            <pre><span class="ruby-comment"># File lib/rsteamshot/app.rb, line 31</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">search</span>(<span class="ruby-identifier">raw_query</span>, <span class="ruby-identifier">apps_list_path</span>)
   <span class="ruby-keyword">return</span> [] <span class="ruby-keyword">unless</span> <span class="ruby-identifier">raw_query</span>
 
@@ -387,9 +387,9 @@ Steam.</p>
 
         <div class="method-description">
           
-          <h3 id="method-i-screenshots-label-Returns">Returns<span><a href="#method-i-screenshots-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h3>
+          <p>Fetch a list of the newest uploaded screenshots for this app on Steam.</p>
 
-<p>Returns a list of the newest uploaded screenshots for this app on Steam.</p>
+<h3 id="method-i-screenshots-label-Returns">Returns<span><a href="#method-i-screenshots-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h3>
 
 <p>Returns an Array of Rsteamshot::Screenshots.</p>
           
@@ -397,7 +397,7 @@ Steam.</p>
 
           
           <div class="method-source-code" id="screenshots-source">
-            <pre><span class="ruby-comment"># File lib/rsteamshot/app.rb, line 79</span>
+            <pre><span class="ruby-comment"># File lib/rsteamshot/app.rb, line 83</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">screenshots</span>
   <span class="ruby-identifier">result</span> = []
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">result</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">id</span>
