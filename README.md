@@ -30,6 +30,7 @@ steam_user_name = 'cheshire137'
 user = Rsteamshot::User.new(steam_user_name)
 order = 'newestfirst' # also: score, oldestfirst
 screenshots = user.screenshots(order: order)
+screenshots += user.screenshots(order: order, page: 2)
 
 # Find a Steam app by name:
 apps_path = 'apps-list.json'

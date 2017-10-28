@@ -65,5 +65,24 @@ RSpec.describe Rsteamshot::User do
         expect(first_screenshot.details_url).to eq('http://steamcommunity.com/sharedfiles/filedetails/?id=704478551')
       end
     end
+
+    it 'returns screenshots from the specified page' do
+      VCR.use_cassette('user_page_2_screenshots') do
+        result = user.screenshots(page: 2)
+
+        expect(result).to_not be_empty
+        result.each do |screenshot|
+          expect(screenshot).to be_an_instance_of(Rsteamshot::Screenshot)
+          expect(screenshot.details_url).to_not be_nil
+          expect(screenshot.full_size_url).to_not be_nil
+          expect(screenshot.medium_url).to_not be_nil
+          expect(screenshot.user_name).to_not be_nil
+          expect(screenshot.user_url).to_not be_nil
+        end
+
+        first_screenshot = result.first
+        expect(first_screenshot.details_url).to eq('http://steamcommunity.com/sharedfiles/filedetails/?id=702183705')
+      end
+    end
   end
 end

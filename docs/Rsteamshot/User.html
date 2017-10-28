@@ -232,7 +232,7 @@ uploaded to Steam.</p>
         
         <div class="method-heading">
           <span class="method-name">screenshots</span><span
-            class="method-args">(order: nil)</span>
+            class="method-args">(order: nil, page: 1)</span>
           
           <span class="method-click-advice">click to toggle source</span>
           
@@ -246,6 +246,9 @@ uploaded to Steam.</p>
 <dd>
 <p>String specifying which screenshots should be retrieved; choose from
 newestfirst, score, and oldestfirst; defaults to newestfirst</p>
+</dd><dt>page
+<dd>
+<p>which page of results to fetch; defaults to 1; Integer</p>
 </dd></dl>
 
 <h3 id="method-i-screenshots-label-Returns">Returns<span><a href="#method-i-screenshots-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h3>
@@ -256,11 +259,12 @@ newestfirst, score, and oldestfirst; defaults to newestfirst</p>
 
           
           <div class="method-source-code" id="screenshots-source">
-            <pre><span class="ruby-comment"># File lib/rsteamshot/user.rb, line 24</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">screenshots</span>(<span class="ruby-identifier">order</span><span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>)
+            <pre><span class="ruby-comment"># File lib/rsteamshot/user.rb, line 25</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">screenshots</span>(<span class="ruby-identifier">order</span><span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">page</span><span class="ruby-operator">:</span> <span class="ruby-value">1</span>)
   <span class="ruby-identifier">result</span> = []
-  <span class="ruby-constant">Mechanize</span>.<span class="ruby-identifier">new</span>.<span class="ruby-identifier">get</span>(<span class="ruby-identifier">steam_url</span>(<span class="ruby-identifier">order</span>)) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">page</span><span class="ruby-operator">|</span>
-    <span class="ruby-identifier">links</span> = <span class="ruby-identifier">page</span>.<span class="ruby-identifier">search</span>(<span class="ruby-string">&#39;#image_wall .imageWallRow .profile_media_item&#39;</span>)
+  <span class="ruby-identifier">url</span> = <span class="ruby-identifier">steam_url</span>(<span class="ruby-identifier">order</span>, <span class="ruby-identifier">page</span>)
+  <span class="ruby-constant">Mechanize</span>.<span class="ruby-identifier">new</span>.<span class="ruby-identifier">get</span>(<span class="ruby-identifier">url</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">html</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">links</span> = <span class="ruby-identifier">html</span>.<span class="ruby-identifier">search</span>(<span class="ruby-string">&#39;#image_wall .imageWallRow .profile_media_item&#39;</span>)
     <span class="ruby-identifier">result</span> = <span class="ruby-identifier">links</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">link</span><span class="ruby-operator">|</span> <span class="ruby-identifier">screenshot_from</span>(<span class="ruby-identifier">link</span>) }
   <span class="ruby-keyword">end</span>
   <span class="ruby-identifier">result</span>

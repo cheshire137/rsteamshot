@@ -19,12 +19,14 @@ module Rsteamshot
     #
     # order - String specifying which screenshots should be retrieved; choose from newestfirst,
     #         score, and oldestfirst; defaults to newestfirst
+    # page - which page of results to fetch; defaults to 1; Integer
     #
     # Returns an Array of Rsteamshot::Screenshots.
-    def screenshots(order: nil)
+    def screenshots(order: nil, page: 1)
       result = []
-      Mechanize.new.get(steam_url(order)) do |page|
-        links = page.search('#image_wall .imageWallRow .profile_media_item')
+      url = steam_url(order, page)
+      Mechanize.new.get(url) do |html|
+        links = html.search('#image_wall .imageWallRow .profile_media_item')
         result = links.map { |link| screenshot_from(link) }
       end
       result
@@ -39,14 +41,16 @@ module Rsteamshot
       Screenshot.new(title: title, details_url: details_url)
     end
 
-    def steam_url(order)
+    def steam_url(order, page)
       sort = if VALID_ORDERS.include?(order)
         order
       else
         'newestfirst'
       end
+      p = page.to_i
+      p = 1 if p < 1
       "http://steamcommunity.com/id/#{user_name}/screenshots/?appid=0&sort=#{sort}&" \
-        'browsefilter=myfiles&view=grid'
+        "browsefilter=myfiles&view=grid&p=#{p}"
     end
   end
 end
