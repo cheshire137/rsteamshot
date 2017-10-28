@@ -99,8 +99,7 @@ module Rsteamshot
 
     def screenshot_from(card)
       details_url = card['data-modal-content-url']
-      medium_url = medium_url_from(card)
-      full_size_url = full_size_url_from(medium_url)
+      medium_url, full_size_url = urls_from(card)
       title = title_from(card)
       user_link = user_link_from(card)
       user_name = if user_link
@@ -114,12 +113,15 @@ module Rsteamshot
                      user_url: user_url)
     end
 
-    def medium_url_from(card)
+    def urls_from(card)
       image = card.at('.apphub_CardContentPreviewImage')
       return unless image
 
-      uri = URI.parse(image['src'])
-      "#{uri.scheme}://#{uri.host}#{uri.path}"
+      medium_url = image['src']
+      uri = URI.parse(medium_url)
+      full_size_url = "#{uri.scheme}://#{uri.host}#{uri.path}"
+
+      [medium_url, full_size_url]
     end
 
     def full_size_url_from(medium_url)
