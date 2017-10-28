@@ -1,5 +1,7 @@
 # Rsteamshot
 
+[![Build Status](https://travis-ci.org/cheshire137/rsteamshot.svg?branch=master)](https://travis-ci.org/cheshire137/rsteamshot)
+
 Rsteamshot is a Ruby gem for getting the latest screenshots a user has uploaded to their Steam profile, as well as the latest screenshots uploaded for a particular game.
 
 [View source on GitHub](https://github.com/cheshire137/rsteamshot)
