@@ -21,6 +21,7 @@ Or install it yourself as:
 ## Usage
 
 ```ruby
+# Get screenshots uploaded by a Steam user:
 steam_user_name = 'cheshire137'
 user = Rsteamshot::User.new(steam_user_name)
 screenshots = user.screenshots
@@ -35,6 +36,12 @@ screenshots.each do |screenshot|
   puts screenshot.to_json
 end
 
+# Get screenshots uploaded for a Steam game:
+app_id = '377160'
+app = Rsteamshot::App.new(app_id)
+screenshots = app.screenshots
+
+# Extra information for screenshots:
 newest_screenshot = screenshots.first
 newest_screenshot.get_details # Fetch additional details
 

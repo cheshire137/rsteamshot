@@ -3,12 +3,13 @@ module Rsteamshot
     attr_reader :title, :details_url, :full_size_url, :medium_url, :user_name,
                 :user_url, :date, :file_size, :width, :height
 
-    def initialize(title, details_url)
-      @title = title
-      @details_url = details_url
+    def initialize(attrs = {})
+      attrs.each { |key, value| instance_variable_set("@#{key}", value) }
     end
 
     def get_details
+      return unless details_url
+
       Mechanize.new.get(details_url) do |page|
         link = page.at('.actualmediactn a')
         @full_size_url = link['href'] if link

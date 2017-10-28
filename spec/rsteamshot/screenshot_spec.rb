@@ -11,7 +11,7 @@ RSpec.describe Rsteamshot::Screenshot do
   let(:file_size) { '0.547 MB' }
   let(:width) { 3840 }
   let(:height) { 2160 }
-  subject(:screenshot) { described_class.new(title, details_url) }
+  subject(:screenshot) { described_class.new(title: title, details_url: details_url) }
 
   it 'uses given title' do
     expect(screenshot.title).to eq(title)

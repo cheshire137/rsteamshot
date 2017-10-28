@@ -21,7 +21,7 @@ module Rsteamshot
       details_url = link['href']
       description = link.at('.imgWallHoverDescription')
       title = description ? description.text.strip : nil
-      Screenshot.new(title, details_url)
+      Screenshot.new(title: title, details_url: details_url)
     end
 
     def steam_url
