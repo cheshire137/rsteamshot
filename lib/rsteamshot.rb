@@ -1,3 +1,4 @@
-require "rsteamshot/version"
-require "rsteamshot/screenshot"
-require "rsteamshot/user"
+require 'mechanize'
+require 'rsteamshot/screenshot'
+require 'rsteamshot/user'
+require 'rsteamshot/version'
