@@ -34,6 +34,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake', '~> 10.0'
   spec.add_development_dependency 'rspec', '~> 3.0'
   spec.add_development_dependency 'vcr', '~> 3.0.3'
+  spec.add_development_dependency 'webmock', '~> 3.1.0'
 
   spec.add_runtime_dependency 'mechanize', '~> 2.7.5'
 end
