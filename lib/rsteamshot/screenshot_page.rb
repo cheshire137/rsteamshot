@@ -10,6 +10,9 @@ module Rsteamshot
     # Public: Returns an Array of the Rsteamshot::Screenshots found on this page.
     attr_reader :screenshots
 
+    # Public: Construct a new ScreenshotPage with the given page number.
+    #
+    # number - the page number; Integer
     def initialize(number)
       @number = number
     end
@@ -24,6 +27,20 @@ module Rsteamshot
       range.cover?(screenshot_number)
     end
 
+    # Public: Fetch the contents of this page from Steam.
+    #
+    # Returns a Mechanize::Page.
+    def fetch(base_url)
+      return if @screenshots # already fetched
+
+      url = with_steam_page_param(base_url)
+      Mechanize.new.get(url) do |html|
+        @screenshots = yield(html)
+      end
+    end
+
+    private
+
     def min_screenshot
       (number - 1) * STEAM_PER_PAGE
     end
@@ -32,25 +49,11 @@ module Rsteamshot
       min_screenshot + STEAM_PER_PAGE
     end
 
-    # Public: Fetch the contents of this page from Steam.
-    #
-    # Returns a Mechanize::Page.
-    def fetch(base_url)
-      return if @screenshots # already fetched
-
-      url = steam_url(base_url)
-      Mechanize.new.get(url) do |html|
-        @screenshots = yield(html)
-      end
-    end
-
-    private
-
     def range
       min_screenshot...max_screenshot
     end
 
-    def steam_url(base_url)
+    def with_steam_page_param(base_url)
       joiner = base_url.include?('?') ? '&' : '?'
       "#{base_url}#{joiner}p=#{number}"
     end

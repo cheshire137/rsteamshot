@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class Rsteamshot::User - RDoc Documentation</title>
+<title>class Rsteamshot::ScreenshotPaginator - RDoc Documentation</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
@@ -92,15 +92,15 @@
   </div>
 </nav>
 
-<main role="main" aria-labelledby="class-Rsteamshot::User">
-  <h1 id="class-Rsteamshot::User" class="class">
-    class Rsteamshot::User
+<main role="main" aria-labelledby="class-Rsteamshot::ScreenshotPaginator">
+  <h1 id="class-Rsteamshot::ScreenshotPaginator" class="class">
+    class Rsteamshot::ScreenshotPaginator
   </h1>
 
   <section class="description">
     
-<p>Represents a Steam user. Used to fetch the user&#39;s screenshots they have
-uploaded to Steam.</p>
+<p>Use to paginate screenshots fetched from Steam in chunks of fewer than 50
+per page.</p>
 
   </section>
 
@@ -142,38 +142,16 @@ uploaded to Steam.</p>
       </header>
       <dl>
       
-        <dt id="VALID_ORDERS">VALID_ORDERS
+        <dt id="MAX_PER_PAGE">MAX_PER_PAGE
         
-        <dd><p>How to sort screenshots when they are being retrieved.</p>
+        <dd><p>The most screenshots that can be returned in a page, based on how many
+screenshots are on a page on a Steam user profile.</p>
         
       
       </dl>
     </section>
     
 
-    
-    <section class="attribute-method-details" class="method-section">
-      <header>
-        <h3>Attributes</h3>
-      </header>
-
-      
-      <div id="attribute-i-user_name" class="method-detail">
-        <div class="method-heading attribute-method-heading">
-          <span class="method-name">user_name</span><span
-            class="attribute-access-type">[R]</span>
-        </div>
-
-        <div class="method-description">
-        
-        <h3 id="attribute-i-user_name-label-Returns">Returns<span><a href="#attribute-i-user_name-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h3>
-
-<p>Returns a String user name from a Steam user&#39;s public profile.</p>
-        
-        </div>
-      </div>
-      
-    </section>
     
 
     
@@ -187,7 +165,7 @@ uploaded to Steam.</p>
         
         <div class="method-heading">
           <span class="method-name">new</span><span
-            class="method-args">(user_name)</span>
+            class="method-args">(process_html)</span>
           
           <span class="method-click-advice">click to toggle source</span>
           
@@ -196,20 +174,23 @@ uploaded to Steam.</p>
 
         <div class="method-description">
           
-          <p>Initialize a Steam user with the given user name.</p>
-<dl class="rdoc-list note-list"><dt><a href="User.html#attribute-i-user_name">#user_name</a>
+          <p>Construct a new <a href="ScreenshotPaginator.html">ScreenshotPaginator</a>
+that will process a page of HTML using the given lambda.</p>
+<dl class="rdoc-list note-list"><dt>process_html
 <dd>
-<p>a String</p>
+<p>a lambda that will take a Mechanize::Page and return a list of <a
+href="Screenshot.html">Rsteamshot::Screenshot</a> instances found in that
+page</p>
 </dd></dl>
           
           
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/rsteamshot/user.rb, line 14</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">user_name</span>)
-  <span class="ruby-ivar">@user_name</span> = <span class="ruby-identifier">user_name</span>
-  <span class="ruby-ivar">@paginator</span> = <span class="ruby-constant">ScreenshotPaginator</span>.<span class="ruby-identifier">new</span>(<span class="ruby-operator">-</span><span class="ruby-operator">&gt;</span>(<span class="ruby-identifier">html</span>) { <span class="ruby-identifier">process_html</span>(<span class="ruby-identifier">html</span>) })
+            <pre><span class="ruby-comment"># File lib/rsteamshot/screenshot_paginator.rb, line 14</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">process_html</span>)
+  <span class="ruby-ivar">@process_html</span> = <span class="ruby-identifier">process_html</span>
+  <span class="ruby-ivar">@screenshot_pages</span> = []
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -233,7 +214,7 @@ uploaded to Steam.</p>
         
         <div class="method-heading">
           <span class="method-name">screenshots</span><span
-            class="method-args">(order: nil, page: 1, per_page: 10)</span>
+            class="method-args">(page: 1, per_page: 10, url:)</span>
           
           <span class="method-click-advice">click to toggle source</span>
           
@@ -242,18 +223,17 @@ uploaded to Steam.</p>
 
         <div class="method-description">
           
-          <p>Fetch a list of the user&#39;s newest uploaded screenshots.</p>
-<dl class="rdoc-list note-list"><dt>order
+          <p>Get the specified number of screenshots from the given Steam URL.</p>
+<dl class="rdoc-list note-list"><dt>page
 <dd>
-<p>String specifying which screenshots should be retrieved; choose from
-newestfirst, score, and oldestfirst; defaults to newestfirst</p>
-</dd><dt>page
-<dd>
-<p>which page of results to fetch; defaults to 1; Integer</p>
+<p>which page of results to fetch; Integer; defaults to 1</p>
 </dd><dt>per_page
 <dd>
-<p>how many results to get in each page; defaults to 10; valid range: 1-50;
-Integer</p>
+<p>how many screenshots to fetch at a time; Integer; defaults to 10</p>
+</dd><dt>url
+<dd>
+<p>URL to a Steam page with screenshots, should not include a page parameter;
+String</p>
 </dd></dl>
 
 <h3 id="method-i-screenshots-label-Returns">Returns<span><a href="#method-i-screenshots-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h3>
@@ -264,9 +244,11 @@ Integer</p>
 
           
           <div class="method-source-code" id="screenshots-source">
-            <pre><span class="ruby-comment"># File lib/rsteamshot/user.rb, line 27</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">screenshots</span>(<span class="ruby-identifier">order</span><span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">page</span><span class="ruby-operator">:</span> <span class="ruby-value">1</span>, <span class="ruby-identifier">per_page</span><span class="ruby-operator">:</span> <span class="ruby-value">10</span>)
-  <span class="ruby-ivar">@paginator</span>.<span class="ruby-identifier">screenshots</span>(<span class="ruby-identifier">page</span><span class="ruby-operator">:</span> <span class="ruby-identifier">page</span>, <span class="ruby-identifier">per_page</span><span class="ruby-operator">:</span> <span class="ruby-identifier">per_page</span>, <span class="ruby-identifier">url</span><span class="ruby-operator">:</span> <span class="ruby-identifier">steam_url</span>(<span class="ruby-identifier">order</span>))
+            <pre><span class="ruby-comment"># File lib/rsteamshot/screenshot_paginator.rb, line 26</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">screenshots</span>(<span class="ruby-identifier">page</span><span class="ruby-operator">:</span> <span class="ruby-value">1</span>, <span class="ruby-identifier">per_page</span><span class="ruby-operator">:</span> <span class="ruby-value">10</span>, <span class="ruby-identifier">url</span>))
+  <span class="ruby-identifier">per_page</span> = <span class="ruby-identifier">get_per_page</span>(<span class="ruby-identifier">per_page</span>)
+  <span class="ruby-identifier">offset</span> = <span class="ruby-identifier">get_offset</span>(<span class="ruby-identifier">page</span>, <span class="ruby-identifier">per_page</span>)
+  <span class="ruby-identifier">fetch_screenshots</span>(<span class="ruby-identifier">offset</span>, <span class="ruby-identifier">url</span>).<span class="ruby-identifier">drop</span>(<span class="ruby-identifier">offset</span>).<span class="ruby-identifier">take</span>(<span class="ruby-identifier">per_page</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           

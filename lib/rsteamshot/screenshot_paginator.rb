@@ -1,17 +1,32 @@
 module Rsteamshot
+  # Public: Use to paginate screenshots fetched from Steam in chunks of fewer than
+  # 50 per page.
   class ScreenshotPaginator
-    # Public: The most screenshots that can be returned in a page.
+    # Public: The most screenshots that can be returned in a page, based on how many
+    # screenshots are on a page on a Steam user profile.
     MAX_PER_PAGE = 50
 
+    # Public: Construct a new ScreenshotPaginator that will process a page of HTML
+    # using the given lambda.
+    #
+    # process_html - a lambda that will take a Mechanize::Page and return a list of
+    #                Rsteamshot::Screenshot instances found in that page
     def initialize(process_html)
       @process_html = process_html
       @screenshot_pages = []
     end
 
-    def screenshots(page:, per_page:, base_url:)
+    # Public: Get the specified number of screenshots from the given Steam URL.
+    #
+    # page - which page of results to fetch; Integer; defaults to 1
+    # per_page - how many screenshots to fetch at a time; Integer; defaults to 10
+    # url - URL to a Steam page with screenshots, should not include a page parameter; String
+    #
+    # Returns an Array of Rsteamshot::Screenshots.
+    def screenshots(page: 1, per_page: 10, url:)
       per_page = get_per_page(per_page)
       offset = get_offset(page, per_page)
-      fetch_screenshots(offset, base_url).drop(offset).take(per_page)
+      fetch_screenshots(offset, url).drop(offset).take(per_page)
     end
 
     private
