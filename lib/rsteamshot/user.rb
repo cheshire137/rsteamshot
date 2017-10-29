@@ -28,7 +28,6 @@ module Rsteamshot
     #
     # Returns an Array of Rsteamshot::Screenshots.
     def screenshots(order: nil, page: 1, per_page: 10)
-      result = []
       base_url = steam_url(order)
       per_page = get_per_page(per_page)
       offset = get_offset(page, per_page)
