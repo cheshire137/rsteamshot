@@ -96,9 +96,16 @@
 <p><a href="https://travis-ci.org/cheshire137/rsteamshot"><img
 src="https://travis-ci.org/cheshire137/rsteamshot.svg?branch=master"></a></p>
 
-<p><a href="Rsteamshot.html">Rsteamshot</a> is a Ruby gem for getting the
-latest screenshots a user has uploaded to their Steam profile, as well as
-the latest screenshots uploaded for a particular game.</p>
+<p><a href="Rsteamshot.html">Rsteamshot</a> is a Ruby gem for getting
+screenshots a user has uploaded to their Steam profile, as well as
+screenshots uploaded for a particular game. You can find the newest
+screenshots as well as the most popular screenshots. Screenshots can be
+paginated.</p>
+
+<p>There&#39;s no Steam API that I know of that provides this screenshot data,
+so this gem works by using <a
+href="https://github.com/sparklemotion/mechanize">Mechanize</a> to do web
+scraping on <a href="http://steamcommunity.com/">steamcommunity.com</a>.</p>
 
 <p><a href="https://github.com/cheshire137/rsteamshot">View source on
 GitHub</a></p>
@@ -182,10 +189,10 @@ GitHub</a></p>
   <span class="ruby-comment"># =&gt; 1080</span>
 
   <span class="ruby-identifier">screenshot</span>.<span class="ruby-identifier">like_count</span>
-  <span class="ruby-comment"># =&gt; 327</span>
+  <span class="ruby-comment"># =&gt; 0</span>
 
   <span class="ruby-identifier">screenshot</span>.<span class="ruby-identifier">comment_count</span>
-  <span class="ruby-comment"># =&gt; 71</span>
+  <span class="ruby-comment"># =&gt; 0</span>
 
   <span class="ruby-comment"># Utility methods:</span>
   <span class="ruby-identifier">screenshot</span>.<span class="ruby-identifier">to_h</span>

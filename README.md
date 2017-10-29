@@ -2,7 +2,9 @@
 
 [![Build Status](https://travis-ci.org/cheshire137/rsteamshot.svg?branch=master)](https://travis-ci.org/cheshire137/rsteamshot)
 
-Rsteamshot is a Ruby gem for getting the latest screenshots a user has uploaded to their Steam profile, as well as the latest screenshots uploaded for a particular game.
+Rsteamshot is a Ruby gem for getting screenshots a user has uploaded to their Steam profile, as well as screenshots uploaded for a particular game. You can find the newest screenshots as well as the most popular screenshots. Screenshots can be paginated.
+
+There's no Steam API that I know of that provides this screenshot data, so this gem works by using [Mechanize](https://github.com/sparklemotion/mechanize) to do web scraping on [steamcommunity.com](http://steamcommunity.com/).
 
 [View source on GitHub](https://github.com/cheshire137/rsteamshot)
 
@@ -87,10 +89,10 @@ screenshots.each do |screenshot|
   # => 1080
 
   screenshot.like_count
-  # => 327
+  # => 0
 
   screenshot.comment_count
-  # => 71
+  # => 0
 
   # Utility methods:
   screenshot.to_h
