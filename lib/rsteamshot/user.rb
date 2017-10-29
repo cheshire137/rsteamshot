@@ -48,12 +48,7 @@ module Rsteamshot
     end
 
     def fetch_necessary_screenshots(offset, base_url)
-      next_number = if @screenshot_pages.size < 1
-        1
-      else
-        @screenshot_pages.last.number + 1
-      end
-      screenshot_page = ScreenshotPage.new(next_number)
+      screenshot_page = ScreenshotPage.new(next_page_number)
       screenshot_page.fetch(base_url) { |html| process_html(html) }
       @screenshot_pages << screenshot_page
 
@@ -62,6 +57,11 @@ module Rsteamshot
         screenshot_page.fetch(base_url) { |html| process_html(html) }
         @screenshot_pages << screenshot_page
       end
+    end
+
+    def next_page_number
+      last_page = @screenshot_pages.last
+      last_page ? last_page.number : 1
     end
 
     def process_html(html)
