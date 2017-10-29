@@ -4,7 +4,7 @@ module Rsteamshot
   class ScreenshotPaginator
     # Public: The most screenshots that can be returned in a page, based on how many
     # screenshots are on a page on a Steam user profile.
-    MAX_PER_PAGE = 50
+    MAX_PER_PAGE = Rsteamshot::ScreenshotPage::STEAM_PER_PAGE
 
     # Public: Construct a new ScreenshotPaginator that will process a page of HTML
     # using the given lambda.
