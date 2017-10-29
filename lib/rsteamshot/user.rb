@@ -29,39 +29,39 @@ module Rsteamshot
     # Returns an Array of Rsteamshot::Screenshots.
     def screenshots(order: nil, page: 1, per_page: 10)
       result = []
+      base_url = steam_url(order)
 
       page = [page.to_i, 1].max
       per_page = get_per_page(per_page)
       offset = (page - 1) * per_page
 
-      screenshots = fetch_all_screenshots(offset, order)
+      screenshots = fetch_all_screenshots(offset, base_url)
       screenshots.drop(offset).take(per_page)
     end
 
     private
 
-    def fetch_all_screenshots(offset, order)
+    def fetch_all_screenshots(offset, base_url)
       screenshot_page = @screenshot_pages.detect { |page| page.includes_screenshot?(offset) }
-      base_url = steam_url(order)
+      fetch_necessary_screenshots(offset, base_url) unless screenshot_page
+      @screenshot_pages.flat_map(&:screenshots)
+    end
 
-      unless screenshot_page
-        next_number = if @screenshot_pages.size < 1
-          1
-        else
-          @screenshot_pages.last.number + 1
-        end
-        screenshot_page = ScreenshotPage.new(next_number)
+    def fetch_necessary_screenshots(offset, base_url)
+      next_number = if @screenshot_pages.size < 1
+        1
+      else
+        @screenshot_pages.last.number + 1
+      end
+      screenshot_page = ScreenshotPage.new(next_number)
+      screenshot_page.fetch(base_url) { |html| process_html(html) }
+      @screenshot_pages << screenshot_page
+
+      while !screenshot_page.includes_screenshot?(offset)
+        screenshot_page = ScreenshotPage.new(screenshot_page.number + 1)
         screenshot_page.fetch(base_url) { |html| process_html(html) }
         @screenshot_pages << screenshot_page
-
-        while !screenshot_page.includes_screenshot?(offset)
-          screenshot_page = ScreenshotPage.new(screenshot_page.number + 1)
-          screenshot_page.fetch(base_url) { |html| process_html(html) }
-          @screenshot_pages << screenshot_page
-        end
       end
-
-      @screenshot_pages.flat_map(&:screenshots)
     end
 
     def process_html(html)
