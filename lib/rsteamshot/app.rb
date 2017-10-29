@@ -6,6 +6,9 @@ module Rsteamshot
     # containing Steam apps.
     class BadAppsFile < StandardError; end
 
+    # Public: How many screenshots are shown on a Steam app's page.
+    STEAM_PER_PAGE = 10
+
     # Public: The API URL to get a list of apps on Steam.
     APPS_LIST_URL = 'http://api.steampowered.com/ISteamApps/GetAppList/v2'
 
@@ -83,6 +86,9 @@ module Rsteamshot
     #         :name - the String name of the app
     def initialize(attrs = {})
       attrs.each { |key, value| instance_variable_set("@#{key}", value) }
+
+      html_processor = ->(html) { process_html(html) }
+      @paginator = ScreenshotPaginator.new(html_processor, STEAM_PER_PAGE)
     end
 
     # Public: Fetch a list of the newest uploaded screenshots for this app on Steam.
@@ -90,20 +96,22 @@ module Rsteamshot
     # order - String specifying which screenshots should be retrieved; choose from mostrecent,
     #         toprated, trendday, trendweek, trendthreemonths, trendsixmonths, and trendyear;
     #         defaults to mostrecent
+    # page - which page of results to fetch; defaults to 1; Integer
+    # per_page - how many results to get in each page; defaults to 10; valid range: 1-10; Integer
     #
     # Returns an Array of Rsteamshot::Screenshots.
-    def screenshots(order: nil)
-      result = []
-      return result unless id
+    def screenshots(order: nil, page: 1, per_page: 10)
+      return [] unless id
 
-      Mechanize.new.get(steam_url(order)) do |page|
-        cards = page.search('.apphub_Card')
-        result = cards.map { |card| screenshot_from(card) }
-      end
-      result
+      @paginator.screenshots(page: page, per_page: per_page, url: steam_url(order))
     end
 
     private
+
+    def process_html(html)
+      cards = html.search('.apphub_Card')
+      cards.map { |card| screenshot_from(card) }
+    end
 
     def screenshot_from(card)
       details_url = card['data-modal-content-url']
@@ -153,8 +161,8 @@ module Rsteamshot
     end
 
     def steam_url(order)
-      "http://steamcommunity.com/app/#{id}/screenshots/?p=1" \
-        "&browsefilter=#{browsefilter_param(order)}"
+      "http://steamcommunity.com/app/#{id}/screenshots/" \
+        "?browsefilter=#{browsefilter_param(order)}"
     end
 
     def browsefilter_param(order)

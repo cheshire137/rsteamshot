@@ -202,5 +202,26 @@ RSpec.describe Rsteamshot::App do
         expect(first_screenshot.details_url).to eq('http://steamcommunity.com/sharedfiles/filedetails/?id=785354543')
       end
     end
+
+    it 'returns screenshots from the specified page' do
+      result = VCR.use_cassette('app_trendyear_screenshots') do
+        VCR.use_cassette('app_trendyear_page_2_screenshots') do
+          app.screenshots(order: 'trendyear', page: 2, per_page: Rsteamshot::App::STEAM_PER_PAGE)
+        end
+      end
+
+      expect(result.size).to eq(Rsteamshot::App::STEAM_PER_PAGE)
+      result.each do |screenshot|
+        expect(screenshot).to be_an_instance_of(Rsteamshot::Screenshot)
+        expect(screenshot.details_url).to_not be_nil
+        expect(screenshot.full_size_url).to_not be_nil
+        expect(screenshot.medium_url).to_not be_nil
+        expect(screenshot.user_name).to_not be_nil
+        expect(screenshot.user_url).to_not be_nil
+      end
+
+      first_screenshot = result.first
+      expect(first_screenshot.details_url).to eq('http://steamcommunity.com/sharedfiles/filedetails/?id=809289069')
+    end
   end
 end

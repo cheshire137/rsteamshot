@@ -272,6 +272,7 @@ Integer</p>
           <div class="method-source-code" id="screenshots-source">
             <pre><span class="ruby-comment"># File lib/rsteamshot/user.rb, line 31</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">screenshots</span>(<span class="ruby-identifier">order</span><span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">page</span><span class="ruby-operator">:</span> <span class="ruby-value">1</span>, <span class="ruby-identifier">per_page</span><span class="ruby-operator">:</span> <span class="ruby-value">10</span>)
+  <span class="ruby-keyword">return</span> [] <span class="ruby-keyword">unless</span> <span class="ruby-identifier">user_name</span>
   <span class="ruby-ivar">@paginator</span>.<span class="ruby-identifier">screenshots</span>(<span class="ruby-identifier">page</span><span class="ruby-operator">:</span> <span class="ruby-identifier">page</span>, <span class="ruby-identifier">per_page</span><span class="ruby-operator">:</span> <span class="ruby-identifier">per_page</span>, <span class="ruby-identifier">url</span><span class="ruby-operator">:</span> <span class="ruby-identifier">steam_url</span>(<span class="ruby-identifier">order</span>))
 <span class="ruby-keyword">end</span></pre>
           </div>

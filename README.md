@@ -45,7 +45,8 @@ app = Rsteamshot::App.new(app_id)
 # Get screenshots uploaded for a Steam game:
 order = 'mostrecent' # also: toprated, trendday, trendweek, trendthreemonths, trendsixmonths,
                      # trendyear
-screenshots = app.screenshots(order: order)
+screenshots = app.screenshots(order: order, per_page: 10)
+screenshots += app.screenshots(order: order, page: 2, per_page: 10)
 
 # Data available for each screenshot:
 screenshots.each do |screenshot|

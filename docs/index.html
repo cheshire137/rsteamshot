@@ -140,7 +140,8 @@ GitHub</a></p>
 <span class="ruby-comment"># Get screenshots uploaded for a Steam game:</span>
 <span class="ruby-identifier">order</span> = <span class="ruby-string">&#39;mostrecent&#39;</span> <span class="ruby-comment"># also: toprated, trendday, trendweek, trendthreemonths, trendsixmonths,</span>
                      <span class="ruby-comment"># trendyear</span>
-<span class="ruby-identifier">screenshots</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">screenshots</span>(<span class="ruby-identifier">order</span><span class="ruby-operator">:</span> <span class="ruby-identifier">order</span>)
+<span class="ruby-identifier">screenshots</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">screenshots</span>(<span class="ruby-identifier">order</span><span class="ruby-operator">:</span> <span class="ruby-identifier">order</span>, <span class="ruby-identifier">per_page</span><span class="ruby-operator">:</span> <span class="ruby-value">10</span>)
+<span class="ruby-identifier">screenshots</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">app</span>.<span class="ruby-identifier">screenshots</span>(<span class="ruby-identifier">order</span><span class="ruby-operator">:</span> <span class="ruby-identifier">order</span>, <span class="ruby-identifier">page</span><span class="ruby-operator">:</span> <span class="ruby-value">2</span>, <span class="ruby-identifier">per_page</span><span class="ruby-operator">:</span> <span class="ruby-value">10</span>)
 
 <span class="ruby-comment"># Data available for each screenshot:</span>
 <span class="ruby-identifier">screenshots</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">screenshot</span><span class="ruby-operator">|</span>
