@@ -6,8 +6,8 @@ module Rsteamshot
     # containing Steam apps.
     class BadAppsFile < StandardError; end
 
-    # Public: How many screenshots are shown on a Steam app's page.
-    STEAM_PER_PAGE = 10
+    # Public: You can fetch this many screenshots at once.
+    MAX_PER_PAGE = 50
 
     # Public: The API URL to get a list of apps on Steam.
     APPS_LIST_URL = 'http://api.steampowered.com/ISteamApps/GetAppList/v2'
@@ -88,7 +88,7 @@ module Rsteamshot
       attrs.each { |key, value| instance_variable_set("@#{key}", value) }
 
       html_processor = ->(html) { process_html(html) }
-      @paginator = ScreenshotPaginator.new(html_processor, STEAM_PER_PAGE)
+      @paginator = ScreenshotPaginator.new(html_processor, MAX_PER_PAGE)
     end
 
     # Public: Fetch a list of the newest uploaded screenshots for this app on Steam.
