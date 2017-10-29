@@ -43,13 +43,16 @@ module Rsteamshot
     end
 
     def steam_url(order)
-      sort = if VALID_ORDERS.include?(order)
+      "http://steamcommunity.com/id/#{user_name}/screenshots/?appid=0&sort=#{sort_param(order)}&" \
+        "browsefilter=myfiles&view=grid"
+    end
+
+    def sort_param(order)
+      if VALID_ORDERS.include?(order)
         order
       else
-        'newestfirst'
+        VALID_ORDERS.first
       end
-      "http://steamcommunity.com/id/#{user_name}/screenshots/?appid=0&sort=#{sort}&" \
-        "browsefilter=myfiles&view=grid"
     end
   end
 end

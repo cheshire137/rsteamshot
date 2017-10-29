@@ -70,7 +70,7 @@ RSpec.describe Rsteamshot::App do
   end
 
   context '#screenshots' do
-    it 'returns screenshots with details URLs' do
+    it 'returns newest screenshots by default' do
       VCR.use_cassette('app_screenshots') do
         result = app.screenshots
 
@@ -83,6 +83,123 @@ RSpec.describe Rsteamshot::App do
           expect(screenshot.user_name).to_not be_nil
           expect(screenshot.user_url).to_not be_nil
         end
+
+        first_screenshot = result.first
+        expect(first_screenshot.details_url).to eq('http://steamcommunity.com/sharedfiles/filedetails/?id=1183782807')
+      end
+    end
+
+    it 'returns top rated screenshots when specified' do
+      VCR.use_cassette('app_toprated_screenshots') do
+        result = app.screenshots(order: 'toprated')
+
+        expect(result).to_not be_empty
+        result.each do |screenshot|
+          expect(screenshot).to be_an_instance_of(Rsteamshot::Screenshot)
+          expect(screenshot.details_url).to_not be_nil
+          expect(screenshot.full_size_url).to_not be_nil
+          expect(screenshot.medium_url).to_not be_nil
+          expect(screenshot.user_name).to_not be_nil
+          expect(screenshot.user_url).to_not be_nil
+        end
+
+        first_screenshot = result.first
+        expect(first_screenshot.details_url).to eq('http://steamcommunity.com/sharedfiles/filedetails/?id=572761840')
+      end
+    end
+
+    it 'returns daily trending screenshots when specified' do
+      VCR.use_cassette('app_trendday_screenshots') do
+        result = app.screenshots(order: 'trendday')
+
+        expect(result).to_not be_empty
+        result.each do |screenshot|
+          expect(screenshot).to be_an_instance_of(Rsteamshot::Screenshot)
+          expect(screenshot.details_url).to_not be_nil
+          expect(screenshot.full_size_url).to_not be_nil
+          expect(screenshot.medium_url).to_not be_nil
+          expect(screenshot.user_name).to_not be_nil
+          expect(screenshot.user_url).to_not be_nil
+        end
+
+        first_screenshot = result.first
+        expect(first_screenshot.details_url).to eq('http://steamcommunity.com/sharedfiles/filedetails/?id=1184454167')
+      end
+    end
+
+    it 'returns weekly trending screenshots when specified' do
+      VCR.use_cassette('app_trendweek_screenshots') do
+        result = app.screenshots(order: 'trendweek')
+
+        expect(result).to_not be_empty
+        result.each do |screenshot|
+          expect(screenshot).to be_an_instance_of(Rsteamshot::Screenshot)
+          expect(screenshot.details_url).to_not be_nil
+          expect(screenshot.full_size_url).to_not be_nil
+          expect(screenshot.medium_url).to_not be_nil
+          expect(screenshot.user_name).to_not be_nil
+          expect(screenshot.user_url).to_not be_nil
+        end
+
+        first_screenshot = result.first
+        expect(first_screenshot.details_url).to eq('http://steamcommunity.com/sharedfiles/filedetails/?id=1180868271')
+      end
+    end
+
+    it 'returns 3-month trending screenshots when specified' do
+      VCR.use_cassette('app_trendthreemonths_screenshots') do
+        result = app.screenshots(order: 'trendthreemonths')
+
+        expect(result).to_not be_empty
+        result.each do |screenshot|
+          expect(screenshot).to be_an_instance_of(Rsteamshot::Screenshot)
+          expect(screenshot.details_url).to_not be_nil
+          expect(screenshot.full_size_url).to_not be_nil
+          expect(screenshot.medium_url).to_not be_nil
+          expect(screenshot.user_name).to_not be_nil
+          expect(screenshot.user_url).to_not be_nil
+        end
+
+        first_screenshot = result.first
+        expect(first_screenshot.details_url).to eq('http://steamcommunity.com/sharedfiles/filedetails/?id=972449101')
+      end
+    end
+
+    it 'returns 6-month trending screenshots when specified' do
+      VCR.use_cassette('app_trendsixmonths_screenshots') do
+        result = app.screenshots(order: 'trendsixmonths')
+
+        expect(result).to_not be_empty
+        result.each do |screenshot|
+          expect(screenshot).to be_an_instance_of(Rsteamshot::Screenshot)
+          expect(screenshot.details_url).to_not be_nil
+          expect(screenshot.full_size_url).to_not be_nil
+          expect(screenshot.medium_url).to_not be_nil
+          expect(screenshot.user_name).to_not be_nil
+          expect(screenshot.user_url).to_not be_nil
+        end
+
+        first_screenshot = result.first
+        expect(first_screenshot.details_url).to eq('http://steamcommunity.com/sharedfiles/filedetails/?id=924788014')
+      end
+    end
+
+    it 'returns yearly trending screenshots when specified' do
+      VCR.use_cassette('app_trendyear_screenshots') do
+        result = app.screenshots(order: 'trendyear')
+
+        expect(result).to_not be_empty
+        result.each do |screenshot|
+          expect(screenshot).to be_an_instance_of(Rsteamshot::Screenshot)
+          expect(screenshot.details_url).to_not be_nil
+          expect(screenshot.full_size_url).to_not be_nil
+          expect(screenshot.medium_url).to_not be_nil
+          expect(screenshot.user_name).to_not be_nil
+          expect(screenshot.user_url).to_not be_nil
+        end
+
+        first_screenshot = result.first
+        expect(first_screenshot.details_url).to eq('http://steamcommunity.com/sharedfiles/filedetails/?id=785354543')
       end
     end
   end

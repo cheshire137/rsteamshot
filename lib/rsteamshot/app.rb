@@ -9,6 +9,10 @@ module Rsteamshot
     # Public: The API URL to get a list of apps on Steam.
     APPS_LIST_URL = 'http://api.steampowered.com/ISteamApps/GetAppList/v2'
 
+    # Public: How to sort screenshots when they are being retrieved.
+    VALID_ORDERS = %w[mostrecent toprated trendday trendweek trendthreemonths
+                      trendsixmonths trendyear].freeze
+
     # Public: Returns the ID of the Steam app as an Integer or String.
     attr_reader :id
 
@@ -83,12 +87,16 @@ module Rsteamshot
 
     # Public: Fetch a list of the newest uploaded screenshots for this app on Steam.
     #
+    # order - String specifying which screenshots should be retrieved; choose from mostrecent,
+    #         toprated, trendday, trendweek, trendthreemonths, trendsixmonths, and trendyear;
+    #         defaults to mostrecent
+    #
     # Returns an Array of Rsteamshot::Screenshots.
-    def screenshots
+    def screenshots(order: nil)
       result = []
       return result unless id
 
-      Mechanize.new.get(steam_url) do |page|
+      Mechanize.new.get(steam_url(order)) do |page|
         cards = page.search('.apphub_Card')
         result = cards.map { |card| screenshot_from(card) }
       end
@@ -144,8 +152,17 @@ module Rsteamshot
       title if title.length > 0
     end
 
-    def steam_url
-      "http://steamcommunity.com/app/#{id}/screenshots/?p=1&browsefilter=mostrecent"
+    def steam_url(order)
+      "http://steamcommunity.com/app/#{id}/screenshots/?p=1" \
+        "&browsefilter=#{browsefilter_param(order)}"
+    end
+
+    def browsefilter_param(order)
+      if VALID_ORDERS.include?(order)
+        order
+      else
+        VALID_ORDERS.first
+      end
     end
   end
 end
