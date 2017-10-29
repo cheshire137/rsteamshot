@@ -404,7 +404,7 @@ Integer</p>
         
         <div class="method-heading">
           <span class="method-name">screenshots</span><span
-            class="method-args">(order: nil, page: 1)</span>
+            class="method-args">(order: nil, page: 1, query: nil)</span>
           
           <span class="method-click-advice">click to toggle source</span>
           
@@ -422,6 +422,9 @@ trendsixmonths, and trendyear; defaults to mostrecent</p>
 </dd><dt>page
 <dd>
 <p>which page of results to fetch; defaults to 1; Integer</p>
+</dd><dt>query
+<dd>
+<p>a String of text for searching screenshots</p>
 </dd></dl>
 
 <h3 id="method-i-screenshots-label-Returns">Returns<span><a href="#method-i-screenshots-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h3>
@@ -432,11 +435,11 @@ trendsixmonths, and trendyear; defaults to mostrecent</p>
 
           
           <div class="method-source-code" id="screenshots-source">
-            <pre><span class="ruby-comment"># File lib/rsteamshot/app.rb, line 109</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">screenshots</span>(<span class="ruby-identifier">order</span><span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">page</span><span class="ruby-operator">:</span> <span class="ruby-value">1</span>)
+            <pre><span class="ruby-comment"># File lib/rsteamshot/app.rb, line 110</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">screenshots</span>(<span class="ruby-identifier">order</span><span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">page</span><span class="ruby-operator">:</span> <span class="ruby-value">1</span>, <span class="ruby-identifier">query</span><span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>)
   <span class="ruby-keyword">return</span> [] <span class="ruby-keyword">unless</span> <span class="ruby-identifier">id</span>
 
-  <span class="ruby-identifier">url</span> = <span class="ruby-identifier">steam_url</span>(<span class="ruby-identifier">order</span>, <span class="ruby-ivar">@paginator</span>.<span class="ruby-identifier">per_page</span>)
+  <span class="ruby-identifier">url</span> = <span class="ruby-identifier">steam_url</span>(<span class="ruby-identifier">order</span>, <span class="ruby-identifier">query</span>, <span class="ruby-ivar">@paginator</span>.<span class="ruby-identifier">per_page</span>)
   <span class="ruby-ivar">@paginator</span>.<span class="ruby-identifier">screenshots</span>(<span class="ruby-identifier">page</span><span class="ruby-operator">:</span> <span class="ruby-identifier">page</span>, <span class="ruby-identifier">url</span><span class="ruby-operator">:</span> <span class="ruby-identifier">url</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>

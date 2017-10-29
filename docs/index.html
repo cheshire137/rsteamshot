@@ -143,6 +143,9 @@ GitHub</a></p>
 <span class="ruby-identifier">screenshots</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">screenshots</span>(<span class="ruby-identifier">order</span><span class="ruby-operator">:</span> <span class="ruby-identifier">order</span>)
 <span class="ruby-identifier">screenshots</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">app</span>.<span class="ruby-identifier">screenshots</span>(<span class="ruby-identifier">order</span><span class="ruby-operator">:</span> <span class="ruby-identifier">order</span>, <span class="ruby-identifier">page</span><span class="ruby-operator">:</span> <span class="ruby-value">2</span>)
 
+<span class="ruby-comment"># Search an app&#39;s screenshots:</span>
+<span class="ruby-identifier">dog_screenshots</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">screenshots</span>(<span class="ruby-identifier">query</span><span class="ruby-operator">:</span> <span class="ruby-string">&quot;dog&quot;</span>, <span class="ruby-identifier">order</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;trendweek&#39;</span>)
+
 <span class="ruby-comment"># Data available for each screenshot:</span>
 <span class="ruby-identifier">screenshots</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">screenshot</span><span class="ruby-operator">|</span>
   <span class="ruby-identifier">puts</span> <span class="ruby-identifier">screenshot</span>.<span class="ruby-identifier">title</span>

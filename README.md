@@ -48,6 +48,9 @@ order = 'mostrecent' # also: toprated, trendday, trendweek, trendthreemonths, tr
 screenshots = app.screenshots(order: order)
 screenshots += app.screenshots(order: order, page: 2)
 
+# Search an app's screenshots:
+dog_screenshots = app.screenshots(query: "dog", order: 'trendweek')
+
 # Data available for each screenshot:
 screenshots.each do |screenshot|
   puts screenshot.title

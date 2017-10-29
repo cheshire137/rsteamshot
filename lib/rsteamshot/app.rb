@@ -104,12 +104,13 @@ module Rsteamshot
     #         toprated, trendday, trendweek, trendthreemonths, trendsixmonths, and trendyear;
     #         defaults to mostrecent
     # page - which page of results to fetch; defaults to 1; Integer
+    # query - a String of text for searching screenshots
     #
     # Returns an Array of Rsteamshot::Screenshots.
-    def screenshots(order: nil, page: 1)
+    def screenshots(order: nil, page: 1, query: nil)
       return [] unless id
 
-      url = steam_url(order, @paginator.per_page)
+      url = steam_url(order, query, @paginator.per_page)
       @paginator.screenshots(page: page, url: url)
     end
 
@@ -166,9 +167,13 @@ module Rsteamshot
       title if title.length > 0
     end
 
-    def steam_url(order, per_page)
-      "http://steamcommunity.com/app/#{id}/screenshots/?" \
-        "browsefilter=#{browsefilter_param(order)}&numperpage=#{per_page}"
+    def steam_url(order, query, per_page)
+      params = [
+        "browsefilter=#{browsefilter_param(order)}",
+        "numperpage=#{per_page}"
+      ]
+      params << "searchText=#{URI.escape(query)}" if query
+      "http://steamcommunity.com/app/#{id}/screenshots/?" + params.join("&")
     end
 
     def browsefilter_param(order)

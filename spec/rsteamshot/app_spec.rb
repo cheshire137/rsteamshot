@@ -204,6 +204,25 @@ RSpec.describe Rsteamshot::App do
       end
     end
 
+    it 'allows searching screenshots' do
+      result = VCR.use_cassette('app_search_screenshots') do
+        app.screenshots(order: 'trendyear', query: 'dogmeat')
+      end
+
+      expect(result.size).to eq(per_page)
+      result.each do |screenshot|
+        expect(screenshot).to be_an_instance_of(Rsteamshot::Screenshot)
+        expect(screenshot.details_url).to_not be_nil
+        expect(screenshot.full_size_url).to_not be_nil
+        expect(screenshot.medium_url).to_not be_nil
+        expect(screenshot.user_name).to_not be_nil
+        expect(screenshot.user_url).to_not be_nil
+      end
+
+      first_screenshot = result.first
+      expect(first_screenshot.details_url).to eq('http://steamcommunity.com/sharedfiles/filedetails/?id=929999796')
+    end
+
     it 'returns screenshots from the specified page' do
       result = VCR.use_cassette('app_trendyear_screenshots') do
         VCR.use_cassette('app_trendyear_page_2_screenshots') do
