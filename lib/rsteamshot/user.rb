@@ -20,19 +20,32 @@ module Rsteamshot
     # order - String specifying which screenshots should be retrieved; choose from newestfirst,
     #         score, and oldestfirst; defaults to newestfirst
     # page - which page of results to fetch; defaults to 1; Integer
+    # per_page - how many results to fetch; defaults to 10; maximum of
+    #            `ScreenshotPaginator::MAX_PER_PAGE`, minimum of 1; Integer
     #
     # Returns an Array of Rsteamshot::Screenshots.
-    def screenshots(order: nil, page: 1)
+    def screenshots(order: nil, page: 1, per_page: 10)
       result = []
-      url = steam_url(order, page)
+      per_page = get_per_page(per_page)
+      paginator = ScreenshotPaginator.new(page, per_page)
+      steam_page, offset = paginator.steam_page_and_offset
+      url = steam_url(order, steam_page)
       Mechanize.new.get(url) do |html|
         links = html.search('#image_wall .imageWallRow .profile_media_item')
+        links = links.drop(offset).take(per_page)
         result = links.map { |link| screenshot_from(link) }
       end
       result
     end
 
     private
+
+    def get_per_page(per_page)
+      per_page = per_page.to_i
+      per_page = 1 if per_page < 1
+      per_page = ScreenshotPaginator::MAX_PER_PAGE if per_page > ScreenshotPaginator::MAX_PER_PAGE
+      per_page
+    end
 
     def screenshot_from(link)
       details_url = link['href']
