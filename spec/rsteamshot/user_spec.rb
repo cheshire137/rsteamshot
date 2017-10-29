@@ -68,7 +68,7 @@ RSpec.describe Rsteamshot::User do
 
     it 'returns screenshots from the specified page' do
       VCR.use_cassette('user_page_2_screenshots') do
-        result = user.screenshots(page: 2)
+        result = user.screenshots(page: 2, per_page: Rsteamshot::ScreenshotPage::STEAM_PER_PAGE)
 
         expect(result).to_not be_empty
         result.each do |screenshot|
