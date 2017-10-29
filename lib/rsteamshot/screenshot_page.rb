@@ -7,6 +7,9 @@ module Rsteamshot
     # Public: Returns the Integer number of this page.
     attr_reader :number
 
+    # Public: Returns an Array of the Rsteamshot::Screenshots found on this page.
+    attr_reader :screenshots
+
     def initialize(number)
       @number = number
     end
@@ -21,23 +24,30 @@ module Rsteamshot
       range.cover?(screenshot_number)
     end
 
+    def min_screenshot
+      (number - 1) * STEAM_PER_PAGE
+    end
+
+    def max_screenshot
+      min_screenshot + STEAM_PER_PAGE
+    end
+
     # Public: Fetch the contents of this page from Steam.
     #
     # Returns a Mechanize::Page.
     def fetch(base_url)
-      return @html if @html # already fetched
+      return if @screenshots # already fetched
 
       url = steam_url(base_url)
-      Mechanize.new.get(url) { |html| @html = html }
-      @html
+      Mechanize.new.get(url) do |html|
+        @screenshots = yield(html)
+      end
     end
 
     private
 
     def range
-      min = (number - 1) * STEAM_PER_PAGE
-      max = min + STEAM_PER_PAGE
-      min...max
+      min_screenshot...max_screenshot
     end
 
     def steam_url(base_url)
