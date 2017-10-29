@@ -5,6 +5,9 @@ module Rsteamshot
     # Public: How to sort screenshots when they are being retrieved.
     VALID_ORDERS = %w[newestfirst score oldestfirst].freeze
 
+    # Public: How many screenshots are shown on a user's profile per page.
+    STEAM_PER_PAGE = 50
+
     # Public: Returns a String user name from a Steam user's public profile.
     attr_reader :user_name
 
@@ -13,7 +16,8 @@ module Rsteamshot
     # user_name - a String
     def initialize(user_name)
       @user_name = user_name
-      @paginator = ScreenshotPaginator.new(->(html) { process_html(html) })
+      html_processor = ->(html) { process_html(html) }
+      @paginator = ScreenshotPaginator.new(html_processor, STEAM_PER_PAGE)
     end
 
     # Public: Fetch a list of the user's newest uploaded screenshots.

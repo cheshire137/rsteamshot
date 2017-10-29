@@ -2,18 +2,17 @@ module Rsteamshot
   # Public: Use to paginate screenshots fetched from Steam in chunks of fewer than
   # 50 per page.
   class ScreenshotPaginator
-    # Public: The most screenshots that can be returned in a page, based on how many
-    # screenshots are on a page on a Steam user profile.
-    MAX_PER_PAGE = Rsteamshot::ScreenshotPage::STEAM_PER_PAGE
-
     # Public: Construct a new ScreenshotPaginator that will process a page of HTML
     # using the given lambda.
     #
     # process_html - a lambda that will take a Mechanize::Page and return a list of
     #                Rsteamshot::Screenshot instances found in that page
-    def initialize(process_html)
+    # max_per_page - the most screenshots that can be returned in a page, based on how many
+    #                screenshots are shown on the Steam page
+    def initialize(process_html, max_per_page)
       @process_html = process_html
       @screenshot_pages = []
+      @max_per_page = max_per_page
     end
 
     # Public: Get the specified number of screenshots from the given Steam URL.
@@ -34,7 +33,7 @@ module Rsteamshot
     def get_per_page(raw_per_page)
       per_page = raw_per_page.to_i
       per_page = 1 if per_page < 1
-      per_page = MAX_PER_PAGE if per_page > MAX_PER_PAGE
+      per_page = @max_per_page if per_page > @max_per_page
       per_page
     end
 
@@ -50,12 +49,12 @@ module Rsteamshot
     end
 
     def fetch_necessary_screenshots(offset, base_url)
-      screenshot_page = ScreenshotPage.new(next_page_number)
+      screenshot_page = ScreenshotPage.new(next_page_number, @max_per_page)
       screenshot_page.fetch(base_url) { |html| @process_html.(html) }
       @screenshot_pages << screenshot_page
 
       while !screenshot_page.includes_screenshot?(offset)
-        screenshot_page = ScreenshotPage.new(screenshot_page.number + 1)
+        screenshot_page = ScreenshotPage.new(screenshot_page.number + 1, @max_per_page)
         screenshot_page.fetch(base_url) { |html| @process_html.(html) }
         @screenshot_pages << screenshot_page
       end

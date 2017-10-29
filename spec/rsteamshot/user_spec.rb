@@ -83,11 +83,11 @@ RSpec.describe Rsteamshot::User do
     it 'returns screenshots from the specified page' do
       result = VCR.use_cassette('user_screenshots') do
         VCR.use_cassette('user_page_2_screenshots') do
-          user.screenshots(page: 2, per_page: Rsteamshot::ScreenshotPage::STEAM_PER_PAGE)
+          user.screenshots(page: 2, per_page: Rsteamshot::User::STEAM_PER_PAGE)
         end
       end
 
-      expect(result.size).to eq(Rsteamshot::ScreenshotPage::STEAM_PER_PAGE)
+      expect(result.size).to eq(Rsteamshot::User::STEAM_PER_PAGE)
       result.each do |screenshot|
         expect(screenshot).to be_an_instance_of(Rsteamshot::Screenshot)
         expect(screenshot.details_url).to_not be_nil

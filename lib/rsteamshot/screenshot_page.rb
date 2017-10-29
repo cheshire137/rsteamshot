@@ -1,11 +1,11 @@
 module Rsteamshot
   # Public: Represents a page of screenshots on Steam.
   class ScreenshotPage
-    # Public: How many screenshots are shown on a single page of a user's Steam profile.
-    STEAM_PER_PAGE = 50
-
     # Public: Returns the Integer number of this page.
     attr_reader :number
+
+    # Public: Returns the Integer count of how many screenshots appear on the Steam page.
+    attr_reader :steam_per_page
 
     # Public: Returns an Array of the Rsteamshot::Screenshots found on this page.
     attr_reader :screenshots
@@ -13,12 +13,13 @@ module Rsteamshot
     # Public: Construct a new ScreenshotPage with the given page number.
     #
     # number - the page number; Integer
-    def initialize(number)
+    # steam_per_page - how many screenshots are shown on the Steam page
+    def initialize(number, steam_per_page)
       @number = number
+      @steam_per_page = steam_per_page
     end
 
-    # Public: Check if the nth screenshot would be on this page on Steam, assuming
-    # each Steam page has `STEAM_PER_PAGE` screenshots.
+    # Public: Check if the nth screenshot would be on this page on Steam.
     #
     # screenshot_number - the index of the screenshot you want to check
     #
@@ -42,11 +43,11 @@ module Rsteamshot
     private
 
     def min_screenshot
-      (number - 1) * STEAM_PER_PAGE
+      (number - 1) * steam_per_page
     end
 
     def max_screenshot
-      min_screenshot + STEAM_PER_PAGE
+      min_screenshot + steam_per_page
     end
 
     def range

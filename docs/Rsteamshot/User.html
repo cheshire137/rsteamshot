@@ -142,6 +142,11 @@ uploaded to Steam.</p>
       </header>
       <dl>
       
+        <dt id="STEAM_PER_PAGE">STEAM_PER_PAGE
+        
+        <dd><p>How many screenshots are shown on a user&#39;s profile per page.</p>
+        
+      
         <dt id="VALID_ORDERS">VALID_ORDERS
         
         <dd><p>How to sort screenshots when they are being retrieved.</p>
@@ -206,10 +211,11 @@ uploaded to Steam.</p>
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/rsteamshot/user.rb, line 14</span>
+            <pre><span class="ruby-comment"># File lib/rsteamshot/user.rb, line 17</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">user_name</span>)
   <span class="ruby-ivar">@user_name</span> = <span class="ruby-identifier">user_name</span>
-  <span class="ruby-ivar">@paginator</span> = <span class="ruby-constant">ScreenshotPaginator</span>.<span class="ruby-identifier">new</span>(<span class="ruby-operator">-</span><span class="ruby-operator">&gt;</span>(<span class="ruby-identifier">html</span>) { <span class="ruby-identifier">process_html</span>(<span class="ruby-identifier">html</span>) })
+  <span class="ruby-identifier">html_processor</span> = <span class="ruby-operator">-</span><span class="ruby-operator">&gt;</span>(<span class="ruby-identifier">html</span>) { <span class="ruby-identifier">process_html</span>(<span class="ruby-identifier">html</span>) }
+  <span class="ruby-ivar">@paginator</span> = <span class="ruby-constant">ScreenshotPaginator</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">html_processor</span>, <span class="ruby-constant">STEAM_PER_PAGE</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -264,7 +270,7 @@ Integer</p>
 
           
           <div class="method-source-code" id="screenshots-source">
-            <pre><span class="ruby-comment"># File lib/rsteamshot/user.rb, line 27</span>
+            <pre><span class="ruby-comment"># File lib/rsteamshot/user.rb, line 31</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">screenshots</span>(<span class="ruby-identifier">order</span><span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">page</span><span class="ruby-operator">:</span> <span class="ruby-value">1</span>, <span class="ruby-identifier">per_page</span><span class="ruby-operator">:</span> <span class="ruby-value">10</span>)
   <span class="ruby-ivar">@paginator</span>.<span class="ruby-identifier">screenshots</span>(<span class="ruby-identifier">page</span><span class="ruby-operator">:</span> <span class="ruby-identifier">page</span>, <span class="ruby-identifier">per_page</span><span class="ruby-operator">:</span> <span class="ruby-identifier">per_page</span>, <span class="ruby-identifier">url</span><span class="ruby-operator">:</span> <span class="ruby-identifier">steam_url</span>(<span class="ruby-identifier">order</span>))
 <span class="ruby-keyword">end</span></pre>

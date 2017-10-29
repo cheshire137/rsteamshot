@@ -136,21 +136,6 @@ per page.</p>
     
 
     
-    <section class="constants-list">
-      <header>
-        <h3>Constants</h3>
-      </header>
-      <dl>
-      
-        <dt id="MAX_PER_PAGE">MAX_PER_PAGE
-        
-        <dd><p>The most screenshots that can be returned in a page, based on how many
-screenshots are on a page on a Steam user profile.</p>
-        
-      
-      </dl>
-    </section>
-    
 
     
 
@@ -165,7 +150,7 @@ screenshots are on a page on a Steam user profile.</p>
         
         <div class="method-heading">
           <span class="method-name">new</span><span
-            class="method-args">(process_html)</span>
+            class="method-args">(process_html, max_per_page)</span>
           
           <span class="method-click-advice">click to toggle source</span>
           
@@ -181,16 +166,21 @@ that will process a page of HTML using the given lambda.</p>
 <p>a lambda that will take a Mechanize::Page and return a list of <a
 href="Screenshot.html">Rsteamshot::Screenshot</a> instances found in that
 page</p>
+</dd><dt>max_per_page
+<dd>
+<p>the most screenshots that can be returned in a page, based on how many
+screenshots are shown on the Steam page</p>
 </dd></dl>
           
           
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/rsteamshot/screenshot_paginator.rb, line 14</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">process_html</span>)
+            <pre><span class="ruby-comment"># File lib/rsteamshot/screenshot_paginator.rb, line 12</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">process_html</span>, <span class="ruby-identifier">max_per_page</span>)
   <span class="ruby-ivar">@process_html</span> = <span class="ruby-identifier">process_html</span>
   <span class="ruby-ivar">@screenshot_pages</span> = []
+  <span class="ruby-ivar">@max_per_page</span> = <span class="ruby-identifier">max_per_page</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -244,7 +234,7 @@ String</p>
 
           
           <div class="method-source-code" id="screenshots-source">
-            <pre><span class="ruby-comment"># File lib/rsteamshot/screenshot_paginator.rb, line 26</span>
+            <pre><span class="ruby-comment"># File lib/rsteamshot/screenshot_paginator.rb, line 25</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">screenshots</span>(<span class="ruby-identifier">page</span><span class="ruby-operator">:</span> <span class="ruby-value">1</span>, <span class="ruby-identifier">per_page</span><span class="ruby-operator">:</span> <span class="ruby-value">10</span>, <span class="ruby-identifier">url</span>))
   <span class="ruby-identifier">per_page</span> = <span class="ruby-identifier">get_per_page</span>(<span class="ruby-identifier">per_page</span>)
   <span class="ruby-identifier">offset</span> = <span class="ruby-identifier">get_offset</span>(<span class="ruby-identifier">page</span>, <span class="ruby-identifier">per_page</span>)

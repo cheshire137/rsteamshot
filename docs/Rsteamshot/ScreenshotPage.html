@@ -137,21 +137,6 @@
     
 
     
-    <section class="constants-list">
-      <header>
-        <h3>Constants</h3>
-      </header>
-      <dl>
-      
-        <dt id="STEAM_PER_PAGE">STEAM_PER_PAGE
-        
-        <dd><p>How many screenshots are shown on a single page of a user&#39;s Steam
-profile.</p>
-        
-      
-      </dl>
-    </section>
-    
 
     
     <section class="attribute-method-details" class="method-section">
@@ -190,6 +175,21 @@ profile.</p>
         </div>
       </div>
       
+      <div id="attribute-i-steam_per_page" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">steam_per_page</span><span
+            class="attribute-access-type">[R]</span>
+        </div>
+
+        <div class="method-description">
+        
+        <h3 id="attribute-i-steam_per_page-label-Returns">Returns<span><a href="#attribute-i-steam_per_page-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>Returns the Integer count of how many screenshots appear on the Steam page.</p>
+        
+        </div>
+      </div>
+      
     </section>
     
 
@@ -204,7 +204,7 @@ profile.</p>
         
         <div class="method-heading">
           <span class="method-name">new</span><span
-            class="method-args">(number)</span>
+            class="method-args">(number, steam_per_page)</span>
           
           <span class="method-click-advice">click to toggle source</span>
           
@@ -218,15 +218,19 @@ given page number.</p>
 <dl class="rdoc-list note-list"><dt>number
 <dd>
 <p>the page number; Integer</p>
+</dd><dt><a href="ScreenshotPage.html#attribute-i-steam_per_page">#steam_per_page</a>
+<dd>
+<p>how many screenshots are shown on the Steam page</p>
 </dd></dl>
           
           
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/rsteamshot/screenshot_page.rb, line 16</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">number</span>)
+            <pre><span class="ruby-comment"># File lib/rsteamshot/screenshot_page.rb, line 17</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">number</span>, <span class="ruby-identifier">steam_per_page</span>)
   <span class="ruby-ivar">@number</span> = <span class="ruby-identifier">number</span>
+  <span class="ruby-ivar">@steam_per_page</span> = <span class="ruby-identifier">steam_per_page</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -269,7 +273,7 @@ given page number.</p>
 
           
           <div class="method-source-code" id="fetch-source">
-            <pre><span class="ruby-comment"># File lib/rsteamshot/screenshot_page.rb, line 33</span>
+            <pre><span class="ruby-comment"># File lib/rsteamshot/screenshot_page.rb, line 34</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">fetch</span>(<span class="ruby-identifier">base_url</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@screenshots</span> <span class="ruby-comment"># already fetched</span>
 
@@ -301,8 +305,7 @@ given page number.</p>
 
         <div class="method-description">
           
-          <p>Check if the nth screenshot would be on this page on Steam, assuming each
-Steam page has `STEAM_PER_PAGE` screenshots.</p>
+          <p>Check if the nth screenshot would be on this page on Steam.</p>
 <dl class="rdoc-list note-list"><dt>screenshot_number
 <dd>
 <p>the index of the screenshot you want to check</p>
@@ -316,7 +319,7 @@ Steam page has `STEAM_PER_PAGE` screenshots.</p>
 
           
           <div class="method-source-code" id="includes_screenshot-3F-source">
-            <pre><span class="ruby-comment"># File lib/rsteamshot/screenshot_page.rb, line 26</span>
+            <pre><span class="ruby-comment"># File lib/rsteamshot/screenshot_page.rb, line 27</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">includes_screenshot?</span>(<span class="ruby-identifier">screenshot_number</span>)
   <span class="ruby-identifier">range</span>.<span class="ruby-identifier">cover?</span>(<span class="ruby-identifier">screenshot_number</span>)
 <span class="ruby-keyword">end</span></pre>
