@@ -20,3 +20,15 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 end
+
+RSpec::Matchers.define :be_a_screenshot do
+  match do |screenshot|
+    screenshot.class == Rsteamshot::Screenshot &&
+      !screenshot.details_url.nil? &&
+      !screenshot.full_size_url.nil? &&
+      !screenshot.medium_url.nil? &&
+      !screenshot.user_name.nil? &&
+      !screenshot.like_count.nil? &&
+      !screenshot.user_url.nil?
+  end
+end

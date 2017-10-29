@@ -77,12 +77,7 @@ RSpec.describe Rsteamshot::App do
 
         expect(result).to_not be_empty
         result.each do |screenshot|
-          expect(screenshot).to be_an_instance_of(Rsteamshot::Screenshot)
-          expect(screenshot.details_url).to_not be_nil
-          expect(screenshot.full_size_url).to_not be_nil
-          expect(screenshot.medium_url).to_not be_nil
-          expect(screenshot.user_name).to_not be_nil
-          expect(screenshot.user_url).to_not be_nil
+          expect(screenshot).to be_a_screenshot
         end
 
         first_screenshot = result.first
@@ -96,12 +91,7 @@ RSpec.describe Rsteamshot::App do
 
         expect(result).to_not be_empty
         result.each do |screenshot|
-          expect(screenshot).to be_an_instance_of(Rsteamshot::Screenshot)
-          expect(screenshot.details_url).to_not be_nil
-          expect(screenshot.full_size_url).to_not be_nil
-          expect(screenshot.medium_url).to_not be_nil
-          expect(screenshot.user_name).to_not be_nil
-          expect(screenshot.user_url).to_not be_nil
+          expect(screenshot).to be_a_screenshot
         end
 
         first_screenshot = result.first
@@ -115,12 +105,7 @@ RSpec.describe Rsteamshot::App do
 
         expect(result).to_not be_empty
         result.each do |screenshot|
-          expect(screenshot).to be_an_instance_of(Rsteamshot::Screenshot)
-          expect(screenshot.details_url).to_not be_nil
-          expect(screenshot.full_size_url).to_not be_nil
-          expect(screenshot.medium_url).to_not be_nil
-          expect(screenshot.user_name).to_not be_nil
-          expect(screenshot.user_url).to_not be_nil
+          expect(screenshot).to be_a_screenshot
         end
 
         first_screenshot = result.first
@@ -134,12 +119,7 @@ RSpec.describe Rsteamshot::App do
 
         expect(result).to_not be_empty
         result.each do |screenshot|
-          expect(screenshot).to be_an_instance_of(Rsteamshot::Screenshot)
-          expect(screenshot.details_url).to_not be_nil
-          expect(screenshot.full_size_url).to_not be_nil
-          expect(screenshot.medium_url).to_not be_nil
-          expect(screenshot.user_name).to_not be_nil
-          expect(screenshot.user_url).to_not be_nil
+          expect(screenshot).to be_a_screenshot
         end
 
         first_screenshot = result.first
@@ -153,12 +133,7 @@ RSpec.describe Rsteamshot::App do
 
         expect(result).to_not be_empty
         result.each do |screenshot|
-          expect(screenshot).to be_an_instance_of(Rsteamshot::Screenshot)
-          expect(screenshot.details_url).to_not be_nil
-          expect(screenshot.full_size_url).to_not be_nil
-          expect(screenshot.medium_url).to_not be_nil
-          expect(screenshot.user_name).to_not be_nil
-          expect(screenshot.user_url).to_not be_nil
+          expect(screenshot).to be_a_screenshot
         end
 
         first_screenshot = result.first
@@ -172,12 +147,7 @@ RSpec.describe Rsteamshot::App do
 
         expect(result).to_not be_empty
         result.each do |screenshot|
-          expect(screenshot).to be_an_instance_of(Rsteamshot::Screenshot)
-          expect(screenshot.details_url).to_not be_nil
-          expect(screenshot.full_size_url).to_not be_nil
-          expect(screenshot.medium_url).to_not be_nil
-          expect(screenshot.user_name).to_not be_nil
-          expect(screenshot.user_url).to_not be_nil
+          expect(screenshot).to be_a_screenshot
         end
 
         first_screenshot = result.first
@@ -191,12 +161,7 @@ RSpec.describe Rsteamshot::App do
 
         expect(result).to_not be_empty
         result.each do |screenshot|
-          expect(screenshot).to be_an_instance_of(Rsteamshot::Screenshot)
-          expect(screenshot.details_url).to_not be_nil
-          expect(screenshot.full_size_url).to_not be_nil
-          expect(screenshot.medium_url).to_not be_nil
-          expect(screenshot.user_name).to_not be_nil
-          expect(screenshot.user_url).to_not be_nil
+          expect(screenshot).to be_a_screenshot
         end
 
         first_screenshot = result.first
@@ -211,12 +176,7 @@ RSpec.describe Rsteamshot::App do
 
       expect(result.size).to eq(per_page)
       result.each do |screenshot|
-        expect(screenshot).to be_an_instance_of(Rsteamshot::Screenshot)
-        expect(screenshot.details_url).to_not be_nil
-        expect(screenshot.full_size_url).to_not be_nil
-        expect(screenshot.medium_url).to_not be_nil
-        expect(screenshot.user_name).to_not be_nil
-        expect(screenshot.user_url).to_not be_nil
+        expect(screenshot).to be_a_screenshot
       end
 
       first_screenshot = result.first
@@ -232,12 +192,7 @@ RSpec.describe Rsteamshot::App do
 
       expect(result.size).to eq(per_page)
       result.each do |screenshot|
-        expect(screenshot).to be_an_instance_of(Rsteamshot::Screenshot)
-        expect(screenshot.details_url).to_not be_nil
-        expect(screenshot.full_size_url).to_not be_nil
-        expect(screenshot.medium_url).to_not be_nil
-        expect(screenshot.user_name).to_not be_nil
-        expect(screenshot.user_url).to_not be_nil
+        expect(screenshot).to be_a_screenshot
       end
 
       first_screenshot = result.first
