@@ -29,6 +29,28 @@ RSpec::Matchers.define :be_a_screenshot do
       !screenshot.medium_url.nil? &&
       !screenshot.user_name.nil? &&
       !screenshot.like_count.nil? &&
+      !screenshot.comment_count.nil? &&
       !screenshot.user_url.nil?
+  end
+  failure_message do |screenshot|
+    if screenshot.class == Rsteamshot::Screenshot
+      if screenshot.details_url.nil?
+        "details_url should not be nil"
+      elsif screenshot.full_size_url.nil?
+        "full_size_url should not be nil"
+      elsif screenshot.medium_url.nil?
+        "medium_url should not be nil"
+      elsif screenshot.user_name.nil?
+        "user_name should not be nil"
+      elsif screenshot.like_count.nil?
+        "like_count should not be nil"
+      elsif screenshot.comment_count.nil?
+        "comment_count should not be nil"
+      elsif screenshot.user_url.nil?
+        "user_url should not be nil"
+      end
+    else
+      "got #{screenshot.class.name}, expected Rsteamshot::Screenshot"
+    end
   end
 end

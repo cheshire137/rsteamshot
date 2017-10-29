@@ -84,6 +84,8 @@
     
     <li ><a href="#method-c-new">::new</a>
     
+    <li ><a href="#method-i-inspect">#inspect</a>
+    
     <li ><a href="#method-i-to_h">#to_h</a>
     
     <li ><a href="#method-i-to_json">#to_json</a>
@@ -145,6 +147,22 @@ in a Steam app.</p>
         <h3>Attributes</h3>
       </header>
 
+      
+      <div id="attribute-i-comment_count" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">comment_count</span><span
+            class="attribute-access-type">[R]</span>
+        </div>
+
+        <div class="method-description">
+        
+        <h3 id="attribute-i-comment_count-label-Returns">Returns<span><a href="#attribute-i-comment_count-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>Returns Integer count of how many comments people have left on this
+screenshot.</p>
+        
+        </div>
+      </div>
       
       <div id="attribute-i-date" class="method-detail">
         <div class="method-heading attribute-method-heading">
@@ -373,6 +391,9 @@ screenshot.</p>
 </dd><dt>:like_count
 <dd>
 <p>number of likes this screenshot has on Steam</p>
+</dd><dt>:comment_count
+<dd>
+<p>number of comments this screenshot has received on Steam</p>
 </dd></dl>
 </dd></dl>
           
@@ -380,7 +401,7 @@ screenshot.</p>
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/rsteamshot/screenshot.rb, line 52</span>
+            <pre><span class="ruby-comment"># File lib/rsteamshot/screenshot.rb, line 56</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">attrs</span> = {})
   <span class="ruby-identifier">attrs</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span> <span class="ruby-identifier">instance_variable_set</span>(<span class="ruby-node">&quot;@#{key}&quot;</span>, <span class="ruby-identifier">value</span>) }
 
@@ -402,6 +423,43 @@ screenshot.</p>
        <header>
          <h3>Public Instance Methods</h3>
        </header>
+
+    
+      <div id="method-i-inspect" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">inspect</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>A detailed representation of this screenshot.</p>
+
+<h3 id="method-i-inspect-label-Returns">Returns<span><a href="#method-i-inspect-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>Returns a String.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="inspect-source">
+            <pre><span class="ruby-comment"># File lib/rsteamshot/screenshot.rb, line 91</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">inspect</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">name</span> <span class="ruby-operator">+</span> <span class="ruby-string">&#39;&lt;&#39;</span> <span class="ruby-operator">+</span> <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">generate</span>(<span class="ruby-identifier">to_h</span>) <span class="ruby-operator">+</span> <span class="ruby-string">&#39;&gt;&#39;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
 
     
       <div id="method-i-to_h" class="method-detail ">
@@ -427,7 +485,7 @@ screenshot.</p>
 
           
           <div class="method-source-code" id="to_h-source">
-            <pre><span class="ruby-comment"># File lib/rsteamshot/screenshot.rb, line 61</span>
+            <pre><span class="ruby-comment"># File lib/rsteamshot/screenshot.rb, line 65</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">to_h</span>
   <span class="ruby-identifier">result</span> = { <span class="ruby-identifier">details_url</span><span class="ruby-operator">:</span> <span class="ruby-identifier">details_url</span> }
   <span class="ruby-identifier">result</span>[<span class="ruby-value">:title</span>] = <span class="ruby-identifier">title</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">title</span>
@@ -440,6 +498,7 @@ screenshot.</p>
   <span class="ruby-identifier">result</span>[<span class="ruby-value">:width</span>] = <span class="ruby-identifier">width</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">width</span>
   <span class="ruby-identifier">result</span>[<span class="ruby-value">:height</span>] = <span class="ruby-identifier">height</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">height</span>
   <span class="ruby-identifier">result</span>[<span class="ruby-value">:like_count</span>] = <span class="ruby-identifier">like_count</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">like_count</span>
+  <span class="ruby-identifier">result</span>[<span class="ruby-value">:comment_count</span>] = <span class="ruby-identifier">comment_count</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">comment_count</span>
   <span class="ruby-identifier">result</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -475,7 +534,7 @@ screenshot.</p>
 
           
           <div class="method-source-code" id="to_json-source">
-            <pre><span class="ruby-comment"># File lib/rsteamshot/screenshot.rb, line 79</span>
+            <pre><span class="ruby-comment"># File lib/rsteamshot/screenshot.rb, line 84</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">to_json</span>
   <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">pretty_generate</span>(<span class="ruby-identifier">to_h</span>)
 <span class="ruby-keyword">end</span></pre>

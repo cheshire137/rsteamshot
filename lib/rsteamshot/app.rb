@@ -126,15 +126,16 @@ module Rsteamshot
       title = title_from(card)
       user_link = user_link_from(card)
       user_name = if user_link
-        user_link.text.strip
+        user_link.text.strip.gsub(/[[:space:]]\z/, '')
       end
       user_url = if user_link
         user_link['href']
       end
       like_count = like_count_from(card)
+      comment_count = comment_count_from(card)
       Screenshot.new(details_url: details_url, title: title, medium_url: medium_url,
                      full_size_url: full_size_url, user_name: user_name,
-                     user_url: user_url, like_count: like_count)
+                     user_url: user_url, like_count: like_count, comment_count: comment_count)
     end
 
     def urls_from(card)
@@ -150,9 +151,26 @@ module Rsteamshot
 
     def like_count_from(card)
       card_rating = card.at('.apphub_CardRating')
-      return unless card_rating
+      return 0 unless card_rating
 
-      card_rating.text.strip.to_i
+      text = card_rating.text.strip.gsub(/[[:space:]]\z/, '')
+      if text.length > 0
+        text.to_i
+      else
+        0
+      end
+    end
+
+    def comment_count_from(card)
+      comments_el = card.at('.apphub_CardCommentCount')
+      return 0 unless comments_el
+
+      text = comments_el.text.strip.gsub(/[[:space:]]\z/, '')
+      if text.length > 0
+        text.to_i
+      else
+        0
+      end
     end
 
     def full_size_url_from(medium_url)

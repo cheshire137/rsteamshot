@@ -35,6 +35,9 @@ module Rsteamshot
     # Public: Returns Integer count of how many people have voted for this screenshot.
     attr_reader :like_count
 
+    # Public: Returns Integer count of how many comments people have left on this screenshot.
+    attr_reader :comment_count
+
     # Public: Initialize a screenshot with the given attributes.
     #
     # attrs - the Hash of attributes for this screenshot
@@ -49,6 +52,7 @@ module Rsteamshot
     #         :width - pixel width of the screenshot
     #         :height - pixel height of the screenshot
     #         :like_count - number of likes this screenshot has on Steam
+    #         :comment_count - number of comments this screenshot has received on Steam
     def initialize(attrs = {})
       attrs.each { |key, value| instance_variable_set("@#{key}", value) }
 
@@ -70,6 +74,7 @@ module Rsteamshot
       result[:width] = width if width
       result[:height] = height if height
       result[:like_count] = like_count if like_count
+      result[:comment_count] = comment_count if comment_count
       result
     end
 
@@ -78,6 +83,13 @@ module Rsteamshot
     # Returns a String.
     def to_json
       JSON.pretty_generate(to_h)
+    end
+
+    # Public: A detailed representation of this screenshot.
+    #
+    # Returns a String.
+    def inspect
+      self.class.name + '<' + JSON.generate(to_h) + '>'
     end
 
     private
@@ -95,6 +107,7 @@ module Rsteamshot
 
         @medium_url = medium_url_from(page)
         @like_count = like_count_from(page)
+        @comment_count = comment_count_from(page)
 
         author = page.at('.creatorsBlock')
         @user_name = user_name_from(author)
@@ -105,13 +118,13 @@ module Rsteamshot
           labels_container = details_block.at('.detailsStatsContainerLeft')
           if labels_container
             label_els = labels_container.search('.detailsStatLeft')
-            labels = label_els.map { |el| el.text.strip }
+            labels = label_els.map { |el| el.text.strip.gsub(/[[:space:]]\z/, '') }
           end
 
           values_container = details_block.at('.detailsStatsContainerRight')
           if values_container
             value_els = values_container.search('.detailsStatRight')
-            values = value_els.map { |el| el.text.strip }
+            values = value_els.map { |el| el.text.strip.gsub(/[[:space:]]\z/, '') }
           end
 
           labelled_values = labels.zip(values).to_h
@@ -139,9 +152,29 @@ module Rsteamshot
 
     def like_count_from(page)
       rate_el = page.at('.rateUpCount')
-      return unless rate_el
+      return 0 unless rate_el
 
-      rate_el.text.strip.to_i
+      text = rate_el.text.strip.gsub(/[[:space:]]\z/, '')
+      if text.length > 0
+        text.to_i
+      else
+        0
+      end
+    end
+
+    def comment_count_from(page)
+      header_el = page.at('.commentthread_count_label')
+      return 0 unless header_el
+
+      span = header_el.at('span')
+      return 0 unless span
+
+      text = span.text.strip.gsub(/[[:space:]]\z/, '')
+      if text.length > 0
+        text.to_i
+      else
+        0
+      end
     end
 
     def user_name_from(author)
@@ -150,7 +183,7 @@ module Rsteamshot
 
       all_text = container.text
       online_status = container.at('.friendSmallText')
-      return all_text.strip unless online_status
+      return all_text.strip.gsub(/[[:space:]]\z/, '') unless online_status
 
       status_text = online_status.text
       index = all_text.index(status_text)
@@ -161,7 +194,7 @@ module Rsteamshot
         all_text
       end
 
-      user_name_text.strip
+      user_name_text.strip.gsub(/[[:space:]]\z/, '')
     end
 
     def user_url_from(author)
