@@ -272,15 +272,14 @@ Integer</p>
             <pre><span class="ruby-comment"># File lib/rsteamshot/user.rb, line 30</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">screenshots</span>(<span class="ruby-identifier">order</span><span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">page</span><span class="ruby-operator">:</span> <span class="ruby-value">1</span>, <span class="ruby-identifier">per_page</span><span class="ruby-operator">:</span> <span class="ruby-value">10</span>)
   <span class="ruby-identifier">result</span> = []
+  <span class="ruby-identifier">base_url</span> = <span class="ruby-identifier">steam_url</span>(<span class="ruby-identifier">order</span>)
 
   <span class="ruby-identifier">page</span> = [<span class="ruby-identifier">page</span>.<span class="ruby-identifier">to_i</span>, <span class="ruby-value">1</span>].<span class="ruby-identifier">max</span>
   <span class="ruby-identifier">per_page</span> = <span class="ruby-identifier">get_per_page</span>(<span class="ruby-identifier">per_page</span>)
   <span class="ruby-identifier">offset</span> = (<span class="ruby-identifier">page</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>) <span class="ruby-operator">*</span> <span class="ruby-identifier">per_page</span>
 
-  <span class="ruby-identifier">html</span> = <span class="ruby-identifier">fetch_steam_page</span>(<span class="ruby-identifier">offset</span>, <span class="ruby-identifier">order</span>)
-
-  <span class="ruby-identifier">links</span> = <span class="ruby-identifier">html</span>.<span class="ruby-identifier">search</span>(<span class="ruby-string">&#39;#image_wall .imageWallRow .profile_media_item&#39;</span>)
-  <span class="ruby-identifier">links</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">link</span><span class="ruby-operator">|</span> <span class="ruby-identifier">screenshot_from</span>(<span class="ruby-identifier">link</span>) }
+  <span class="ruby-identifier">screenshots</span> = <span class="ruby-identifier">fetch_all_screenshots</span>(<span class="ruby-identifier">offset</span>, <span class="ruby-identifier">base_url</span>)
+  <span class="ruby-identifier">screenshots</span>.<span class="ruby-identifier">drop</span>(<span class="ruby-identifier">offset</span>).<span class="ruby-identifier">take</span>(<span class="ruby-identifier">per_page</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           

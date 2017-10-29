@@ -88,6 +88,10 @@
     
     <li ><a href="#method-i-includes_screenshot-3F">#includes_screenshot?</a>
     
+    <li ><a href="#method-i-max_screenshot">#max_screenshot</a>
+    
+    <li ><a href="#method-i-min_screenshot">#min_screenshot</a>
+    
   </ul>
 </div>
 
@@ -143,9 +147,83 @@
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/rsteamshot/screenshot_page.rb, line 10</span>
+            <pre><span class="ruby-comment"># File lib/rsteamshot/screenshot_page.rb, line 13</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">number</span>)
   <span class="ruby-ivar">@number</span> = <span class="ruby-identifier">number</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Instance Methods</h3>
+       </header>
+
+    
+      <div id="method-i-max_screenshot" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">max_screenshot</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="max_screenshot-source">
+            <pre><span class="ruby-comment"># File lib/rsteamshot/screenshot_page.rb, line 31</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">max_screenshot</span>
+  <span class="ruby-identifier">min_screenshot</span> <span class="ruby-operator">+</span> <span class="ruby-constant">STEAM_PER_PAGE</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-min_screenshot" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">min_screenshot</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="min_screenshot-source">
+            <pre><span class="ruby-comment"># File lib/rsteamshot/screenshot_page.rb, line 27</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">min_screenshot</span>
+  (<span class="ruby-identifier">number</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>) <span class="ruby-operator">*</span> <span class="ruby-constant">STEAM_PER_PAGE</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -216,6 +294,21 @@ profile.</p>
         </div>
       </div>
       
+      <div id="attribute-i-screenshots" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">screenshots</span><span
+            class="attribute-access-type">[R]</span>
+        </div>
+
+        <div class="method-description">
+        
+        <h3 id="attribute-i-screenshots-label-Returns">Returns<span><a href="#attribute-i-screenshots-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>Returns an Array of the Rsteamshot::Screenshots found on this page.</p>
+        
+        </div>
+      </div>
+      
     </section>
     
 
@@ -230,7 +323,7 @@ profile.</p>
         
         <div class="method-heading">
           <span class="method-name">fetch</span><span
-            class="method-args">(base_url)</span>
+            class="method-args">(base_url) { |html| ... }</span>
           
           <span class="method-click-advice">click to toggle source</span>
           
@@ -249,13 +342,14 @@ profile.</p>
 
           
           <div class="method-source-code" id="fetch-source">
-            <pre><span class="ruby-comment"># File lib/rsteamshot/screenshot_page.rb, line 27</span>
+            <pre><span class="ruby-comment"># File lib/rsteamshot/screenshot_page.rb, line 38</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">fetch</span>(<span class="ruby-identifier">base_url</span>)
-  <span class="ruby-keyword">return</span> <span class="ruby-ivar">@html</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@html</span> <span class="ruby-comment"># already fetched</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@screenshots</span> <span class="ruby-comment"># already fetched</span>
 
   <span class="ruby-identifier">url</span> = <span class="ruby-identifier">steam_url</span>(<span class="ruby-identifier">base_url</span>)
-  <span class="ruby-constant">Mechanize</span>.<span class="ruby-identifier">new</span>.<span class="ruby-identifier">get</span>(<span class="ruby-identifier">url</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">html</span><span class="ruby-operator">|</span> <span class="ruby-ivar">@html</span> = <span class="ruby-identifier">html</span> }
-  <span class="ruby-ivar">@html</span>
+  <span class="ruby-constant">Mechanize</span>.<span class="ruby-identifier">new</span>.<span class="ruby-identifier">get</span>(<span class="ruby-identifier">url</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">html</span><span class="ruby-operator">|</span>
+    <span class="ruby-ivar">@screenshots</span> = <span class="ruby-keyword">yield</span>(<span class="ruby-identifier">html</span>)
+  <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -295,7 +389,7 @@ Steam page has `STEAM_PER_PAGE` screenshots.</p>
 
           
           <div class="method-source-code" id="includes_screenshot-3F-source">
-            <pre><span class="ruby-comment"># File lib/rsteamshot/screenshot_page.rb, line 20</span>
+            <pre><span class="ruby-comment"># File lib/rsteamshot/screenshot_page.rb, line 23</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">includes_screenshot?</span>(<span class="ruby-identifier">screenshot_number</span>)
   <span class="ruby-identifier">range</span>.<span class="ruby-identifier">cover?</span>(<span class="ruby-identifier">screenshot_number</span>)
 <span class="ruby-keyword">end</span></pre>
