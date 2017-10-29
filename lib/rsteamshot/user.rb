@@ -14,10 +14,16 @@ module Rsteamshot
     # Public: Initialize a Steam user with the given user name.
     #
     # user_name - a String
-    def initialize(user_name)
+    # per_page - how many screenshots to get in each page; defaults to 10; valid range: 1-50;
+    #            Integer
+    def initialize(user_name, per_page: 10)
       @user_name = user_name
-      html_processor = ->(html) { process_html(html) }
-      @paginator = ScreenshotPaginator.new(html_processor, STEAM_PER_PAGE)
+
+      process_html = ->(html) do
+        links_from(html).map { |link| screenshot_from(link) }
+      end
+      @paginator = ScreenshotPaginator.new(process_html, max_per_page: STEAM_PER_PAGE,
+                                           per_page: per_page, steam_per_page: STEAM_PER_PAGE)
     end
 
     # Public: Fetch a list of the user's newest uploaded screenshots.
@@ -25,19 +31,18 @@ module Rsteamshot
     # order - String specifying which screenshots should be retrieved; choose from newestfirst,
     #         score, and oldestfirst; defaults to newestfirst
     # page - which page of results to fetch; defaults to 1; Integer
-    # per_page - how many results to get in each page; defaults to 10; valid range: 1-50; Integer
     #
     # Returns an Array of Rsteamshot::Screenshots.
-    def screenshots(order: nil, page: 1, per_page: 10)
+    def screenshots(order: nil, page: 1)
       return [] unless user_name
-      @paginator.screenshots(page: page, per_page: per_page, url: steam_url(order))
+
+      @paginator.screenshots(page: page, url: steam_url(order))
     end
 
     private
 
-    def process_html(html)
-      links = html.search('#image_wall .imageWallRow .profile_media_item')
-      links.map { |link| screenshot_from(link) }
+    def links_from(html)
+      html.search('#image_wall .imageWallRow .profile_media_item')
     end
 
     def screenshot_from(link)

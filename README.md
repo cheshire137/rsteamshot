@@ -27,10 +27,10 @@ Or install it yourself as:
 ```ruby
 # Get screenshots uploaded by a Steam user:
 steam_user_name = 'cheshire137'
-user = Rsteamshot::User.new(steam_user_name)
+user = Rsteamshot::User.new(steam_user_name, per_page: 10)
 order = 'newestfirst' # also: score, oldestfirst
-screenshots = user.screenshots(order: order, per_page: 10)
-screenshots += user.screenshots(order: order, page: 2, per_page: 10)
+screenshots = user.screenshots(order: order)
+screenshots += user.screenshots(order: order, page: 2)
 
 # Find a Steam app by name:
 apps_path = 'apps-list.json'
@@ -40,13 +40,13 @@ app = apps.first
 
 # Initialize an app directly if you know its ID:
 app_id = '377160'
-app = Rsteamshot::App.new(app_id)
+app = Rsteamshot::App.new(id: app_id, per_page: 10)
 
 # Get screenshots uploaded for a Steam game:
 order = 'mostrecent' # also: toprated, trendday, trendweek, trendthreemonths, trendsixmonths,
                      # trendyear
-screenshots = app.screenshots(order: order, per_page: 10)
-screenshots += app.screenshots(order: order, page: 2, per_page: 10)
+screenshots = app.screenshots(order: order)
+screenshots += app.screenshots(order: order, page: 2)
 
 # Data available for each screenshot:
 screenshots.each do |screenshot|

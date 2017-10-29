@@ -160,6 +160,21 @@
         </div>
       </div>
       
+      <div id="attribute-i-per_page" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">per_page</span><span
+            class="attribute-access-type">[R]</span>
+        </div>
+
+        <div class="method-description">
+        
+        <h3 id="attribute-i-per_page-label-Returns">Returns<span><a href="#attribute-i-per_page-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>Returns the Integer count of how many screenshots to fetch per page.</p>
+        
+        </div>
+      </div>
+      
       <div id="attribute-i-screenshots" class="method-detail">
         <div class="method-heading attribute-method-heading">
           <span class="method-name">screenshots</span><span
@@ -171,21 +186,6 @@
         <h3 id="attribute-i-screenshots-label-Returns">Returns<span><a href="#attribute-i-screenshots-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h3>
 
 <p>Returns an Array of the Rsteamshot::Screenshots found on this page.</p>
-        
-        </div>
-      </div>
-      
-      <div id="attribute-i-steam_per_page" class="method-detail">
-        <div class="method-heading attribute-method-heading">
-          <span class="method-name">steam_per_page</span><span
-            class="attribute-access-type">[R]</span>
-        </div>
-
-        <div class="method-description">
-        
-        <h3 id="attribute-i-steam_per_page-label-Returns">Returns<span><a href="#attribute-i-steam_per_page-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h3>
-
-<p>Returns the Integer count of how many screenshots appear on the Steam page.</p>
         
         </div>
       </div>
@@ -204,7 +204,7 @@
         
         <div class="method-heading">
           <span class="method-name">new</span><span
-            class="method-args">(number, steam_per_page)</span>
+            class="method-args">(number, per_page)</span>
           
           <span class="method-click-advice">click to toggle source</span>
           
@@ -218,7 +218,7 @@ given page number.</p>
 <dl class="rdoc-list note-list"><dt>number
 <dd>
 <p>the page number; Integer</p>
-</dd><dt><a href="ScreenshotPage.html#attribute-i-steam_per_page">#steam_per_page</a>
+</dd><dt><a href="ScreenshotPage.html#attribute-i-per_page">#per_page</a>
 <dd>
 <p>how many screenshots are shown on the Steam page</p>
 </dd></dl>
@@ -228,9 +228,9 @@ given page number.</p>
           
           <div class="method-source-code" id="new-source">
             <pre><span class="ruby-comment"># File lib/rsteamshot/screenshot_page.rb, line 17</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">number</span>, <span class="ruby-identifier">steam_per_page</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">number</span>, <span class="ruby-identifier">per_page</span>)
   <span class="ruby-ivar">@number</span> = <span class="ruby-identifier">number</span>
-  <span class="ruby-ivar">@steam_per_page</span> = <span class="ruby-identifier">steam_per_page</span>
+  <span class="ruby-ivar">@per_page</span> = <span class="ruby-identifier">per_page</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           

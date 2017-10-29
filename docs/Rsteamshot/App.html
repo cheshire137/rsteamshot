@@ -151,9 +151,9 @@ that were taken in that app that Steam users have uploaded.</p>
         <dd><p>The API URL to get a list of apps on Steam.</p>
         
       
-        <dt id="STEAM_PER_PAGE">STEAM_PER_PAGE
+        <dt id="MAX_PER_PAGE">MAX_PER_PAGE
         
-        <dd><p>How many screenshots are shown on a Steam app&#39;s page.</p>
+        <dd><p>You can fetch this many screenshots at once.</p>
         
       
         <dt id="VALID_ORDERS">VALID_ORDERS
@@ -279,6 +279,10 @@ Steam.</p>
 </dd><dt>:name
 <dd>
 <p>the String name of the app</p>
+</dd><dt>:per_page
+<dd>
+<p>how many results to get in each page; defaults to 10; valid range: 1-50;
+Integer</p>
 </dd></dl>
 </dd></dl>
           
@@ -286,12 +290,17 @@ Steam.</p>
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/rsteamshot/app.rb, line 87</span>
+            <pre><span class="ruby-comment"># File lib/rsteamshot/app.rb, line 89</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">attrs</span> = {})
+  <span class="ruby-identifier">per_page</span> = <span class="ruby-identifier">attrs</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:per_page</span>)
+
   <span class="ruby-identifier">attrs</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span> <span class="ruby-identifier">instance_variable_set</span>(<span class="ruby-node">&quot;@#{key}&quot;</span>, <span class="ruby-identifier">value</span>) }
 
-  <span class="ruby-identifier">html_processor</span> = <span class="ruby-operator">-</span><span class="ruby-operator">&gt;</span>(<span class="ruby-identifier">html</span>) { <span class="ruby-identifier">process_html</span>(<span class="ruby-identifier">html</span>) }
-  <span class="ruby-ivar">@paginator</span> = <span class="ruby-constant">ScreenshotPaginator</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">html_processor</span>, <span class="ruby-constant">STEAM_PER_PAGE</span>)
+  <span class="ruby-identifier">process_html</span> = <span class="ruby-operator">-</span><span class="ruby-operator">&gt;</span>(<span class="ruby-identifier">html</span>) <span class="ruby-keyword">do</span>
+    <span class="ruby-identifier">cards_from</span>(<span class="ruby-identifier">html</span>).<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">card</span><span class="ruby-operator">|</span> <span class="ruby-identifier">screenshot_from</span>(<span class="ruby-identifier">card</span>) }
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-ivar">@paginator</span> = <span class="ruby-constant">ScreenshotPaginator</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">process_html</span>, <span class="ruby-identifier">max_per_page</span><span class="ruby-operator">:</span> <span class="ruby-constant">MAX_PER_PAGE</span>,
+                                       <span class="ruby-identifier">per_page</span><span class="ruby-operator">:</span> <span class="ruby-identifier">per_page</span>, <span class="ruby-identifier">steam_per_page</span><span class="ruby-operator">:</span> <span class="ruby-identifier">per_page</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -395,7 +404,7 @@ Steam.</p>
         
         <div class="method-heading">
           <span class="method-name">screenshots</span><span
-            class="method-args">(order: nil, page: 1, per_page: 10)</span>
+            class="method-args">(order: nil, page: 1)</span>
           
           <span class="method-click-advice">click to toggle source</span>
           
@@ -413,10 +422,6 @@ trendsixmonths, and trendyear; defaults to mostrecent</p>
 </dd><dt>page
 <dd>
 <p>which page of results to fetch; defaults to 1; Integer</p>
-</dd><dt>per_page
-<dd>
-<p>how many results to get in each page; defaults to 10; valid range: 1-10;
-Integer</p>
 </dd></dl>
 
 <h3 id="method-i-screenshots-label-Returns">Returns<span><a href="#method-i-screenshots-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h3>
@@ -427,11 +432,12 @@ Integer</p>
 
           
           <div class="method-source-code" id="screenshots-source">
-            <pre><span class="ruby-comment"># File lib/rsteamshot/app.rb, line 103</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">screenshots</span>(<span class="ruby-identifier">order</span><span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">page</span><span class="ruby-operator">:</span> <span class="ruby-value">1</span>, <span class="ruby-identifier">per_page</span><span class="ruby-operator">:</span> <span class="ruby-value">10</span>)
+            <pre><span class="ruby-comment"># File lib/rsteamshot/app.rb, line 109</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">screenshots</span>(<span class="ruby-identifier">order</span><span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">page</span><span class="ruby-operator">:</span> <span class="ruby-value">1</span>)
   <span class="ruby-keyword">return</span> [] <span class="ruby-keyword">unless</span> <span class="ruby-identifier">id</span>
 
-  <span class="ruby-ivar">@paginator</span>.<span class="ruby-identifier">screenshots</span>(<span class="ruby-identifier">page</span><span class="ruby-operator">:</span> <span class="ruby-identifier">page</span>, <span class="ruby-identifier">per_page</span><span class="ruby-operator">:</span> <span class="ruby-identifier">per_page</span>, <span class="ruby-identifier">url</span><span class="ruby-operator">:</span> <span class="ruby-identifier">steam_url</span>(<span class="ruby-identifier">order</span>))
+  <span class="ruby-identifier">url</span> = <span class="ruby-identifier">steam_url</span>(<span class="ruby-identifier">order</span>, <span class="ruby-ivar">@paginator</span>.<span class="ruby-identifier">per_page</span>)
+  <span class="ruby-ivar">@paginator</span>.<span class="ruby-identifier">screenshots</span>(<span class="ruby-identifier">page</span><span class="ruby-operator">:</span> <span class="ruby-identifier">page</span>, <span class="ruby-identifier">url</span><span class="ruby-operator">:</span> <span class="ruby-identifier">url</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           

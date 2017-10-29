@@ -84,6 +84,8 @@
     
     <li ><a href="#method-c-new">::new</a>
     
+    <li ><a href="#method-i-per_page">#per_page</a>
+    
     <li ><a href="#method-i-screenshots">#screenshots</a>
     
   </ul>
@@ -150,7 +152,7 @@ per page.</p>
         
         <div class="method-heading">
           <span class="method-name">new</span><span
-            class="method-args">(process_html, max_per_page)</span>
+            class="method-args">(process_html, max_per_page:, per_page: 10, steam_per_page:)</span>
           
           <span class="method-click-advice">click to toggle source</span>
           
@@ -169,18 +171,28 @@ page</p>
 </dd><dt>max_per_page
 <dd>
 <p>the most screenshots that can be returned in a page, based on how many
-screenshots are shown on the Steam page</p>
+screenshots can be shown on the Steam page</p>
+</dd><dt><a href="ScreenshotPaginator.html#method-i-per_page">#per_page</a>
+<dd>
+<p>how many screenshots you want returned; Integer; should be less than or
+equal to max_per_page</p>
+</dd><dt>steam_per_page
+<dd>
+<p>how many screenshots will actually be on the Steam page; Integer; should be
+less than or equal to max_per_page</p>
 </dd></dl>
           
           
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/rsteamshot/screenshot_paginator.rb, line 12</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">process_html</span>, <span class="ruby-identifier">max_per_page</span>)
+            <pre><span class="ruby-comment"># File lib/rsteamshot/screenshot_paginator.rb, line 16</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">process_html</span>, <span class="ruby-identifier">max_per_page</span>,, <span class="ruby-identifier">per_page</span><span class="ruby-operator">:</span> <span class="ruby-value">10</span>, <span class="ruby-identifier">steam_per_page</span>))
   <span class="ruby-ivar">@process_html</span> = <span class="ruby-identifier">process_html</span>
   <span class="ruby-ivar">@screenshot_pages</span> = []
   <span class="ruby-ivar">@max_per_page</span> = <span class="ruby-identifier">max_per_page</span>
+  <span class="ruby-ivar">@raw_per_page</span> = <span class="ruby-identifier">per_page</span>
+  <span class="ruby-ivar">@steam_per_page</span> = <span class="ruby-identifier">normalize_per_page</span>(<span class="ruby-identifier">steam_per_page</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -200,11 +212,46 @@ screenshots are shown on the Steam page</p>
        </header>
 
     
+      <div id="method-i-per_page" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">per_page</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <h3 id="method-i-per_page-label-Returns">Returns<span><a href="#method-i-per_page-label-Returns">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>Returns the Integer count of screenshots per page.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="per_page-source">
+            <pre><span class="ruby-comment"># File lib/rsteamshot/screenshot_paginator.rb, line 25</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">per_page</span>
+  <span class="ruby-ivar">@per_page</span> = <span class="ruby-identifier">normalize_per_page</span>(<span class="ruby-ivar">@raw_per_page</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
       <div id="method-i-screenshots" class="method-detail ">
         
         <div class="method-heading">
           <span class="method-name">screenshots</span><span
-            class="method-args">(page: 1, per_page: 10, url:)</span>
+            class="method-args">(page: 1, url:)</span>
           
           <span class="method-click-advice">click to toggle source</span>
           
@@ -217,9 +264,6 @@ screenshots are shown on the Steam page</p>
 <dl class="rdoc-list note-list"><dt>page
 <dd>
 <p>which page of results to fetch; Integer; defaults to 1</p>
-</dd><dt>per_page
-<dd>
-<p>how many screenshots to fetch at a time; Integer; defaults to 10</p>
 </dd><dt>url
 <dd>
 <p>URL to a Steam page with screenshots, should not include a page parameter;
@@ -234,10 +278,9 @@ String</p>
 
           
           <div class="method-source-code" id="screenshots-source">
-            <pre><span class="ruby-comment"># File lib/rsteamshot/screenshot_paginator.rb, line 25</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">screenshots</span>(<span class="ruby-identifier">page</span><span class="ruby-operator">:</span> <span class="ruby-value">1</span>, <span class="ruby-identifier">per_page</span><span class="ruby-operator">:</span> <span class="ruby-value">10</span>, <span class="ruby-identifier">url</span>))
-  <span class="ruby-identifier">per_page</span> = <span class="ruby-identifier">get_per_page</span>(<span class="ruby-identifier">per_page</span>)
-  <span class="ruby-identifier">offset</span> = <span class="ruby-identifier">get_offset</span>(<span class="ruby-identifier">page</span>, <span class="ruby-identifier">per_page</span>)
+            <pre><span class="ruby-comment"># File lib/rsteamshot/screenshot_paginator.rb, line 35</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">screenshots</span>(<span class="ruby-identifier">page</span><span class="ruby-operator">:</span> <span class="ruby-value">1</span>, <span class="ruby-identifier">url</span>))
+  <span class="ruby-identifier">offset</span> = <span class="ruby-identifier">get_offset</span>(<span class="ruby-identifier">page</span>)
   <span class="ruby-identifier">fetch_screenshots</span>(<span class="ruby-identifier">offset</span>, <span class="ruby-identifier">url</span>).<span class="ruby-identifier">drop</span>(<span class="ruby-identifier">offset</span>).<span class="ruby-identifier">take</span>(<span class="ruby-identifier">per_page</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
