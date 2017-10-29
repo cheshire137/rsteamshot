@@ -32,6 +32,9 @@ module Rsteamshot
     # Public: Returns Integer pixel height of the screenshot.
     attr_reader :height
 
+    # Public: Returns Integer count of how many people have voted for this screenshot.
+    attr_reader :like_count
+
     # Public: Initialize a screenshot with the given attributes.
     #
     # attrs - the Hash of attributes for this screenshot
@@ -45,6 +48,7 @@ module Rsteamshot
     #         :file_size - describes how large the screenshot is, e.g., 0.547 MB
     #         :width - pixel width of the screenshot
     #         :height - pixel height of the screenshot
+    #         :like_count - number of likes this screenshot has on Steam
     def initialize(attrs = {})
       attrs.each { |key, value| instance_variable_set("@#{key}", value) }
 
@@ -65,6 +69,7 @@ module Rsteamshot
       result[:file_size] = file_size if file_size
       result[:width] = width if width
       result[:height] = height if height
+      result[:like_count] = like_count if like_count
       result
     end
 
@@ -89,6 +94,7 @@ module Rsteamshot
         @full_size_url = link['href'] if link
 
         @medium_url = medium_url_from(page)
+        @like_count = like_count_from(page)
 
         author = page.at('.creatorsBlock')
         @user_name = user_name_from(author)
@@ -129,6 +135,13 @@ module Rsteamshot
       return unless img
 
       img['src']
+    end
+
+    def like_count_from(page)
+      rate_el = page.at('.rateUpCount')
+      return unless rate_el
+
+      rate_el.text.strip.to_i
     end
 
     def user_name_from(author)

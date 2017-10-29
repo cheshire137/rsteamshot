@@ -86,6 +86,9 @@ screenshots.each do |screenshot|
   screenshot.height
   # => 1080
 
+  screenshot.like_count
+  # => 327
+
   # Utility methods:
   screenshot.to_h
   # => {:details_url=>"http://steamcommunity.com/sharedfiles/filedetails/?id=737284878", :title=>...

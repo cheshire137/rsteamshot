@@ -9,6 +9,7 @@ RSpec.describe Rsteamshot::Screenshot do
   let(:user_url) { 'http://steamcommunity.com/id/cheshire137' }
   let(:date) { DateTime.parse('2016-10-29 9:45') }
   let(:file_size) { '0.547 MB' }
+  let(:like_count) { 0 }
   let(:width) { 3840 }
   let(:height) { 2160 }
   subject(:screenshot) {
@@ -48,7 +49,8 @@ RSpec.describe Rsteamshot::Screenshot do
         file_size: file_size,
         user_name: user_name,
         user_url: user_url,
-        date: date
+        date: date,
+        like_count: like_count
       }
 
       expect(screenshot.to_h).to eq(expected)
@@ -72,6 +74,7 @@ RSpec.describe Rsteamshot::Screenshot do
       expect(json['file_size']).to eq(file_size)
       expect(json['width']).to eq(width)
       expect(json['height']).to eq(height)
+      expect(json['like_count']).to eq(like_count)
     end
   end
 end

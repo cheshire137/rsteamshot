@@ -131,9 +131,10 @@ module Rsteamshot
       user_url = if user_link
         user_link['href']
       end
+      like_count = like_count_from(card)
       Screenshot.new(details_url: details_url, title: title, medium_url: medium_url,
                      full_size_url: full_size_url, user_name: user_name,
-                     user_url: user_url)
+                     user_url: user_url, like_count: like_count)
     end
 
     def urls_from(card)
@@ -145,6 +146,13 @@ module Rsteamshot
       full_size_url = "#{uri.scheme}://#{uri.host}#{uri.path}"
 
       [medium_url, full_size_url]
+    end
+
+    def like_count_from(card)
+      card_rating = card.at('.apphub_CardRating')
+      return unless card_rating
+
+      card_rating.text.strip.to_i
     end
 
     def full_size_url_from(medium_url)

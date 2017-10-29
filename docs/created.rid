@@ -1,8 +1,8 @@
-Sun, 29 Oct 2017 18:07:56 -0500
-README.md	Sun, 29 Oct 2017 18:07:43 -0500
+Sun, 29 Oct 2017 18:15:46 -0500
+README.md	Sun, 29 Oct 2017 18:15:39 -0500
 lib/rsteamshot.rb	Sun, 29 Oct 2017 14:05:55 -0500
-lib/rsteamshot/app.rb	Sun, 29 Oct 2017 17:34:20 -0500
-lib/rsteamshot/screenshot.rb	Sat, 28 Oct 2017 17:08:14 -0500
+lib/rsteamshot/app.rb	Sun, 29 Oct 2017 18:13:24 -0500
+lib/rsteamshot/screenshot.rb	Sun, 29 Oct 2017 18:12:27 -0500
 lib/rsteamshot/screenshot_page.rb	Sun, 29 Oct 2017 17:15:34 -0500
 lib/rsteamshot/screenshot_paginator.rb	Sun, 29 Oct 2017 17:21:55 -0500
 lib/rsteamshot/user.rb	Sun, 29 Oct 2017 17:35:30 -0500
