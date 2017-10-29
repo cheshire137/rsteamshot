@@ -29,6 +29,7 @@ module Rsteamshot
     #
     # Returns an Array of Rsteamshot::Screenshots.
     def screenshots(order: nil, page: 1, per_page: 10)
+      return [] unless user_name
       @paginator.screenshots(page: page, per_page: per_page, url: steam_url(order))
     end
 
