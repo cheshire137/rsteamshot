@@ -173,7 +173,7 @@ module Rsteamshot
         "numperpage=#{per_page}"
       ]
       params << "searchText=#{URI.escape(query)}" if query
-      "http://steamcommunity.com/app/#{id}/screenshots/?" + params.join("&")
+      "http://steamcommunity.com/app/#{id}/screenshots/?" + params.join('&')
     end
 
     def browsefilter_param(order)

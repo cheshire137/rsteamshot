@@ -67,6 +67,25 @@ RSpec.describe Rsteamshot::User do
       end
     end
 
+    it 'allows filtering by app' do
+      VCR.use_cassette('user_app_screenshots') do
+        result = user.screenshots(app_id: '19680')
+
+        expect(result).to_not be_empty
+        result.each do |screenshot|
+          expect(screenshot).to be_an_instance_of(Rsteamshot::Screenshot)
+          expect(screenshot.details_url).to_not be_nil
+          expect(screenshot.full_size_url).to_not be_nil
+          expect(screenshot.medium_url).to_not be_nil
+          expect(screenshot.user_name).to_not be_nil
+          expect(screenshot.user_url).to_not be_nil
+        end
+
+        first_screenshot = result.first
+        expect(first_screenshot.details_url).to eq('http://steamcommunity.com/sharedfiles/filedetails/?id=500640837')
+      end
+    end
+
     it 'allows fetching fewer than 50 screenshots per page' do
       page1 = VCR.use_cassette('user_screenshots') do
         user.screenshots(page: 1)

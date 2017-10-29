@@ -124,6 +124,9 @@ GitHub</a></p>
 <span class="ruby-identifier">apps</span> = <span class="ruby-constant">Rsteamshot</span><span class="ruby-operator">::</span><span class="ruby-constant">App</span>.<span class="ruby-identifier">search</span>(<span class="ruby-string">&#39;witcher 3&#39;</span>, <span class="ruby-identifier">apps_path</span>)
 <span class="ruby-identifier">app</span> = <span class="ruby-identifier">apps</span>.<span class="ruby-identifier">first</span>
 
+<span class="ruby-comment"># Filter a user&#39;s screenshots to those for a particular app:</span>
+<span class="ruby-identifier">alice_screenshots</span> = <span class="ruby-identifier">user</span>.<span class="ruby-identifier">screenshots</span>(<span class="ruby-identifier">app_id</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;19680&#39;</span>)
+
 <span class="ruby-comment"># Initialize an app directly if you know its ID:</span>
 <span class="ruby-identifier">app_id</span> = <span class="ruby-string">&#39;377160&#39;</span>
 <span class="ruby-identifier">app</span> = <span class="ruby-constant">Rsteamshot</span><span class="ruby-operator">::</span><span class="ruby-constant">App</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">id</span><span class="ruby-operator">:</span> <span class="ruby-identifier">app_id</span>, <span class="ruby-identifier">per_page</span><span class="ruby-operator">:</span> <span class="ruby-value">10</span>)

@@ -31,12 +31,15 @@ module Rsteamshot
     # order - String specifying which screenshots should be retrieved; choose from newestfirst,
     #         score, and oldestfirst; defaults to newestfirst
     # page - which page of results to fetch; defaults to 1; Integer
+    # app_id - optional Steam app ID as an Integer or String, to get screenshots from this user for
+    #          the specified app; defaults to including all apps
     #
     # Returns an Array of Rsteamshot::Screenshots.
-    def screenshots(order: nil, page: 1)
+    def screenshots(order: nil, page: 1, app_id: 0)
       return [] unless user_name
 
-      @paginator.screenshots(page: page, url: steam_url(order))
+      url = steam_url(order, app_id)
+      @paginator.screenshots(page: page, url: url)
     end
 
     private
@@ -52,9 +55,15 @@ module Rsteamshot
       Screenshot.new(title: title, details_url: details_url)
     end
 
-    def steam_url(order)
-      "http://steamcommunity.com/id/#{user_name}/screenshots/?appid=0&sort=#{sort_param(order)}&" \
-        "browsefilter=myfiles&view=grid"
+    def steam_url(order, app_id = 0)
+      params = [
+        "appid=#{URI.escape(app_id.to_s)}",
+        "sort=#{sort_param(order)}",
+        'browsefilter=myfiles',
+        'view=grid'
+      ]
+      user_param = URI.escape(user_name)
+      "http://steamcommunity.com/id/#{user_param}/screenshots/?" + params.join('&')
     end
 
     def sort_param(order)

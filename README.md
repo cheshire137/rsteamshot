@@ -38,6 +38,9 @@ Rsteamshot::App.download_apps_list(apps_path)
 apps = Rsteamshot::App.search('witcher 3', apps_path)
 app = apps.first
 
+# Filter a user's screenshots to those for a particular app:
+alice_screenshots = user.screenshots(app_id: '19680')
+
 # Initialize an app directly if you know its ID:
 app_id = '377160'
 app = Rsteamshot::App.new(id: app_id, per_page: 10)
