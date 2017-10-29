@@ -10,8 +10,8 @@ Gem::Specification.new do |spec|
   spec.email         = ['cheshire137@gmail.com']
 
   spec.summary       = %q{Get Steam screenshots for different games or users.}
-  spec.description   = %q{Find the latest screenshots a user has uploaded to Steam, as well as the latest screenshots for specific games.}
-  spec.homepage      = ''
+  spec.description   = %q{Find screenshots publicly uploaded to Steam by a particular user or for a particular game. Get details like the title, how many likes and comments it has received, the dimensions and file size, and URLs for different sizes of each screenshot.}
+  spec.homepage      = 'https://github.com/cheshire137/rsteamshot'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
