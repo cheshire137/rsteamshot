@@ -67,17 +67,17 @@ RSpec.describe Rsteamshot::User do
     end
 
     it 'allows fetching fewer than 50 screenshots per page' do
-      VCR.use_cassette('user_screenshots') do
+      page1 = VCR.use_cassette('user_screenshots') do
         page1 = user.screenshots(page: 1, per_page: 10)
-        expect(page1.size).to eq(10)
-        expect(page1.first.details_url).to eq('http://steamcommunity.com/sharedfiles/filedetails/?id=1183587888')
-        expect(page1.last.details_url).to eq('http://steamcommunity.com/sharedfiles/filedetails/?id=807798663')
-
-        page2 = user.screenshots(page: 2, per_page: 10)
-        expect(page2.size).to eq(10)
-        expect(page2.first.details_url).to eq('http://steamcommunity.com/sharedfiles/filedetails/?id=807279946')
-        expect(page2.last.details_url).to eq('http://steamcommunity.com/sharedfiles/filedetails/?id=790267576')
       end
+      expect(page1.size).to eq(10)
+      expect(page1.first.details_url).to eq('http://steamcommunity.com/sharedfiles/filedetails/?id=1183587888')
+      expect(page1.last.details_url).to eq('http://steamcommunity.com/sharedfiles/filedetails/?id=807798663')
+
+      page2 = user.screenshots(page: 2, per_page: 10)
+      expect(page2.size).to eq(10)
+      expect(page2.first.details_url).to eq('http://steamcommunity.com/sharedfiles/filedetails/?id=807279946')
+      expect(page2.last.details_url).to eq('http://steamcommunity.com/sharedfiles/filedetails/?id=790267576')
     end
 
     it 'returns screenshots from the specified page' do
