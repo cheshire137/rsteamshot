@@ -138,24 +138,46 @@ GitHub</a></p>
 <span class="ruby-identifier">screenshots</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">app</span>.<span class="ruby-identifier">screenshots</span>(<span class="ruby-identifier">order</span><span class="ruby-operator">:</span> <span class="ruby-identifier">order</span>, <span class="ruby-identifier">page</span><span class="ruby-operator">:</span> <span class="ruby-value">2</span>)
 
 <span class="ruby-comment"># Search an app&#39;s screenshots:</span>
-<span class="ruby-identifier">dog_screenshots</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">screenshots</span>(<span class="ruby-identifier">query</span><span class="ruby-operator">:</span> <span class="ruby-string">&quot;dog&quot;</span>, <span class="ruby-identifier">order</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;trendweek&#39;</span>)
+<span class="ruby-identifier">dog_screenshots</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">screenshots</span>(<span class="ruby-identifier">query</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;dog&#39;</span>, <span class="ruby-identifier">order</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;trendweek&#39;</span>)
 
 <span class="ruby-comment"># Data available for each screenshot:</span>
 <span class="ruby-identifier">screenshots</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">screenshot</span><span class="ruby-operator">|</span>
-  <span class="ruby-identifier">puts</span> <span class="ruby-identifier">screenshot</span>.<span class="ruby-identifier">title</span>
-  <span class="ruby-identifier">puts</span> <span class="ruby-identifier">screenshot</span>.<span class="ruby-identifier">details_url</span>
-  <span class="ruby-identifier">puts</span> <span class="ruby-identifier">screenshot</span>.<span class="ruby-identifier">full_size_url</span>
-  <span class="ruby-identifier">puts</span> <span class="ruby-identifier">screenshot</span>.<span class="ruby-identifier">medium_url</span>
-  <span class="ruby-identifier">puts</span> <span class="ruby-identifier">screenshot</span>.<span class="ruby-identifier">user_name</span>
-  <span class="ruby-identifier">puts</span> <span class="ruby-identifier">screenshot</span>.<span class="ruby-identifier">user_url</span>
-  <span class="ruby-identifier">puts</span> <span class="ruby-identifier">screenshot</span>.<span class="ruby-identifier">date</span>
-  <span class="ruby-identifier">puts</span> <span class="ruby-identifier">screenshot</span>.<span class="ruby-identifier">file_size</span>
-  <span class="ruby-identifier">puts</span> <span class="ruby-identifier">screenshot</span>.<span class="ruby-identifier">width</span>
-  <span class="ruby-identifier">puts</span> <span class="ruby-identifier">screenshot</span>.<span class="ruby-identifier">height</span>
+  <span class="ruby-identifier">screenshot</span>.<span class="ruby-identifier">title</span>
+  <span class="ruby-comment"># =&gt; &quot;Lovely sunset in Toussaint&quot;</span>
+
+  <span class="ruby-identifier">screenshot</span>.<span class="ruby-identifier">details_url</span>
+  <span class="ruby-comment"># =&gt; &quot;http://steamcommunity.com/sharedfiles/filedetails/?id=737284878&quot;</span>
+
+  <span class="ruby-identifier">screenshot</span>.<span class="ruby-identifier">full_size_url</span>
+  <span class="ruby-comment"># =&gt; &quot;https://steamuserimages-a.akamaihd.net/ugc/1621679306978373648/FACBF0285AFB413467E0E76371E8796D8E8C263D/&quot;</span>
+
+  <span class="ruby-identifier">screenshot</span>.<span class="ruby-identifier">medium_url</span>
+  <span class="ruby-comment"># =&gt; &quot;https://steamuserimages-a.akamaihd.net/ugc/1621679306978373648/FACBF0285AFB413467E0E76371E8796D8E8C263D/?interpolation=lanczos-none&amp;output-format=jpeg&amp;output-quality=95&amp;fit=inside|1024:576&amp;composite-to%3D%2A%2C%2A%7C1024%3A576&amp;background-color=black&quot;</span>
+
+  <span class="ruby-identifier">screenshot</span>.<span class="ruby-identifier">user_name</span>
+  <span class="ruby-comment"># =&gt; &quot;cheshire137&quot;</span>
+
+  <span class="ruby-identifier">screenshot</span>.<span class="ruby-identifier">user_url</span>
+  <span class="ruby-comment"># =&gt; &quot;http://steamcommunity.com/id/cheshire137&quot;</span>
+
+  <span class="ruby-identifier">screenshot</span>.<span class="ruby-identifier">date</span>
+  <span class="ruby-comment"># =&gt; #&lt;DateTime: 2016-08-03T20:54:00+00:00 ((2457604j,75240s,0n),+0s,2299161j)&gt;</span>
+
+  <span class="ruby-identifier">screenshot</span>.<span class="ruby-identifier">file_size</span>
+  <span class="ruby-comment"># =&gt; &quot;0.367 MB&quot;</span>
+
+  <span class="ruby-identifier">screenshot</span>.<span class="ruby-identifier">width</span>
+  <span class="ruby-comment"># =&gt; 1920</span>
+
+  <span class="ruby-identifier">screenshot</span>.<span class="ruby-identifier">height</span>
+  <span class="ruby-comment"># =&gt; 1080</span>
 
   <span class="ruby-comment"># Utility methods:</span>
-  <span class="ruby-identifier">puts</span> <span class="ruby-identifier">screenshot</span>.<span class="ruby-identifier">to_h</span>
-  <span class="ruby-identifier">puts</span> <span class="ruby-identifier">screenshot</span>.<span class="ruby-identifier">to_json</span>
+  <span class="ruby-identifier">screenshot</span>.<span class="ruby-identifier">to_h</span>
+  <span class="ruby-comment"># =&gt; {:details_url=&gt;&quot;http://steamcommunity.com/sharedfiles/filedetails/?id=737284878&quot;, :title=&gt;...</span>
+
+  <span class="ruby-identifier">screenshot</span>.<span class="ruby-identifier">to_json</span>
+  <span class="ruby-comment"># =&gt; &quot;{\n  \&quot;details_url\&quot;: \&quot;http://steamcommunity.com/sharedfiles/filedetails/?id=737284878\&quot;,</span>
 <span class="ruby-keyword">end</span>
 </pre>
 

@@ -52,24 +52,46 @@ screenshots = app.screenshots(order: order)
 screenshots += app.screenshots(order: order, page: 2)
 
 # Search an app's screenshots:
-dog_screenshots = app.screenshots(query: "dog", order: 'trendweek')
+dog_screenshots = app.screenshots(query: 'dog', order: 'trendweek')
 
 # Data available for each screenshot:
 screenshots.each do |screenshot|
-  puts screenshot.title
-  puts screenshot.details_url
-  puts screenshot.full_size_url
-  puts screenshot.medium_url
-  puts screenshot.user_name
-  puts screenshot.user_url
-  puts screenshot.date
-  puts screenshot.file_size
-  puts screenshot.width
-  puts screenshot.height
+  screenshot.title
+  # => "Lovely sunset in Toussaint"
+
+  screenshot.details_url
+  # => "http://steamcommunity.com/sharedfiles/filedetails/?id=737284878"
+
+  screenshot.full_size_url
+  # => "https://steamuserimages-a.akamaihd.net/ugc/1621679306978373648/FACBF0285AFB413467E0E76371E8796D8E8C263D/"
+
+  screenshot.medium_url
+  # => "https://steamuserimages-a.akamaihd.net/ugc/1621679306978373648/FACBF0285AFB413467E0E76371E8796D8E8C263D/?interpolation=lanczos-none&output-format=jpeg&output-quality=95&fit=inside|1024:576&composite-to%3D%2A%2C%2A%7C1024%3A576&background-color=black"
+
+  screenshot.user_name
+  # => "cheshire137"
+
+  screenshot.user_url
+  # => "http://steamcommunity.com/id/cheshire137"
+
+  screenshot.date
+  # => #<DateTime: 2016-08-03T20:54:00+00:00 ((2457604j,75240s,0n),+0s,2299161j)>
+
+  screenshot.file_size
+  # => "0.367 MB"
+
+  screenshot.width
+  # => 1920
+
+  screenshot.height
+  # => 1080
 
   # Utility methods:
-  puts screenshot.to_h
-  puts screenshot.to_json
+  screenshot.to_h
+  # => {:details_url=>"http://steamcommunity.com/sharedfiles/filedetails/?id=737284878", :title=>...
+
+  screenshot.to_json
+  # => "{\n  \"details_url\": \"http://steamcommunity.com/sharedfiles/filedetails/?id=737284878\",
 end
 ```
 
