@@ -30,16 +30,18 @@ module Rsteamshot
     def screenshots(order: nil, page: 1, per_page: 10)
       result = []
       base_url = steam_url(order)
-
-      page = [page.to_i, 1].max
       per_page = get_per_page(per_page)
-      offset = (page - 1) * per_page
-
+      offset = get_offset(page, per_page)
       screenshots = fetch_all_screenshots(offset, base_url)
       screenshots.drop(offset).take(per_page)
     end
 
     private
+
+    def get_offset(page, per_page)
+      page = [page.to_i, 1].max
+      (page - 1) * per_page
+    end
 
     def fetch_all_screenshots(offset, base_url)
       screenshot_page = @screenshot_pages.detect { |page| page.includes_screenshot?(offset) }
