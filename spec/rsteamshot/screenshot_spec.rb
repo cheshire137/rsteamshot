@@ -82,4 +82,31 @@ RSpec.describe Rsteamshot::Screenshot do
       expect(json['comment_count']).to eq(comment_count)
     end
   end
+
+  describe '#file_size_in_bytes' do
+    it 'converts file_size string in B into integer of bytes' do
+      expect(screenshot).to receive(:file_size).and_return('123 B')
+      expect(screenshot.file_size_in_bytes).to equal(123)
+    end
+
+    it 'converts file_size string in KB into integer of bytes' do
+      expect(screenshot).to receive(:file_size).and_return('0.456 KB')
+      expect(screenshot.file_size_in_bytes).to equal(456)
+    end
+
+    it 'converts file_size string in kb into integer of bytes' do
+      expect(screenshot).to receive(:file_size).and_return('0.456 kb')
+      expect(screenshot.file_size_in_bytes).to equal(456)
+    end
+
+    it 'converts file_size string in MB into integer of bytes' do
+      expect(screenshot).to receive(:file_size).and_return('0.789 MB')
+      expect(screenshot.file_size_in_bytes).to equal(789000)
+    end
+
+    it 'converts file_size string in GB into integer of bytes' do
+      expect(screenshot).to receive(:file_size).and_return('0.123 GB')
+      expect(screenshot.file_size_in_bytes).to equal(123000000)
+    end
+  end
 end
