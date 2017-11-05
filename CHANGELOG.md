@@ -2,7 +2,8 @@
 
 ## 0.1.3
 
-Add ability to get an app from a screenshot via the Rsteamshot::Screenshot#app method.
+- Add ability to get an app from a screenshot via the Rsteamshot::Screenshot#app method.
+- Specify the path to the Steam apps list file in gem-wide configuration block, instead of passing it into individual methods.
 
 ## 0.1.2
 

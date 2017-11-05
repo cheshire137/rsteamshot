@@ -6,6 +6,10 @@ module Rsteamshot
     # containing Steam apps.
     class BadAppsFile < StandardError; end
 
+    # Public: Exception thrown by Rsteamshot::App#download_apps_list when there is no file path
+    # specified for saving the list of Steam apps, or it is a bad path.
+    class BadConfiguration < StandardError; end
+
     # Public: You can fetch this many screenshots at once.
     MAX_PER_PAGE = 50
 
@@ -22,12 +26,17 @@ module Rsteamshot
     # Public: Returns the String name of the Steam app, or nil.
     attr_reader :name
 
-    # Public: Writes a JSON file at the given location with the latest list of apps on Steam.
-    #
-    # path - a String file path
+    # Public: Writes a JSON file at the location specified in `Rsteamshot.configuration` with the
+    # latest list of apps on Steam.
     #
     # Returns nothing.
-    def self.download_apps_list(path)
+    def self.download_apps_list
+      path = Rsteamshot.configuration.apps_list_path
+
+      unless path && path.length > 0
+        raise BadConfiguration, 'no path configured for JSON apps list from Steam'
+      end
+
       File.open(path, 'w') do |file|
         IO.copy_stream(open(APPS_LIST_URL), file)
       end
@@ -36,14 +45,14 @@ module Rsteamshot
     # Public: Find Steam apps by name.
     #
     # raw_query - a String search query for an app or game on Steam
-    # apps_list_path - a String file path to the JSON file produced by #download_apps_list
     #
     # Returns an Array of Rsteamshot::Apps.
-    def self.search(raw_query, apps_list_path)
+    def self.search(raw_query)
       return [] unless raw_query
+      apps_list_path = Rsteamshot.configuration.apps_list_path
 
       unless apps_list_path
-        raise BadAppsFile, 'no path given to JSON apps list from Steam'
+        raise BadAppsFile, 'no path configured for JSON apps list from Steam'
       end
 
       unless File.file?(apps_list_path)

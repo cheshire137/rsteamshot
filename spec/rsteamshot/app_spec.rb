@@ -5,6 +5,11 @@ RSpec.describe Rsteamshot::App do
   let(:per_page) { 10 }
   let(:apps_list_path) { File.join('spec', 'fixtures', 'apps-list.json') }
   subject(:app) { described_class.new(id: id, per_page: per_page) }
+  before(:each) do
+    Rsteamshot.configure do |config|
+      config.apps_list_path = apps_list_path
+    end
+  end
 
   it 'uses given app ID' do
     expect(app.id).to eq(id)
@@ -13,7 +18,7 @@ RSpec.describe Rsteamshot::App do
   context '.download_apps_list' do
     it 'creates a JSON file of the latest Steam apps list' do
       VCR.use_cassette('download_apps_list') do
-        described_class.download_apps_list(apps_list_path)
+        described_class.download_apps_list
       end
 
       expect(File.file?(apps_list_path)).to eq(true)
@@ -26,7 +31,7 @@ RSpec.describe Rsteamshot::App do
 
   context '.search' do
     it 'returns apps whose name matches the given query, case insensitive' do
-      apps = described_class.search('witcher 3', apps_list_path)
+      apps = described_class.search('witcher 3')
 
       expect(apps).to_not be_empty
       apps.each do |app|
@@ -38,34 +43,55 @@ RSpec.describe Rsteamshot::App do
     end
 
     it 'raises an exception when no path is given' do
+      Rsteamshot.configure do |config|
+        config.apps_list_path = nil
+      end
+
       expect {
-        described_class.search('witcher 3', nil)
-      }.to raise_error(Rsteamshot::App::BadAppsFile, 'no path given to JSON apps list from Steam')
+        described_class.search('witcher 3')
+      }.to raise_error(Rsteamshot::App::BadAppsFile,
+                       'no path configured for JSON apps list from Steam')
     end
 
     it 'raises an exception when invalid path is given' do
+      Rsteamshot.configure do |config|
+        config.apps_list_path = 'some-nonexistent-file.json'
+      end
+
       expect {
-        described_class.search('witcher 3', 'some-nonexistent-file.json')
+        described_class.search('witcher 3')
       }.to raise_error(Rsteamshot::App::BadAppsFile, 'some-nonexistent-file.json is not a file')
     end
 
     it 'raises an exception when given path is not a JSON file' do
+      Rsteamshot.configure do |config|
+        config.apps_list_path = 'README.md'
+      end
+
       expect {
-        described_class.search('witcher 3', 'README.md')
+        described_class.search('witcher 3')
       }.to raise_error(Rsteamshot::App::BadAppsFile, 'README.md is not a valid JSON file')
     end
 
     it 'raises an exception when given path does not have applist key' do
       path = 'spec/fixtures/bad-apps-list1.json'
+      Rsteamshot.configure do |config|
+        config.apps_list_path = path
+      end
+
       expect {
-        described_class.search('witcher 3', path)
+        described_class.search('witcher 3')
       }.to raise_error(Rsteamshot::App::BadAppsFile, "#{path} does not have expected JSON format")
     end
 
     it 'raises an exception when given path does not have apps key' do
       path = 'spec/fixtures/bad-apps-list2.json'
+      Rsteamshot.configure do |config|
+        config.apps_list_path = path
+      end
+
       expect {
-        described_class.search('witcher 3', path)
+        described_class.search('witcher 3')
       }.to raise_error(Rsteamshot::App::BadAppsFile, "#{path} does not have expected JSON format")
     end
   end

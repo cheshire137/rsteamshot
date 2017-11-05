@@ -27,6 +27,12 @@ Or install it yourself as:
 ## Usage
 
 ```ruby
+# Specify where the latest list of apps from Steam should be downloaded as a JSON file, and
+# referenced when looking up app IDs:
+Rsteamshot.configure do |config|
+  config.apps_list_path = 'apps-list.json'
+end
+
 # Get screenshots uploaded by a Steam user:
 steam_user_name = 'cheshire137'
 user = Rsteamshot::User.new(steam_user_name, per_page: 10)
@@ -35,9 +41,8 @@ screenshots = user.screenshots(order: order)
 screenshots += user.screenshots(order: order, page: 2)
 
 # Find a Steam app by name:
-apps_path = 'apps-list.json'
-Rsteamshot::App.download_apps_list(apps_path)
-apps = Rsteamshot::App.search('witcher 3', apps_path)
+Rsteamshot::App.download_apps_list
+apps = Rsteamshot::App.search('witcher 3')
 app = apps.first
 
 # Filter a user's screenshots to those for a particular app:
