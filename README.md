@@ -41,7 +41,6 @@ screenshots = user.screenshots(order: order)
 screenshots += user.screenshots(order: order, page: 2)
 
 # Search Steam apps by name:
-Rsteamshot::App.download_apps_list
 apps = Rsteamshot::App.search('witcher 3')
 # => [#<Rsteamshot::App:0x007feb28b135f8 @id=292030, @name="The Witcher 3: Wild Hunt"...
 apps.size

@@ -2,12 +2,12 @@ module Rsteamshot
   # Public: Represents a Steam app, like a video game. Used to fetch the screenshots
   # that were taken in that app that Steam users have uploaded.
   class App
-    # Public: Exception thrown by Rsteamshot::App#search when the given file is not a valid file
-    # containing Steam apps.
+    # Public: Exception thrown when the configured `apps_list_path` is not a valid file containing
+    # Steam apps.
     class BadAppsFile < StandardError; end
 
-    # Public: Exception thrown by Rsteamshot::App#download_apps_list when there is no file path
-    # specified for saving the list of Steam apps, or it is a bad path.
+    # Public: Exception thrown when there is no file path configured for saving the list of Steam
+    # apps, or it is a bad path.
     class BadConfiguration < StandardError; end
 
     # Public: You can fetch this many screenshots at once.
@@ -27,7 +27,7 @@ module Rsteamshot
     attr_reader :name
 
     # Public: Writes a JSON file at the location specified in `Rsteamshot.configuration` with the
-    # latest list of apps on Steam.
+    # latest list of apps on Steam. Will be automatically called by #list.
     #
     # Returns nothing.
     def self.download_apps_list
@@ -42,6 +42,41 @@ module Rsteamshot
       end
     end
 
+    # Public: Force the list of Steam apps to be re-downloaded the next time #list is called.
+    def self.reset_list
+      @@list = nil
+    end
+
+    # Public: Read the JSON file configured in `apps_list_path` and get a list of Steam apps. Will
+    # download the latest list of Steam apps to `apps_list_path` if the file does not already exist.
+    #
+    # Returns an Array of Hashes for all the Steam apps.
+    def self.list
+      @@list ||= begin
+        path = Rsteamshot.configuration.apps_list_path
+        unless path
+          raise BadAppsFile, 'no path configured for JSON apps list from Steam'
+        end
+
+        download_apps_list unless File.file?(path)
+        raise BadAppsFile, "#{path} is not a file" unless File.file?(path)
+
+        json = begin
+          JSON.parse(File.read(path))
+        rescue JSON::ParserError
+          raise BadAppsFile, "#{path} is not a valid JSON file"
+        end
+
+        applist = json['applist']
+        raise BadAppsFile, "#{path} does not have expected JSON format" unless applist
+
+        apps = applist['apps']
+        raise BadAppsFile, "#{path} does not have expected JSON format" unless apps
+
+        apps
+      end
+    end
+
     # Public: Find Steam apps by name.
     #
     # raw_query - a String search query for an app or game on Steam
@@ -49,35 +84,10 @@ module Rsteamshot
     # Returns an Array of Rsteamshot::Apps.
     def self.search(raw_query)
       return [] unless raw_query
-      apps_list_path = Rsteamshot.configuration.apps_list_path
-
-      unless apps_list_path
-        raise BadAppsFile, 'no path configured for JSON apps list from Steam'
-      end
-
-      unless File.file?(apps_list_path)
-        raise BadAppsFile, "#{apps_list_path} is not a file"
-      end
-
-      json = begin
-        JSON.parse(File.read(apps_list_path))
-      rescue JSON::ParserError
-        raise BadAppsFile, "#{apps_list_path} is not a valid JSON file"
-      end
-
-      applist = json['applist']
-      unless applist
-        raise BadAppsFile, "#{apps_list_path} does not have expected JSON format"
-      end
-
-      apps = applist['apps']
-      unless apps
-        raise BadAppsFile, "#{apps_list_path} does not have expected JSON format"
-      end
 
       query = raw_query.downcase
       results = []
-      apps.each do |data|
+      list.each do |data|
         next unless data['name']
 
         if data['name'].downcase.include?(query)
@@ -92,9 +102,10 @@ module Rsteamshot
     #
     # name - the String name of a game or other app on Steam
     #
-    # Returns an Rsteamshot::App.
+    # Returns an Rsteamshot::App or nil.
     def self.find_by_name(name)
       apps = search(name)
+      return if apps.length < 1
 
       exact_match = apps.detect { |app| app.name.downcase == name }
       return exact_match if exact_match
@@ -102,6 +113,15 @@ module Rsteamshot
       app = apps.shift
       app = apps.shift while app.name.downcase =~ /\btrailer\b/ && apps.length > 0
       app
+    end
+
+    # Public: Find a Steam app by its ID.
+    #
+    # id - the String or Integer ID of a game or other app on Steam
+    #
+    # Returns an Rsteamshot::App or nil.
+    def self.find_by_id(id)
+
     end
 
     # Public: Initialize a Steam app with the given attributes.

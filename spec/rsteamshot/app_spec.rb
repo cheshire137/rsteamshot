@@ -7,9 +7,8 @@ RSpec.describe Rsteamshot::App do
   let(:apps_list_path) { File.join('spec', 'fixtures', 'apps-list.json') }
   subject(:app) { described_class.new(id: id, name: name, per_page: per_page) }
   before(:each) do
-    Rsteamshot.configure do |config|
-      config.apps_list_path = apps_list_path
-    end
+    Rsteamshot.configure { |config| config.apps_list_path = apps_list_path }
+    Rsteamshot::App.reset_list
   end
 
   it 'uses given app ID' do
@@ -31,6 +30,12 @@ RSpec.describe Rsteamshot::App do
   end
 
   context '.find_by_name' do
+    it 'returns nil when no such app is found' do
+      app = Rsteamshot::App.find_by_name('holy smokes this is not a game')
+
+      expect(app).to be_nil
+    end
+
     it 'returns an app whose name matches exactly, ignoring case' do
       app = Rsteamshot::App.find_by_name('the elder scrolls v: skyrim')
 
@@ -90,14 +95,17 @@ RSpec.describe Rsteamshot::App do
                        'no path configured for JSON apps list from Steam')
     end
 
-    it 'raises an exception when invalid path is given' do
+    it 'downloads the list to the specified path when file does not already exist' do
       Rsteamshot.configure do |config|
         config.apps_list_path = 'some-nonexistent-file.json'
       end
 
-      expect {
+      VCR.use_cassette('download_apps_list') do
         described_class.search('witcher 3')
-      }.to raise_error(Rsteamshot::App::BadAppsFile, 'some-nonexistent-file.json is not a file')
+      end
+
+      expect(File.file?('some-nonexistent-file.json')).to eq(true)
+      File.delete('some-nonexistent-file.json')
     end
 
     it 'raises an exception when given path is not a JSON file' do
