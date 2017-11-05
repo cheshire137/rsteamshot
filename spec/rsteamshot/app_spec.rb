@@ -29,6 +29,24 @@ RSpec.describe Rsteamshot::App do
     end
   end
 
+  context '.find_by_name' do
+    it 'returns an app whose name matches exactly, ignoring case' do
+      app = Rsteamshot::App.find_by_name('the elder scrolls v: skyrim')
+
+      expect(app).to_not be_nil
+      expect(app.id).to eq(72850)
+      expect(app.name).to eq('The Elder Scrolls V: Skyrim')
+    end
+
+    it 'does not prefer apps whose names end with "trailer"' do
+      app = Rsteamshot::App.find_by_name('oblivion')
+
+      expect(app).to_not be_nil
+      expect(app.id).to eq(22330)
+      expect(app.name).to eq('The Elder Scrolls IV: Oblivion ')
+    end
+  end
+
   context '.search' do
     it 'returns apps whose name matches the given query, case insensitive' do
       apps = described_class.search('witcher 3')

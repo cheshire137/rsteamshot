@@ -88,6 +88,22 @@ module Rsteamshot
       results
     end
 
+    # Public: Find a Steam app by its name, case insensitive.
+    #
+    # name - the String name of a game or other app on Steam
+    #
+    # Returns an Rsteamshot::App.
+    def self.find_by_name(name)
+      apps = search(name)
+
+      exact_match = apps.detect { |app| app.name.downcase == name }
+      return exact_match if exact_match
+
+      app = apps.shift
+      app = apps.shift while app.name.downcase =~ /\btrailer\b/ && apps.length > 0
+      app
+    end
+
     # Public: Initialize a Steam app with the given attributes.
     #
     # attrs - the Hash of attributes for this app

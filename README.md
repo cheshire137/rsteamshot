@@ -40,10 +40,16 @@ order = 'newestfirst' # also: score, oldestfirst
 screenshots = user.screenshots(order: order)
 screenshots += user.screenshots(order: order, page: 2)
 
-# Find a Steam app by name:
+# Search Steam apps by name:
 Rsteamshot::App.download_apps_list
 apps = Rsteamshot::App.search('witcher 3')
-app = apps.first
+# => [#<Rsteamshot::App:0x007feb28b135f8 @id=292030, @name="The Witcher 3: Wild Hunt"...
+apps.size
+# => 18
+
+# Find the best match for a Steam app by name:
+app = Rsteamshot::App.find_by_name('oblivion')
+# => #<Rsteamshot::App:0x007feb25dbd518 @id=22330, @name="The Elder Scrolls IV: Oblivion "...
 
 # Filter a user's screenshots to those for a particular app:
 alice_screenshots = user.screenshots(app_id: '19680')
