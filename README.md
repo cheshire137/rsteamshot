@@ -120,6 +120,10 @@ screenshots.each do |screenshot|
   screenshot.to_json
   # => "{\n  \"details_url\": \"http://steamcommunity.com/sharedfiles/filedetails/?id=737284878\",
 end
+
+# Force the Steam apps list to be re-downloaded:
+Rsteamshot::App.reset_list
+Rsteamshot::App.download_apps_list
 ```
 
 ## Development

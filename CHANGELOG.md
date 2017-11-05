@@ -7,6 +7,7 @@
 - Add `Rsteamshot::App#find_by_name` to get the best match for an app based on the provided name. For example, passing "oblivion" will return the app named "The Elder Scrolls IV: Oblivion".
 - Add `Rsteamshot::Screenshot#file_size_in_bytes` to get an integer value for how large a screenshot is, in bytes. Thanks [@marcqualie](https://github.com/marcqualie)!
 - Add `Rsteamshot::App#to_h` and `Rsteamshot::App#to_json` to get hash and JSON representations of apps.
+- Remove the need to manually call `Rsteamshot::App#download_apps_list`. It will now automatically be called when `Rsteamshot::App#search` and similar methods are called.
 
 ## 0.1.2
 
