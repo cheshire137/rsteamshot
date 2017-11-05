@@ -11,6 +11,9 @@ module Rsteamshot
     # Public: Returns a String user name from a Steam user's public profile.
     attr_reader :user_name
 
+    # Public: Returns the number of screenshots that will be fetched per page for this user.
+    attr_reader :per_page
+
     # Public: Initialize a Steam user with the given user name.
     #
     # user_name - a String
@@ -18,12 +21,8 @@ module Rsteamshot
     #            Integer
     def initialize(user_name, per_page: 10)
       @user_name = user_name
-
-      process_html = ->(html) do
-        links_from(html).map { |link| screenshot_from(link) }
-      end
-      @paginator = ScreenshotPaginator.new(process_html, max_per_page: STEAM_PER_PAGE,
-                                           per_page: per_page, steam_per_page: STEAM_PER_PAGE)
+      @per_page = per_page
+      initialize_paginator
     end
 
     # Public: Fetch a list of the user's newest uploaded screenshots.
@@ -42,7 +41,25 @@ module Rsteamshot
       @paginator.screenshots(page: page, url: url)
     end
 
+    # Public: Set how many screenshots should be fetched at a time for this user.
+    #
+    # value - an Integer
+    #
+    # Returns nothing.
+    def per_page=(value)
+      @per_page = value
+      initialize_paginator
+    end
+
     private
+
+    def initialize_paginator
+      process_html = ->(html) do
+        links_from(html).map { |link| screenshot_from(link) }
+      end
+      @paginator = ScreenshotPaginator.new(process_html, max_per_page: STEAM_PER_PAGE,
+                                           per_page: per_page, steam_per_page: STEAM_PER_PAGE)
+    end
 
     def links_from(html)
       html.search('#image_wall .imageWallRow .profile_media_item')

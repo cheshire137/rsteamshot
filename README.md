@@ -35,7 +35,8 @@ end
 
 # Get screenshots uploaded by a Steam user:
 steam_user_name = 'cheshire137'
-user = Rsteamshot::User.new(steam_user_name, per_page: 10)
+user = Rsteamshot::User.new(steam_user_name)
+user.per_page = 10
 order = 'newestfirst' # also: score, oldestfirst
 screenshots = user.screenshots(order: order)
 screenshots += user.screenshots(order: order, page: 2)
@@ -64,6 +65,7 @@ app.to_json
 # => "{\n  \"id\": 377160,\n  \"name\": \"Fallout 4\"\n}"
 
 # Get screenshots uploaded for a Steam game:
+app.per_page = 10
 order = 'mostrecent' # also: toprated, trendday, trendweek, trendthreemonths, trendsixmonths,
                      # trendyear
 screenshots = app.screenshots(order: order)

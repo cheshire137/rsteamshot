@@ -26,6 +26,9 @@ module Rsteamshot
     # Public: Returns the String name of the Steam app, or nil.
     attr_reader :name
 
+    # Public: Returns the number of screenshots that will be fetched per page for this app.
+    attr_reader :per_page
+
     # Public: Writes a JSON file at the location specified in `Rsteamshot.configuration` with the
     # latest list of apps on Steam. Will be automatically called by #list.
     #
@@ -134,15 +137,9 @@ module Rsteamshot
     #         :per_page - how many results to get in each page; defaults to 10; valid range: 1-50;
     #                     Integer
     def initialize(attrs = {})
-      per_page = attrs.delete(:per_page)
-
       attrs.each { |key, value| instance_variable_set("@#{key}", value) }
-
-      process_html = ->(html) do
-        cards_from(html).map { |card| screenshot_from(card) }
-      end
-      @paginator = ScreenshotPaginator.new(process_html, max_per_page: MAX_PER_PAGE,
-                                           per_page: per_page, steam_per_page: per_page)
+      @per_page ||= 10
+      initialize_paginator
     end
 
     # Public: Check if this App is equivalent to another object.
@@ -184,7 +181,25 @@ module Rsteamshot
       JSON.pretty_generate(to_h)
     end
 
+    # Public: Set how many screenshots should be fetched at a time for this app.
+    #
+    # value - an Integer
+    #
+    # Returns nothing.
+    def per_page=(value)
+      @per_page = value
+      initialize_paginator
+    end
+
     private
+
+    def initialize_paginator
+      process_html = ->(html) do
+        cards_from(html).map { |card| screenshot_from(card) }
+      end
+      @paginator = ScreenshotPaginator.new(process_html, max_per_page: MAX_PER_PAGE,
+                                           per_page: per_page, steam_per_page: per_page)
+    end
 
     def cards_from(html)
       html.search('.apphub_Card')
