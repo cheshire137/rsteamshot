@@ -93,6 +93,9 @@ screenshots.each do |screenshot|
   screenshot.file_size
   # => "0.367 MB"
 
+  screenshot.file_size_in_bytes
+  # => 367000
+
   screenshot.width
   # => 1920
 
