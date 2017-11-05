@@ -2,9 +2,10 @@ require 'spec_helper'
 
 RSpec.describe Rsteamshot::App do
   let(:id) { '377160' }
+  let(:name) { 'Fallout 4' }
   let(:per_page) { 10 }
   let(:apps_list_path) { File.join('spec', 'fixtures', 'apps-list.json') }
-  subject(:app) { described_class.new(id: id, per_page: per_page) }
+  subject(:app) { described_class.new(id: id, name: name, per_page: per_page) }
   before(:each) do
     Rsteamshot.configure do |config|
       config.apps_list_path = apps_list_path
@@ -44,6 +45,24 @@ RSpec.describe Rsteamshot::App do
       expect(app).to_not be_nil
       expect(app.id).to eq(22330)
       expect(app.name).to eq('The Elder Scrolls IV: Oblivion ')
+    end
+  end
+
+  context "#to_h" do
+    it 'returns a hash of app data' do
+      expect(app.to_h).to eq(name: name, id: id)
+    end
+  end
+
+  context '#to_json' do
+    it 'returns a string of JSON' do
+      result = app.to_json
+
+      expect(result).to be_an_instance_of(String)
+
+      json = JSON.parse(result)
+      expect(json['id']).to eq(id)
+      expect(json['name']).to eq(name)
     end
   end
 

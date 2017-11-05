@@ -58,6 +58,12 @@ alice_screenshots = user.screenshots(app_id: '19680')
 app_id = '377160'
 app = Rsteamshot::App.new(id: app_id, per_page: 10)
 
+# Utility methods for an app:
+app.to_h
+# => {:id=>377160, :name=>"Fallout 4"}
+app.to_json
+# => "{\n  \"id\": 377160,\n  \"name\": \"Fallout 4\"\n}"
+
 # Get screenshots uploaded for a Steam game:
 order = 'mostrecent' # also: toprated, trendday, trendweek, trendthreemonths, trendsixmonths,
                      # trendyear

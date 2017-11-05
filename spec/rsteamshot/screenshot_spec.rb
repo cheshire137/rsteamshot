@@ -58,7 +58,8 @@ RSpec.describe Rsteamshot::Screenshot do
         user_url: user_url,
         date: date,
         like_count: like_count,
-        comment_count: comment_count
+        comment_count: comment_count,
+        app: app.to_h
       }
 
       expect(screenshot.to_h).to eq(expected)
@@ -84,6 +85,9 @@ RSpec.describe Rsteamshot::Screenshot do
       expect(json['height']).to eq(height)
       expect(json['like_count']).to eq(like_count)
       expect(json['comment_count']).to eq(comment_count)
+      expect(json['app']).to_not be_nil
+      expect(json['app']['id']).to eq(app.id)
+      expect(json['app']['name']).to eq(app.name)
     end
   end
 

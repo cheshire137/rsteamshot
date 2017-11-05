@@ -146,6 +146,22 @@ module Rsteamshot
       @paginator.screenshots(page: page, url: url)
     end
 
+    # Public: Get a hash representation of this app.
+    #
+    # Returns a Hash.
+    def to_h
+      result = { id: id }
+      result[:name] = name if name
+      result
+    end
+
+    # Public: Get a JSON representation of this app.
+    #
+    # Returns a String.
+    def to_json
+      JSON.pretty_generate(to_h)
+    end
+
     private
 
     def cards_from(html)

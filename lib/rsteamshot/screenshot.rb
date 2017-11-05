@@ -78,6 +78,7 @@ module Rsteamshot
       result[:height] = height if height
       result[:like_count] = like_count if like_count
       result[:comment_count] = comment_count if comment_count
+      result[:app] = app.to_h if app
       result
     end
 
