@@ -38,6 +38,9 @@ module Rsteamshot
     # Public: Returns Integer count of how many comments people have left on this screenshot.
     attr_reader :comment_count
 
+    # Public: Returns the Rsteamshot::App in which this screenshot was taken.
+    attr_reader :app
+
     # Public: Initialize a screenshot with the given attributes.
     #
     # attrs - the Hash of attributes for this screenshot
@@ -113,6 +116,8 @@ module Rsteamshot
         @user_name = user_name_from(author)
         @user_url = user_url_from(author)
 
+        @app = app_from(page)
+
         details_block = details_block_from(page)
         if details_block
           labels_container = details_block.at('.detailsStatsContainerLeft')
@@ -133,6 +138,36 @@ module Rsteamshot
           @width, @height = dimensions_from(labelled_values['Size'])
         end
       end
+    end
+
+    def app_from(page)
+      app_id = app_id_from(page)
+      app_name = app_name_from(page)
+
+      if app_id && app_name
+        Rsteamshot::App.new(id: app_id, name: app_name)
+      end
+    end
+
+    def app_id_from(page)
+      site_info = page.at('.apphub_OtherSiteInfo')
+      return unless site_info
+
+      store_link = site_info.at('a')
+      return unless store_link
+
+      store_url = store_link['href']
+      return unless store_url
+
+      # e.g., "http://store.steampowered.com/app/22330" => "22330"
+      store_url.downcase.split('/app/').last
+    end
+
+    def app_name_from(page)
+      name_el = page.at('.apphub_AppName')
+      return unless name_el
+
+      name_el.text.strip.gsub(/[[:space:]]\z/, '')
     end
 
     def details_block_from(page)

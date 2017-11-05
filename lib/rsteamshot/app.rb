@@ -98,6 +98,13 @@ module Rsteamshot
                                            per_page: per_page, steam_per_page: per_page)
     end
 
+    # Public: Check if this App is equivalent to another object.
+    #
+    # Returns true if the given object represents the same Steam app.
+    def ==(other)
+      other.class == self.class && other.id == id && other.name == name
+    end
+
     # Public: Fetch a list of the newest uploaded screenshots for this app on Steam.
     #
     # order - String specifying which screenshots should be retrieved; choose from mostrecent,

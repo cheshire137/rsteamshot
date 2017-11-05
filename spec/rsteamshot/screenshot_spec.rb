@@ -13,6 +13,9 @@ RSpec.describe Rsteamshot::Screenshot do
   let(:comment_count) { 0 }
   let(:width) { 3840 }
   let(:height) { 2160 }
+  let(:app) {
+    Rsteamshot::App.new(id: '489830', name: 'The Elder Scrolls V: Skyrim Special Edition')
+  }
   subject(:screenshot) {
     VCR.use_cassette('screenshot_get_details') do
       described_class.new(title: title, details_url: details_url)
@@ -38,6 +41,7 @@ RSpec.describe Rsteamshot::Screenshot do
     expect(screenshot.height).to eq(height)
     expect(screenshot.like_count).to eq(like_count)
     expect(screenshot.comment_count).to eq(comment_count)
+    expect(screenshot.app).to eq(app)
   end
 
   context "#to_h" do
