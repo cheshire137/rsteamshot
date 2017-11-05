@@ -6,7 +6,7 @@ Rsteamshot is a Ruby gem for getting screenshots a user has uploaded to their St
 
 There's no Steam API that I know of that provides this screenshot data, so this gem works by using [Mechanize](https://github.com/sparklemotion/mechanize) to do web scraping on [steamcommunity.com](http://steamcommunity.com/).
 
-[View source on GitHub](https://github.com/cheshire137/rsteamshot)
+[View source on GitHub](https://github.com/cheshire137/rsteamshot) | [View docs on RubyDoc](http://www.rubydoc.info/gems/rsteamshot/)
 
 ## Installation
 
