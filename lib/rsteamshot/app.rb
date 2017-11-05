@@ -142,7 +142,8 @@ module Rsteamshot
       comment_count = comment_count_from(card)
       Screenshot.new(details_url: details_url, title: title, medium_url: medium_url,
                      full_size_url: full_size_url, user_name: user_name,
-                     user_url: user_url, like_count: like_count, comment_count: comment_count)
+                     user_url: user_url, like_count: like_count, comment_count: comment_count,
+                     app: self)
     end
 
     def urls_from(card)

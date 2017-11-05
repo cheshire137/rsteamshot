@@ -81,6 +81,7 @@ RSpec.describe Rsteamshot::App do
         end
 
         first_screenshot = result.first
+        expect(first_screenshot.app).to eq(app)
         expect(first_screenshot.details_url).to eq('http://steamcommunity.com/sharedfiles/filedetails/?id=1185280561')
       end
     end
@@ -95,6 +96,7 @@ RSpec.describe Rsteamshot::App do
         end
 
         first_screenshot = result.first
+        expect(first_screenshot.app).to eq(app)
         expect(first_screenshot.details_url).to eq('http://steamcommunity.com/sharedfiles/filedetails/?id=572761840')
       end
     end
@@ -109,6 +111,7 @@ RSpec.describe Rsteamshot::App do
         end
 
         first_screenshot = result.first
+        expect(first_screenshot.app).to eq(app)
         expect(first_screenshot.details_url).to eq('http://steamcommunity.com/sharedfiles/filedetails/?id=1184454167')
       end
     end
@@ -123,6 +126,7 @@ RSpec.describe Rsteamshot::App do
         end
 
         first_screenshot = result.first
+        expect(first_screenshot.app).to eq(app)
         expect(first_screenshot.details_url).to eq('http://steamcommunity.com/sharedfiles/filedetails/?id=1183275869')
       end
     end
@@ -137,6 +141,7 @@ RSpec.describe Rsteamshot::App do
         end
 
         first_screenshot = result.first
+        expect(first_screenshot.app).to eq(app)
         expect(first_screenshot.details_url).to eq('http://steamcommunity.com/sharedfiles/filedetails/?id=972449101')
       end
     end
@@ -151,6 +156,7 @@ RSpec.describe Rsteamshot::App do
         end
 
         first_screenshot = result.first
+        expect(first_screenshot.app).to eq(app)
         expect(first_screenshot.details_url).to eq('http://steamcommunity.com/sharedfiles/filedetails/?id=924788014')
       end
     end
@@ -165,6 +171,7 @@ RSpec.describe Rsteamshot::App do
         end
 
         first_screenshot = result.first
+        expect(first_screenshot.app).to eq(app)
         expect(first_screenshot.details_url).to eq('http://steamcommunity.com/sharedfiles/filedetails/?id=785354543')
       end
     end
@@ -180,6 +187,7 @@ RSpec.describe Rsteamshot::App do
       end
 
       first_screenshot = result.first
+      expect(first_screenshot.app).to eq(app)
       expect(first_screenshot.details_url).to eq('http://steamcommunity.com/sharedfiles/filedetails/?id=929999796')
     end
 
@@ -196,6 +204,7 @@ RSpec.describe Rsteamshot::App do
       end
 
       first_screenshot = result.first
+      expect(first_screenshot.app).to eq(app)
       expect(first_screenshot.details_url).to eq('http://steamcommunity.com/sharedfiles/filedetails/?id=809289069')
     end
   end
