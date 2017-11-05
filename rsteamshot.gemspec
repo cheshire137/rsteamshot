@@ -8,6 +8,11 @@ Gem::Specification.new do |spec|
   spec.version       = Rsteamshot::VERSION
   spec.authors       = ['Sarah Vessels']
   spec.email         = ['cheshire137@gmail.com']
+  spec.metadata      = {
+    'changelog_uri' => 'https://github.com/cheshire137/rsteamshot/blob/master/CHANGELOG.md',
+    'documentation_uri' => 'http://www.rubydoc.info/gems/rsteamshot/',
+    'source_code_uri' => 'https://github.com/cheshire137/rsteamshot'
+  }
 
   spec.summary       = %q{Get Steam screenshots for different games or users.}
   spec.description   = %q{Find screenshots publicly uploaded to Steam by a particular user or for a particular game. Get details like the title, how many likes and comments it has received, the dimensions and file size, and URLs for different sizes of each screenshot.}
