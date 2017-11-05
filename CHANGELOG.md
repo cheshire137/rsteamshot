@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.1.3
+
+Add ability to get an app from a screenshot via the Rsteamshot::Screenshot#app method.
+
 ## 0.1.2
 
 Improve the gem description and set the link to its homepage in the gemspec.
