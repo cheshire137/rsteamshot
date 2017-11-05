@@ -5,6 +5,7 @@
 - Add ability to get an app from a screenshot via the `Rsteamshot::Screenshot#app` method.
 - Specify the path to the Steam apps list file in gem-wide configuration block, instead of passing it into individual methods.
 - Add `Rsteamshot::App#find_by_name` to get the best match for an app based on the provided name. For example, passing "oblivion" will return the app named "The Elder Scrolls IV: Oblivion".
+- Add `Rsteamshot::App#find_by_id` to look up a Steam app by its ID.
 - Add `Rsteamshot::Screenshot#file_size_in_bytes` to get an integer value for how large a screenshot is, in bytes. Thanks [@marcqualie](https://github.com/marcqualie)!
 - Add `Rsteamshot::App#to_h` and `Rsteamshot::App#to_json` to get hash and JSON representations of apps.
 - Remove the need to manually call `Rsteamshot::App#download_apps_list`. It will now automatically be called when `Rsteamshot::App#search` and similar methods are called.

@@ -121,7 +121,9 @@ module Rsteamshot
     #
     # Returns an Rsteamshot::App or nil.
     def self.find_by_id(id)
-
+      id = id.to_i
+      app_data = list.detect { |data| data['appid'] == id }
+      new(id: app_data['appid'], name: app_data['name']) if app_data
     end
 
     # Public: Initialize a Steam app with the given attributes.

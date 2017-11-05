@@ -53,6 +53,30 @@ RSpec.describe Rsteamshot::App do
     end
   end
 
+  context '.find_by_id' do
+    it 'returns nil when no such app is found' do
+      app = Rsteamshot::App.find_by_id(-1)
+
+      expect(app).to be_nil
+    end
+
+    it 'returns an app whose ID matches the given string' do
+      app = Rsteamshot::App.find_by_id('72850')
+
+      expect(app).to_not be_nil
+      expect(app.id).to eq(72850)
+      expect(app.name).to eq('The Elder Scrolls V: Skyrim')
+    end
+
+    it 'returns an app whose ID matches the given integer' do
+      app = Rsteamshot::App.find_by_id(22330)
+
+      expect(app).to_not be_nil
+      expect(app.id).to eq(22330)
+      expect(app.name).to eq('The Elder Scrolls IV: Oblivion ')
+    end
+  end
+
   context "#to_h" do
     it 'returns a hash of app data' do
       expect(app.to_h).to eq(name: name, id: id)

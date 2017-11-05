@@ -53,9 +53,9 @@ app = Rsteamshot::App.find_by_name('oblivion')
 # Filter a user's screenshots to those for a particular app:
 alice_screenshots = user.screenshots(app_id: '19680')
 
-# Initialize an app directly if you know its ID:
-app_id = '377160'
-app = Rsteamshot::App.new(id: app_id, per_page: 10)
+# Find a Steam app by its ID:
+app = Rsteamshot::App.find_by_id(377160)
+# => #<Rsteamshot::App:0x007ff800438758 @id=377160, @name="Fallout 4"...
 
 # Utility methods for an app:
 app.to_h
