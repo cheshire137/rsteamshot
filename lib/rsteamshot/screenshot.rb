@@ -98,13 +98,11 @@ module Rsteamshot
     def file_size_in_bytes
       unit_multiplier = 1000
       size, unit = self.file_size.split(' ')
-      bytes = begin
-        case unit.downcase
+      bytes = case unit.downcase
         when 'kb' then size.to_f * unit_multiplier
         when 'mb' then size.to_f * (unit_multiplier ** 2)
         when 'gb' then size.to_f * (unit_multiplier ** 3)
         else size.to_f
-        end
       end
       bytes.to_i
     end
